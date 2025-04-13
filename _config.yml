@@ -19,6 +19,10 @@ latex:
 bibtex_bibfiles:
   - references.bib
 
+sphinx:
+  config:
+    html_show_copyright: false
+
 # Information about where the book exists on the web
 repository:
   url: https://github.com/prateekshukla1108/cutlass3  # Online location of your book
