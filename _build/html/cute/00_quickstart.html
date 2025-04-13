@@ -1,0 +1,787 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Getting Started With CuTe &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cute/00_quickstart';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CuTe Layouts" href="01_layout.html" />
+    <link rel="prev" title="CUTLASS 3.0 GEMM Backwards Compatibility" href="../cutlass_3x_backwards_compatibility.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../overview.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../overview.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../terminology.html">CUTLASS Terminology</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../ide_setup.html">IDE Setup for CUTLASS Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../functionality.html">Functionality</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../fundamental_types.html">Fundamental Types</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../layout.html">Layouts and Tensors</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../tile_iterator_concept.html">Tile Iterator Concepts</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../pipeline.html">Synchronization primitives</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../code_organization.html">CUTLASS Code Organization</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../programming_guidelines.html">Programming Guidelines</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">CUTLASS Utilities</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Key Operations &amp; APIs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../gemm_api.html">CUTLASS GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../gemm_api_3x.html">CUTLASS 3.0 GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../efficient_gemm.html">Efficient GEMM in CUDA</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../implicit_gemm_convolution.html">CUTLASS Convolution</a></li>
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTLASS 3.x Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../cutlass_3x_design.html">CUTLASS 3.0 Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cutlass_3x_backwards_compatibility.html">CUTLASS 3.0 GEMM Backwards Compatibility</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTE - Compositional Universal Tile Engine</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Getting Started With CuTe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_layout.html">CuTe Layouts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_layout_algebra.html">CuTe Layout Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_tensor.html">CuTe Tensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_algorithms.html">CuTe Tensor algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0t_mma_atom.html">CuTe’s support for Matrix Multiply-Accumulate instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0x_gemm_tutorial.html">CuTe dense matrix-matrix multiply tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0y_predication.html">Predication: What to do when tiling isn’t perfect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0z_tma_tensors.html">CuTe TMA Tensors</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Features &amp; Platform Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../dependent_kernel_launch.html">Dependent kernel launches</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../grouped_scheduler.html">CUTLASS Grouped Kernel Schedulers</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../blackwell_functionality.html">Blackwell SM100 GEMMs</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../blackwell_cluster_launch_control.html">Blackwell Cluster Launch Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../profiler.html">CUTLASS Profiler</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Building CUTLASS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../build/building_in_windows_with_visual_studio.html">Building on Windows with Visual Studio</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../build/building_with_clang_as_host_compiler.html">Building with Clang as host compiler</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fcute/00_quickstart.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/cute/00_quickstart.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Getting Started With CuTe</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#system-requirements">System Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#knowledge-prerequisites">Knowledge prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-tests-and-examples">Building Tests and Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-organization">Library Organization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tutorial">Tutorial</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-tips">Quick Tips</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-i-print-cute-objects-on-host-or-device">How do I print CuTe objects on host or device?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#other-output-formats">Other output formats</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="getting-started-with-cute">
+<h1>Getting Started With CuTe<a class="headerlink" href="#getting-started-with-cute" title="Link to this heading">#</a></h1>
+<p>CuTe is a collection of C++ CUDA template abstractions for defining and operating on hierarchically multidimensional layouts of threads and data. CuTe provides <code class="docutils literal notranslate"><span class="pre">Layout</span></code> and <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> objects that compactly packages the type, shape, memory space, and layout of data, while performing the complicated indexing for the user. This lets programmers focus on the logical descriptions of their algorithms while CuTe does the mechanical bookkeeping for them. With these tools, we can quickly design, implement, and modify all dense linear algebra operations.</p>
+<p>The core abstraction of CuTe are the hierarchically multidimensional layouts which can be composed with data arrays to represent tensors. The representation of layouts is powerful enough to represent nearly everything we need to implement efficient dense linear algebra. Layouts can also be combined and manipulated via functional composition, on which we build a large set of common operations such as tiling and partitioning.</p>
+<section id="system-requirements">
+<h2>System Requirements<a class="headerlink" href="#system-requirements" title="Link to this heading">#</a></h2>
+<p>CuTe shares CUTLASS 3.x’s software requirements,
+including NVCC with a C++17 host compiler.</p>
+</section>
+<section id="knowledge-prerequisites">
+<h2>Knowledge prerequisites<a class="headerlink" href="#knowledge-prerequisites" title="Link to this heading">#</a></h2>
+<p>CuTe is a CUDA C++ header-only library.  It requires C++17
+(the revision of the C++ Standard that was released in 2017).</p>
+<p>Throughout this tutorial, we assume intermediate C++ experience.
+For example, we assume that readers know
+how to read and write templated functions and classes, and
+how to use the <code class="docutils literal notranslate"><span class="pre">auto</span></code> keyword to deduce a function’s return type.
+We will be gentle with C++ and explain some things
+that you might already know.</p>
+<p>We also assume intermediate CUDA experience.
+For example, readers must know
+the difference between device and host code,
+and how to launch kernels.</p>
+</section>
+<section id="building-tests-and-examples">
+<h2>Building Tests and Examples<a class="headerlink" href="#building-tests-and-examples" title="Link to this heading">#</a></h2>
+<p>CuTe’s tests and examples build and run as part of CUTLASS’s normal build process.</p>
+<p>CuTe’s unit tests live in the <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/test/unit/cute"><code class="docutils literal notranslate"><span class="pre">test/unit/cute</span></code></a> subdirectory.</p>
+<p>CuTe’s examples live in the <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/examples/cute"><code class="docutils literal notranslate"><span class="pre">examples/cute</span></code></a> subdirectory.</p>
+</section>
+<section id="library-organization">
+<h2>Library Organization<a class="headerlink" href="#library-organization" title="Link to this heading">#</a></h2>
+<p>CuTe is a header-only C++ library, so there is no source code that needs building. Library headers are contained within the top level <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute"><code class="docutils literal notranslate"><span class="pre">include/cute</span></code></a> directory, with components of the library grouped by directories that represent their semantics.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Directory</p></th>
+<th class="head"><p>Contents</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute"><code class="docutils literal notranslate"><span class="pre">include/cute</span></code></a></p></td>
+<td><p>Each header in the top level corresponds to one of the fundamental building blocks of CuTe, such as <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/layout.hpp"><code class="docutils literal notranslate"><span class="pre">Layout</span></code></a> and <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/tensor.hpp"><code class="docutils literal notranslate"><span class="pre">Tensor</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/container"><code class="docutils literal notranslate"><span class="pre">include/cute/container</span></code></a></p></td>
+<td><p>Implementations of STL-like objects, such as tuple, array, and aligned array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/numeric"><code class="docutils literal notranslate"><span class="pre">include/cute/numeric</span></code></a></p></td>
+<td><p>Fundamental numeric data types that include nonstandard floating-point types, nonstandard integer types, complex numbers, and integer sequence.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/algorithm"><code class="docutils literal notranslate"><span class="pre">include/cute/algorithm</span></code></a></p></td>
+<td><p>Implementations of utility algorithms such as copy, fill, and clear that automatically leverage architecture-specific features if available.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/arch"><code class="docutils literal notranslate"><span class="pre">include/cute/arch</span></code></a></p></td>
+<td><p>Wrappers for architecture-specific matrix-matrix multiply and copy instructions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/atom"><code class="docutils literal notranslate"><span class="pre">include/cute/atom</span></code></a></p></td>
+<td><p>Meta-information for instructions in <code class="docutils literal notranslate"><span class="pre">arch</span></code> and utilities like partitioning and tiling.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="tutorial">
+<h2>Tutorial<a class="headerlink" href="#tutorial" title="Link to this heading">#</a></h2>
+<p>This directory contains a CuTe tutorial in Markdown format.
+The file
+<a class="reference internal" href="0x_gemm_tutorial.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">0x_gemm_tutorial.md</span></code></span></a>
+explains how to implement dense matrix-matrix multiply using CuTe components.
+It gives a broad overview of CuTe and thus would be a good place to start.</p>
+<p>Other files in this directory discuss specific parts of CuTe.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="01_layout.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">01_layout.md</span></code></span></a> describes <code class="docutils literal notranslate"><span class="pre">Layout</span></code>, CuTe’s core abstraction.</p></li>
+<li><p><a class="reference internal" href="02_layout_algebra.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">02_layout_algebra.md</span></code></span></a> describes more advanced <code class="docutils literal notranslate"><span class="pre">Layout</span></code> operations and the CuTe layout algebra.</p></li>
+<li><p><a class="reference internal" href="03_tensor.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">03_tensor.md</span></code></span></a> describes <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>,
+a multidimensional array abstraction which composes <code class="docutils literal notranslate"><span class="pre">Layout</span></code>
+with an array of data.</p></li>
+<li><p><a class="reference internal" href="04_algorithms.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">04_algorithms.md</span></code></span></a> summarizes CuTe’s
+generic algorithms that operate on <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>s.</p></li>
+<li><p><a class="reference internal" href="0t_mma_atom.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">0t_mma_atom.md</span></code></span></a> demonstrates CuTe’s meta-information and interface to our GPUs’
+architecture-specific Matrix Multiply-Accumulate (MMA) instructions.</p></li>
+<li><p><a class="reference internal" href="0x_gemm_tutorial.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">0x_gemm_tutorial.md</span></code></span></a> walks through building a GEMM from scratch using CuTe.</p></li>
+<li><p><a class="reference internal" href="0y_predication.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">0y_predication.md</span></code></span></a> explains what to do
+if a tiling doesn’t fit evenly into a matrix.</p></li>
+<li><p><a class="reference internal" href="0z_tma_tensors.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">0z_tma_tensors.md</span></code></span></a> explains an advanced <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> type that CuTe uses to support TMA loads and stores.</p></li>
+</ul>
+</section>
+<section id="quick-tips">
+<h2>Quick Tips<a class="headerlink" href="#quick-tips" title="Link to this heading">#</a></h2>
+<section id="how-do-i-print-cute-objects-on-host-or-device">
+<h3>How do I print CuTe objects on host or device?<a class="headerlink" href="#how-do-i-print-cute-objects-on-host-or-device" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">cute::print</span></code> function has overloads for almost all CuTe types, including Pointers, Integers, Strides, Shapes, Layouts, and Tensors.  When in doubt, try calling <code class="docutils literal notranslate"><span class="pre">print</span></code> on it.</p>
+<p>CuTe’s print functions work on either host or device.
+Note that on device, printing is expensive.
+Even just leaving print code in place on device,
+even if it is never called
+(e.g., printing in an <code class="docutils literal notranslate"><span class="pre">if</span></code> branch that is not taken at run time),
+may generate slower code.
+Thus, be sure to remove code that prints on device after debugging.</p>
+<p>You might also only want to print on thread 0 of each threadblock, or threadblock 0 of the grid.  The <code class="docutils literal notranslate"><span class="pre">thread0()</span></code> function returns true only for global thread 0 of the kernel, that is, for thread 0 of threadblock 0.  A common idiom for printing CuTe objects to print only on global thread 0.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">thread0</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="n">some_cute_object</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Some algorithms depend on some thread or threadblock,
+so you may need to print on threads or threadblocks other than zero.
+The header file
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/util/debug.hpp"><code class="docutils literal notranslate"><span class="pre">cute/util/debug.hpp</span></code></a>,
+among other utilities,
+includes the function <code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">thread(int</span> <span class="pre">tid,</span> <span class="pre">int</span> <span class="pre">bid)</span></code>
+that returns <code class="docutils literal notranslate"><span class="pre">true</span></code> if running on thread <code class="docutils literal notranslate"><span class="pre">tid</span></code> and threadblock <code class="docutils literal notranslate"><span class="pre">bid</span></code>.</p>
+<section id="other-output-formats">
+<h4>Other output formats<a class="headerlink" href="#other-output-formats" title="Link to this heading">#</a></h4>
+<p>Some CuTe types have special printing functions that use a different output format.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">cute::print_layout</span></code> function will display any rank-2 layout in a plain text table. This is excellent for visualizing the map from coordinates to indices.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">cute::print_tensor</span></code> function will display any rank-1, rank-2, rank-3, or rank-4 tensor in a plain text multidimensional table. The values of the tensor are printed so you can verify the tile of data is what you expect after a copy, for example.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">cute::print_latex</span></code> function will print LaTeX commands that you can use to build a nicely formatted and colored tables via <code class="docutils literal notranslate"><span class="pre">pdflatex</span></code>. This work for <code class="docutils literal notranslate"><span class="pre">Layout</span></code>, <code class="docutils literal notranslate"><span class="pre">TiledCopy</span></code>, and <code class="docutils literal notranslate"><span class="pre">TiledMMA</span></code>, which can be very useful to get a sense of layout patterns and partitioning patterns within CuTe.</p>
+</section>
+</section>
+</section>
+<section id="copyright">
+<h2>Copyright<a class="headerlink" href="#copyright" title="Link to this heading">#</a></h2>
+<p>Copyright (c) 2017 - 2025 NVIDIA CORPORATION &amp; AFFILIATES. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">Redistribution</span> <span class="ow">and</span> <span class="n">use</span> <span class="ow">in</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">binary</span> <span class="n">forms</span><span class="p">,</span> <span class="k">with</span> <span class="ow">or</span> <span class="n">without</span>
+  <span class="n">modification</span><span class="p">,</span> <span class="n">are</span> <span class="n">permitted</span> <span class="n">provided</span> <span class="n">that</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span> <span class="n">are</span> <span class="n">met</span><span class="p">:</span>
+
+  <span class="mf">1.</span> <span class="n">Redistributions</span> <span class="n">of</span> <span class="n">source</span> <span class="n">code</span> <span class="n">must</span> <span class="n">retain</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span> <span class="n">this</span>
+  <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span><span class="o">.</span>
+
+  <span class="mf">2.</span> <span class="n">Redistributions</span> <span class="ow">in</span> <span class="n">binary</span> <span class="n">form</span> <span class="n">must</span> <span class="n">reproduce</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span>
+  <span class="n">this</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">documentation</span>
+  <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">other</span> <span class="n">materials</span> <span class="n">provided</span> <span class="k">with</span> <span class="n">the</span> <span class="n">distribution</span><span class="o">.</span>
+
+  <span class="mf">3.</span> <span class="n">Neither</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">holder</span> <span class="n">nor</span> <span class="n">the</span> <span class="n">names</span> <span class="n">of</span> <span class="n">its</span>
+  <span class="n">contributors</span> <span class="n">may</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">endorse</span> <span class="ow">or</span> <span class="n">promote</span> <span class="n">products</span> <span class="n">derived</span> <span class="kn">from</span>
+<span class="w">  </span><span class="nn">this</span> <span class="n">software</span> <span class="n">without</span> <span class="n">specific</span> <span class="n">prior</span> <span class="n">written</span> <span class="n">permission</span><span class="o">.</span>
+
+  <span class="n">THIS</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">PROVIDED</span> <span class="n">BY</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span> <span class="n">AND</span> <span class="n">CONTRIBUTORS</span> <span class="s2">&quot;AS IS&quot;</span>
+  <span class="n">AND</span> <span class="n">ANY</span> <span class="n">EXPRESS</span> <span class="n">OR</span> <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span><span class="p">,</span> <span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">THE</span>
+  <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span> <span class="n">AND</span> <span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span> <span class="n">ARE</span>
+  <span class="n">DISCLAIMED</span><span class="o">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">SHALL</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDER</span> <span class="n">OR</span> <span class="n">CONTRIBUTORS</span> <span class="n">BE</span> <span class="n">LIABLE</span>
+  <span class="n">FOR</span> <span class="n">ANY</span> <span class="n">DIRECT</span><span class="p">,</span> <span class="n">INDIRECT</span><span class="p">,</span> <span class="n">INCIDENTAL</span><span class="p">,</span> <span class="n">SPECIAL</span><span class="p">,</span> <span class="n">EXEMPLARY</span><span class="p">,</span> <span class="n">OR</span> <span class="n">CONSEQUENTIAL</span>
+  <span class="n">DAMAGES</span> <span class="p">(</span><span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">PROCUREMENT</span> <span class="n">OF</span> <span class="n">SUBSTITUTE</span> <span class="n">GOODS</span> <span class="n">OR</span>
+  <span class="n">SERVICES</span><span class="p">;</span> <span class="n">LOSS</span> <span class="n">OF</span> <span class="n">USE</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">OR</span> <span class="n">PROFITS</span><span class="p">;</span> <span class="n">OR</span> <span class="n">BUSINESS</span> <span class="n">INTERRUPTION</span><span class="p">)</span> <span class="n">HOWEVER</span>
+  <span class="n">CAUSED</span> <span class="n">AND</span> <span class="n">ON</span> <span class="n">ANY</span> <span class="n">THEORY</span> <span class="n">OF</span> <span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">STRICT</span> <span class="n">LIABILITY</span><span class="p">,</span>
+  <span class="n">OR</span> <span class="n">TORT</span> <span class="p">(</span><span class="n">INCLUDING</span> <span class="n">NEGLIGENCE</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">)</span> <span class="n">ARISING</span> <span class="n">IN</span> <span class="n">ANY</span> <span class="n">WAY</span> <span class="n">OUT</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">USE</span>
+  <span class="n">OF</span> <span class="n">THIS</span> <span class="n">SOFTWARE</span><span class="p">,</span> <span class="n">EVEN</span> <span class="n">IF</span> <span class="n">ADVISED</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">POSSIBILITY</span> <span class="n">OF</span> <span class="n">SUCH</span> <span class="n">DAMAGE</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cute"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../cutlass_3x_backwards_compatibility.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">CUTLASS 3.0 GEMM Backwards Compatibility</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="01_layout.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">CuTe Layouts</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#system-requirements">System Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#knowledge-prerequisites">Knowledge prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-tests-and-examples">Building Tests and Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-organization">Library Organization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tutorial">Tutorial</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-tips">Quick Tips</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-i-print-cute-objects-on-host-or-device">How do I print CuTe objects on host or device?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#other-output-formats">Other output formats</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

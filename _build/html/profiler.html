@@ -1,0 +1,1417 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CUTLASS Profiler &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'profiler';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Building on Windows with Visual Studio" href="build/building_in_windows_with_visual_studio.html" />
+    <link rel="prev" title="Blackwell Cluster Launch Control" href="blackwell_cluster_launch_control.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="overview.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="overview.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">CUTLASS Terminology</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="ide_setup.html">IDE Setup for CUTLASS Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functionality.html">Functionality</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="fundamental_types.html">Fundamental Types</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="layout.html">Layouts and Tensors</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="tile_iterator_concept.html">Tile Iterator Concepts</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Synchronization primitives</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="code_organization.html">CUTLASS Code Organization</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="programming_guidelines.html">Programming Guidelines</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">CUTLASS Utilities</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Key Operations &amp; APIs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="gemm_api.html">CUTLASS GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="gemm_api_3x.html">CUTLASS 3.0 GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="efficient_gemm.html">Efficient GEMM in CUDA</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="implicit_gemm_convolution.html">CUTLASS Convolution</a></li>
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTLASS 3.x Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cutlass_3x_design.html">CUTLASS 3.0 Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cutlass_3x_backwards_compatibility.html">CUTLASS 3.0 GEMM Backwards Compatibility</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTE - Compositional Universal Tile Engine</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cute/00_quickstart.html">Getting Started With CuTe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/01_layout.html">CuTe Layouts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/02_layout_algebra.html">CuTe Layout Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/03_tensor.html">CuTe Tensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/04_algorithms.html">CuTe Tensor algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0t_mma_atom.html">CuTe’s support for Matrix Multiply-Accumulate instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0x_gemm_tutorial.html">CuTe dense matrix-matrix multiply tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0y_predication.html">Predication: What to do when tiling isn’t perfect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0z_tma_tensors.html">CuTe TMA Tensors</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Features &amp; Platform Specifics</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="dependent_kernel_launch.html">Dependent kernel launches</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grouped_scheduler.html">CUTLASS Grouped Kernel Schedulers</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="blackwell_functionality.html">Blackwell SM100 GEMMs</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="blackwell_cluster_launch_control.html">Blackwell Cluster Launch Control</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">CUTLASS Profiler</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Building CUTLASS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="build/building_in_windows_with_visual_studio.html">Building on Windows with Visual Studio</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="build/building_with_clang_as_host_compiler.html">Building with Clang as host compiler</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fprofiler.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/profiler.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>CUTLASS Profiler</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">CUTLASS Profiler</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#emitting-kernels-via-emit-kernel-listing-py">Emitting kernels via <code class="docutils literal notranslate"><span class="pre">emit_kernel_listing.py</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instantiating-more-kernels-with-hopper">Instantiating more kernels with Hopper</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-input-data-type-kernels-for-hopper">Mixed input data type kernels for Hopper</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-profiler-usage">CUTLASS Profiler usage</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#gemm">GEMM</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gemm-arguments">GEMM Arguments</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exhaustive-search-mode-and-top-k-output-ranking-according-to-performance-in-gflops-s">Exhaustive search mode and top-k output ranking according to performance in GFLOPS/s</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-examples">Usage Examples</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-best-performing-kernel">1. Finding the Best Performing Kernel</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-optimization-for-a-fixed-gemm-shape">2. Performance Optimization for a Fixed GEMM Shape</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-cuda-core-gemm-operation">Example CUDA Core GEMM Operation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-tensor-core-gemm-operations">Example Tensor Core GEMM Operations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#covering-the-problem-space">Covering the problem space</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output">Output</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-3-0-gemm-procedural-names">CUTLASS 3.0 GEMM procedural names</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#convolution">Convolution</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convolution-arguments">Convolution Arguments</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-cuda-core-convolution-operation">Example CUDA Core Convolution Operation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-tensor-core-convolution-operation">Example Tensor Core Convolution Operation</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="ALT" src="../../images/gemm-hierarchy-with-epilogue-no-labels.png" /></p>
+<section class="tex2jax_ignore mathjax_ignore" id="cutlass-profiler">
+<h1>CUTLASS Profiler<a class="headerlink" href="#cutlass-profiler" title="Link to this heading">#</a></h1>
+<p>The CUTLASS Profiler is a command-line driven test and profiling environment for CUTLASS computations
+defined in the CUTLASS Instance Library. The CUTLASS Profiler is capable of executing each GEMM, Sparse Gemm,
+Conv2d, and Conv3d kernel.</p>
+<p>The CUTLASS Profiler may be compiled with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>cutlass_profiler<span class="w"> </span>-j
+</pre></div>
+</div>
+<p>To limit compilation time, only one tile size (typically 128x128) and threadblock cluster size (typically 2x1x1) is instantiated for each data type,
+math instruction, and layout. To instantiate all sizes, set the following environment variable when running CMake from an
+empty <code class="docutils literal notranslate"><span class="pre">build/</span></code> directory.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cmake<span class="w"> </span>..<span class="w"> </span>-DCUTLASS_NVCC_ARCHS<span class="o">=</span><span class="s2">&quot;70;75;80&quot;</span><span class="w"> </span>-DCUTLASS_LIBRARY_KERNELS<span class="o">=</span>all<span class="w">  </span>-DCUTLASS_UNITY_BUILD_ENABLED<span class="o">=</span>ON
+...
+$<span class="w"> </span>make<span class="w"> </span>cutlass_profiler<span class="w"> </span>-j
+</pre></div>
+</div>
+<p>Enabling the unity build places multiple kernel instances in one compilation unit, thereby reducing size of the compiled
+binary and avoiding linker limitations on some platforms.</p>
+<p>The CUTLASS Profiler sources are stored in:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tools/
+<span class="w">  </span>profiler/
+</pre></div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="emitting-kernels-via-emit-kernel-listing-py">
+<h1>Emitting kernels via <code class="docutils literal notranslate"><span class="pre">emit_kernel_listing.py</span></code><a class="headerlink" href="#emitting-kernels-via-emit-kernel-listing-py" title="Link to this heading">#</a></h1>
+<p>We provide a Python script <code class="docutils literal notranslate"><span class="pre">emit_kernel_listing.py</span></code> that allows a user to selectively test a subset of profiler-based kernels stamped out in <code class="docutils literal notranslate"><span class="pre">generator.py</span></code>. A unique benefit to generate kernels and test via this script is that it can feed a series of runtime arguments, such as different <code class="docutils literal notranslate"><span class="pre">M</span></code>/<code class="docutils literal notranslate"><span class="pre">N</span></code>/<code class="docutils literal notranslate"><span class="pre">K</span></code> and <code class="docutils literal notranslate"><span class="pre">alpha</span></code>/<code class="docutils literal notranslate"><span class="pre">beta</span></code>, to each kernel, instead of relying on a single default value. It also properly generates runtime datatype and cluster shapes for certain kernels to help reduce the generated kernel count and accordingly the total compilation time. An interested user may refer to <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/python/cutlass_library/emit_kernel_listing.py">emit_kernel_listing.py</a> for details. To enable this new feature, a user should add <code class="docutils literal notranslate"><span class="pre">-DCUTLASS_BUILD_FOR_PROFILER_REGRESSIONS=ON</span></code> when building CUTLASS profiler.</p>
+<section id="instantiating-more-kernels-with-hopper">
+<h2>Instantiating more kernels with Hopper<a class="headerlink" href="#instantiating-more-kernels-with-hopper" title="Link to this heading">#</a></h2>
+<p>With Hopper (SM90), you will need to use an additional flag,
+<code class="docutils literal notranslate"><span class="pre">CUTLASS_LIBRARY_INSTANTIATION_LEVEL</span></code>, in order to instantiate all possible combinations,
+which unlike previous architectures, will be in the order of millions of kernels.
+Due to this, <code class="docutils literal notranslate"><span class="pre">CUTLASS_LIBRARY_KERNELS</span></code> must be non-empty, since generating and filtering these
+kernels alone can take hours.
+You must also exercise caution, because not all of these configs are tested, and some may fail to
+compile or fail to launch at runtime.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cmake<span class="w"> </span>..<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCUTLASS_NVCC_ARCHS<span class="o">=</span><span class="s2">&quot;90a&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCUTLASS_LIBRARY_KERNELS<span class="o">=</span><span class="s2">&quot;cutlass3x_sm90_tensorop_s64x64x16gemm_f16_f16_f32_void_f32_*&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCUTLASS_LIBRARY_INSTANTIATION_LEVEL<span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCUTLASS_UNITY_BUILD_ENABLED<span class="o">=</span>ON
+</pre></div>
+</div>
+<p>The CUTLASS profiler employs a four-digit integer level (global instantiation level) mechanism to manage the generation of kernel configurations. This global instantiation level decides the behavior of multiple “generators” by defining how many and which combinations of configurations are produced. If a global instantiation level contains fewer than four digits, it can be padded with leading zeros to ensure it is four digits long. Each of the four digits in the global level corresponds to a specific category that influences kernel generation, from right to left:</p>
+<ol class="arabic simple" start="0">
+<li><p><strong>Instruction Shape</strong></p></li>
+<li><p><strong>MMA Shape Multiplier</strong></p></li>
+<li><p><strong>Cluster Shape</strong></p></li>
+<li><p><strong>Schedule Pruning</strong></p></li>
+</ol>
+<p>Cluster shape levels define the number of CTAs (Cooperative Thread Arrays) included in the kernel generation:</p>
+<ul class="simple">
+<li><p><strong>Level 0</strong>: Only <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">2,</span> <span class="pre">1)</span></code> cluster shape.</p></li>
+<li><p><strong>Level 1</strong>: Clusters with 2 CTAs.</p></li>
+<li><p><strong>Level 2</strong>: Clusters with 1 or 2 CTAs.</p></li>
+<li><p><strong>Level 3</strong>: Clusters with 1, 2, or 4 CTAs.</p></li>
+<li><p><strong>Level 4</strong>: Clusters with 1, 2, 4, or 8 CTAs.</p></li>
+<li><p><strong>Level 5</strong>: Clusters with 1, 2, 4, 8, or 16 CTAs.</p></li>
+</ul>
+<p>The MMA multipliers are combined with MMA instruction shapes (WGMMA shapes) to form CTA shapes. The levels for MMA multipliers determine the configurations generated for different data types.</p>
+<ul class="simple">
+<li><p><strong>Levels [0, 3]</strong>: Control the specific configurations generated for various data types.</p></li>
+<li><p><strong>Level 9</strong>: Activates exhaustive mode, generating all possible configurations.</p></li>
+</ul>
+<p>Higher levels encompass a broader range of CTA configurations, resulting in more comprehensive kernel generation.</p>
+<p>Instruction shape levels control the selection of WGMMA shapes used in kernel generation:</p>
+<ul class="simple">
+<li><p><strong>Level 0</strong>: Generates the “default” shape only.</p></li>
+<li><p><strong>Level 1</strong>: Includes additional shapes for unpruned cases, specifically for TF32 data type.</p></li>
+<li><p><strong>Level 2</strong>: Includes shapes that are powers of 2.</p></li>
+<li><p><strong>Level 3</strong>: Includes all other shapes.</p></li>
+</ul>
+<p>The detailed defination of the three instantiation levels controlling cluster shape, MMA shape multiplier, and instruction shape can be found in <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/python/cutlass_library/sm90_shapes.py">sm90_shapes.py</a>.</p>
+<p>Schedule pruning levels decide the epilogue schedule and mainloop schedule to stamp out a kernel instance. As defined in <code class="docutils literal notranslate"><span class="pre">get_valid_schedules</span></code> in <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/python/cutlass_library/sm90_utils.py">sm90_utils.py</a>,</p>
+<ul class="simple">
+<li><p><strong>Level &gt;= 1</strong>: Indicates that no pruning is being applied.</p></li>
+<li><p><strong>Level 0</strong>: Indicates pruning according to existing <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/python/cutlass_library/generator.py">generator.py</a> behavior.</p></li>
+</ul>
+<p>An instantiation level <code class="docutils literal notranslate"><span class="pre">500</span></code>, which is padded to <code class="docutils literal notranslate"><span class="pre">0500</span></code>, thus indicates:</p>
+<ul class="simple">
+<li><p><strong>Instruction Shapes</strong>: At level 0, generating only the “default” shape.</p></li>
+<li><p><strong>MMA Multipliers</strong>: At level 0, generating only one multiplier, <code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">1,</span> <span class="pre">4)</span></code>.</p></li>
+<li><p><strong>Cluster Sizes</strong>: At level 5, allowing for clusters with 1, 2, 4, 8, or 16 CTAs.</p></li>
+<li><p><strong>Schedule Pruning</strong>: At level 0, where pruning is applied according to the existing <code class="docutils literal notranslate"><span class="pre">generator.py</span></code> behavior.</p></li>
+</ul>
+</section>
+<section id="mixed-input-data-type-kernels-for-hopper">
+<h2>Mixed input data type kernels for Hopper<a class="headerlink" href="#mixed-input-data-type-kernels-for-hopper" title="Link to this heading">#</a></h2>
+<p>With Hopper (SM90), the kernel generator will generate the following combinations of mixed input data types (“mixed dtype”):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>dtype(A)</p></th>
+<th class="head"><p>dtype(B)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>e4m3</p></td>
+<td><p>f16, bf16</p></td>
+</tr>
+<tr class="row-odd"><td><p>e5m2</p></td>
+<td><p>f16, bf16</p></td>
+</tr>
+<tr class="row-even"><td><p>int8</p></td>
+<td><p>f16, bf16</p></td>
+</tr>
+<tr class="row-odd"><td><p>uint8</p></td>
+<td><p>f16, bf16</p></td>
+</tr>
+<tr class="row-even"><td><p>int4</p></td>
+<td><p>f16, bf16</p></td>
+</tr>
+<tr class="row-odd"><td><p>int4</p></td>
+<td><p>e4m3, e5m2</p></td>
+</tr>
+<tr class="row-even"><td><p>uint4</p></td>
+<td><p>f16, bf16</p></td>
+</tr>
+<tr class="row-odd"><td><p>int2</p></td>
+<td><p>f16, bf16</p></td>
+</tr>
+<tr class="row-even"><td><p>uint2</p></td>
+<td><p>f16, bf16</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>For each mixed dtype kernel, the kernel generator will generate combinations of three different running modes:</p>
+<ul class="simple">
+<li><p>Convert-only</p></li>
+<li><p>Scale-only</p></li>
+<li><p>Scale-with-zero-point-shifting</p></li>
+</ul>
+<p>For {4-bits-dtype, 8-bits-dtype} x 16-bits-dtype, the kernel generator will further generate kernels using shuffled layouts for the narrow data type matrix, which may have a better performance compared to its non-shuffle counter parts.</p>
+</section>
+<section id="cutlass-profiler-usage">
+<h2>CUTLASS Profiler usage<a class="headerlink" href="#cutlass-profiler-usage" title="Link to this heading">#</a></h2>
+<p>The CUTLASS Profiler usage statement may be obtained by executing <code class="docutils literal notranslate"><span class="pre">cutlass_profiler</span> <span class="pre">--help</span></code> and appears as follows.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CUTLASS<span class="w"> </span>Performance<span class="w"> </span>Tool
+usage:
+
+<span class="w">    </span>cutlass_profiler<span class="w"> </span><span class="o">[</span>options<span class="o">]</span>
+
+<span class="w">  </span>--help
+
+<span class="w">  </span>--mode<span class="o">=</span>&lt;string&gt;<span class="w">                                  </span>Cutlass<span class="w"> </span>profiler<span class="w"> </span>execution<span class="w"> </span>mode.
+<span class="w">                                                    </span>--mode<span class="o">=</span>profile<span class="w">    </span>regular<span class="w"> </span>verification<span class="w"> </span>and<span class="w"> </span>profiling<span class="w"> </span><span class="o">(</span>default<span class="o">)</span>
+<span class="w">                                                    </span>--mode<span class="o">=</span>dry_run<span class="w">    </span>no<span class="w"> </span>kernels<span class="w"> </span>are<span class="w"> </span>launched<span class="w"> </span>or<span class="w"> </span>workspaces<span class="w"> </span>allocated
+<span class="w">                                                    </span>--mode<span class="o">=</span>enumerate<span class="w">  </span>lists<span class="w"> </span>all<span class="w"> </span>operation<span class="w"> </span>kind<span class="w"> </span>and<span class="w"> </span>operations
+<span class="w">                                                    </span>--mode<span class="o">=</span>trace<span class="w">      </span>executes<span class="w"> </span>a<span class="w"> </span>single<span class="w"> </span>device-side<span class="w"> </span>computation<span class="w"> </span>with
+<span class="w">                                                                       </span>no<span class="w"> </span>other<span class="w"> </span>kernel<span class="w"> </span>launches
+
+<span class="w">  </span>--device-info<span class="w">                                    </span>Prints<span class="w"> </span>information<span class="w"> </span>on<span class="w"> </span>all<span class="w"> </span>GPUs<span class="w"> </span>present<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>system
+
+<span class="w">  </span>--operation<span class="o">=</span>&lt;operation_kind&gt;<span class="w">                     </span>CUTLASS<span class="w"> </span>operation<span class="w"> </span>to<span class="w"> </span>profile.
+
+<span class="w">  </span>--kernels<span class="o">=</span>&lt;string_list&gt;<span class="w">                          </span>Filter<span class="w"> </span>operations<span class="w"> </span>by<span class="w"> </span>kernel<span class="w"> </span>names.<span class="w"> </span>For<span class="w"> </span>example,<span class="w"> </span>call<span class="w"> </span>all<span class="w"> </span>kernels<span class="w"> </span>with
+<span class="w">                                                   </span><span class="o">(</span><span class="s2">&quot;s1688&quot;</span><span class="w"> </span>and<span class="w"> </span><span class="s2">&quot;nt&quot;</span><span class="o">)</span><span class="w"> </span>or<span class="w"> </span><span class="o">(</span><span class="s2">&quot;s844&quot;</span><span class="w"> </span>and<span class="w"> </span><span class="s2">&quot;tn&quot;</span><span class="w"> </span>and<span class="w"> </span><span class="s2">&quot;align8&quot;</span><span class="o">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>their
+<span class="w">                                                   </span>operation<span class="w"> </span>name<span class="w"> </span>using<span class="w"> </span>--kernels<span class="o">=</span><span class="s2">&quot;s1688*nt, s884*tn*align8&quot;</span>
+
+<span class="w">  </span>--kernels-file<span class="o">=</span>&lt;path&gt;<span class="w">                            </span>Same<span class="w"> </span>behavior<span class="w"> </span>as<span class="w"> </span><span class="sb">`</span>kernels<span class="sb">`</span>,<span class="w"> </span>but<span class="w"> </span>kernel<span class="w"> </span>names<span class="w"> </span>are<span class="w"> </span>specified<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>file<span class="w"> </span>with
+<span class="w">                                                   </span>one<span class="w"> </span>kernel<span class="w"> </span>name<span class="w"> </span>on<span class="w"> </span>each<span class="w"> </span>line.<span class="w"> </span>Set<span class="w"> </span>of<span class="w"> </span>profiled<span class="w"> </span>kernels<span class="w"> </span>is<span class="w"> </span>the<span class="w"> </span>union<span class="w"> </span>of<span class="w"> </span>kernels
+<span class="w">                                                   </span>specified<span class="w"> </span>here<span class="w"> </span>and<span class="w"> </span>those<span class="w"> </span>specified<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="sb">`</span>kernels<span class="sb">`</span>.
+
+<span class="w">  </span>--ignore-kernels<span class="o">=</span>&lt;string_list&gt;<span class="w">                   </span>Excludes<span class="w"> </span>kernels<span class="w"> </span>whose<span class="w"> </span>names<span class="w"> </span>match<span class="w"> </span>anything<span class="w"> </span><span class="k">in</span><span class="w"> </span>this<span class="w"> </span>list.
+
+Device:
+<span class="w">  </span>--device<span class="o">=</span>&lt;int&gt;<span class="w">                                   </span>CUDA<span class="w"> </span>Device<span class="w"> </span>ID
+
+<span class="w">  </span>--compute-capability<span class="o">=</span>&lt;int&gt;<span class="w">                       </span>Override<span class="w"> </span>the<span class="w"> </span>compute<span class="w"> </span>capability.
+
+<span class="w">  </span>--llc-capacity<span class="o">=</span>&lt;capacity<span class="w"> </span><span class="k">in</span><span class="w"> </span>KiB&gt;<span class="w">                 </span>Capacity<span class="w"> </span>of<span class="w"> </span>last-level<span class="w"> </span>cache<span class="w"> </span><span class="k">in</span><span class="w"> </span>kilobytes.<span class="w"> </span>If<span class="w"> </span>this<span class="w"> </span>is<span class="w"> </span>non-zero,
+<span class="w">                                                   </span>profiling<span class="w"> </span>phases<span class="w"> </span>cycle<span class="w"> </span>through<span class="w"> </span>different<span class="w"> </span>input<span class="w"> </span>tensors<span class="w"> </span>to<span class="w"> </span>induce
+<span class="w">                                                   </span>capacity<span class="w"> </span>misses<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>L2.
+
+<span class="w">  </span>--allocations<span class="o">=</span>&lt;name&gt;:&lt;device&gt;,&lt;name&gt;:&lt;device&gt;<span class="w">    </span>Pairs<span class="w"> </span>of<span class="w"> </span>allocation<span class="w"> </span>names<span class="w"> </span>to<span class="w"> </span>devices.<span class="w"> </span>If<span class="w"> </span>&lt;device&gt;<span class="w"> </span>is<span class="w"> </span>negative,
+<span class="w">                                                   </span>the<span class="w"> </span>execution<span class="w"> </span>device<span class="w"> </span>is<span class="w"> </span>used
+
+
+Initialization:
+<span class="w">  </span>--initialization<span class="o">=</span>&lt;bool&gt;<span class="w">                          </span>Enables<span class="w"> </span>initialization<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span><span class="nb">true</span><span class="o">)</span>.<span class="w"> </span>If<span class="w"> </span>false,<span class="w"> </span>device<span class="w"> </span>memory<span class="w"> </span>is
+<span class="w">                                                   </span>not<span class="w"> </span>initialized<span class="w"> </span>after<span class="w"> </span>allocation.
+
+<span class="w">  </span>--initialization-provider<span class="o">=</span>&lt;provider&gt;<span class="w">             </span>Selects<span class="w"> </span>initialization<span class="w"> </span>provider<span class="w"> </span><span class="o">{</span>host,<span class="w"> </span>device*<span class="o">}</span>.<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span><span class="s1">&#39;*&#39;</span><span class="o">)</span>
+
+<span class="w">  </span>--dist<span class="o">=</span>&lt;distribution&gt;<span class="w">                            </span>Data<span class="w"> </span>distribution<span class="w"> </span>of<span class="w"> </span>input<span class="w"> </span>tensors<span class="w"> </span><span class="o">{</span>uniform*,<span class="w"> </span>gaussian,<span class="w"> </span>identity,<span class="w"> </span>sequential<span class="o">}</span>
+<span class="w">                                                    </span>--dist<span class="o">=</span>uniform,min:&lt;double&gt;,max:&lt;double&gt;,scale:&lt;integer&gt;
+<span class="w">                                                    </span>--dist<span class="o">=</span>gaussian,mean:&lt;double&gt;,stddev:&lt;double&gt;,scale:&lt;integer&gt;
+<span class="w">                                                    </span>--dist<span class="o">=</span>sequential,start:&lt;double&gt;,delta:&lt;double&gt;,scale:&lt;integer&gt;
+<span class="w">                                                    </span>--dist<span class="o">=</span>identity
+
+<span class="w">  </span>--seed<span class="o">=</span>&lt;int&gt;<span class="w">                                     </span>Random<span class="w"> </span>number<span class="w"> </span>generator<span class="w"> </span>seed.<span class="w"> </span>Used<span class="w"> </span>to<span class="w"> </span>enforce<span class="w"> </span>deterministic
+<span class="w">                                                   </span>initialization.
+
+
+Library:
+<span class="w">  </span>--library-algo-mode<span class="o">=</span>&lt;mode&gt;<span class="w">                       </span>Indicates<span class="w"> </span>algorithm<span class="w"> </span>mode<span class="w"> </span>used<span class="w"> </span>to<span class="w"> </span>call<span class="w"> </span>libraries<span class="w"> </span>such<span class="w"> </span>as<span class="w"> </span>cuBLAS<span class="w"> </span>and<span class="w"> </span>cuDNN.
+<span class="w">                                                   </span><span class="nv">mode</span><span class="o">={</span>default*,matching,best<span class="o">}</span>
+
+<span class="w">  </span>--library-algos<span class="o">=</span>&lt;range-list&gt;<span class="w">                     </span>If<span class="w"> </span>--algorithm-mode<span class="o">=</span>best,<span class="w"> </span>permits<span class="w"> </span>specifying<span class="w"> </span>a<span class="w"> </span>selection<span class="w"> </span>of<span class="w"> </span>algorithms.
+
+
+Profiling:
+<span class="w">  </span>--workspace-count<span class="o">=</span>&lt;workspace<span class="w"> </span>count&gt;<span class="w">              </span>Number<span class="w"> </span>of<span class="w"> </span>discrete<span class="w"> </span>workspaces<span class="w"> </span>maintained<span class="w"> </span>to<span class="w"> </span>avoid<span class="w"> </span>cache-resident
+<span class="w">                                                 </span>If<span class="w"> </span>zero<span class="w"> </span><span class="o">(</span>default<span class="o">)</span>,<span class="w"> </span>the<span class="w"> </span>amount<span class="w"> </span>is<span class="w"> </span>chosen<span class="w"> </span><span class="k">for</span><span class="w"> </span>each<span class="w"> </span>workload<span class="w"> </span>based<span class="w"> </span>on
+<span class="w">                                                 </span>capacity<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>last-level<span class="w"> </span>cache.
+
+<span class="w">  </span>--profiling-iterations<span class="o">=</span>&lt;iterations&gt;<span class="w">              </span>Number<span class="w"> </span>of<span class="w"> </span>iterations<span class="w"> </span>to<span class="w"> </span>profile<span class="w"> </span>each<span class="w"> </span>kernel.<span class="w"> </span>If<span class="w"> </span>zero,<span class="w"> </span>kernels
+<span class="w">                                                   </span>are<span class="w"> </span>launched<span class="w"> </span>up<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>profiling<span class="w"> </span>duration.<span class="w"> </span>If<span class="w"> </span>non-zero,<span class="w"> </span>this
+<span class="w">                                                   </span>overrides<span class="w"> </span><span class="sb">`</span>profiling-duration<span class="sb">`</span><span class="w"> </span>and<span class="w"> </span><span class="sb">`</span>min-iterations<span class="sb">`</span>.
+
+<span class="w">  </span>--profiling-duration<span class="o">=</span>&lt;duration&gt;<span class="w">                  </span>Time<span class="w"> </span>to<span class="w"> </span>spend<span class="w"> </span>profiling<span class="w"> </span>each<span class="w"> </span>kernel<span class="w"> </span><span class="o">(</span>ms<span class="o">)</span>.<span class="w"> </span>Overriden<span class="w"> </span>by
+<span class="w">                                                   </span><span class="sb">`</span>profiling-iterations<span class="sb">`</span><span class="w"> </span>when<span class="w"> </span><span class="sb">`</span>profiling-iterations<span class="sb">`</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="m">0</span>.
+<span class="w">                                                   </span>Note<span class="w"> </span>that<span class="w"> </span><span class="sb">`</span>min-iterations<span class="sb">`</span><span class="w"> </span>must<span class="w"> </span>also<span class="w"> </span>be<span class="w"> </span>satisfied.
+
+<span class="w">  </span>--min-iterations<span class="o">=</span>&lt;iterations&gt;<span class="w">                    </span>Minimum<span class="w"> </span>number<span class="w"> </span>of<span class="w"> </span>iterations<span class="w"> </span>to<span class="w"> </span>spend<span class="w"> </span>profiling<span class="w"> </span>each<span class="w"> </span>kernel,<span class="w"> </span>even<span class="w"> </span><span class="k">if</span>
+<span class="w">                                                   </span><span class="sb">`</span>profiling-duration<span class="sb">`</span><span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>met.
+
+<span class="w">  </span>--warmup-iterations<span class="o">=</span>&lt;iterations&gt;<span class="w">                 </span>Number<span class="w"> </span>of<span class="w"> </span>iterations<span class="w"> </span>to<span class="w"> </span>execute<span class="w"> </span>each<span class="w"> </span>kernel<span class="w"> </span>prior<span class="w"> </span>to<span class="w"> </span>profiling<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span><span class="m">10</span><span class="o">)</span>.
+
+<span class="w">  </span>--use-cuda-graphs<span class="o">=</span>&lt;bool&gt;<span class="w">                         </span>If<span class="w"> </span>true,<span class="w"> </span>kernels<span class="w"> </span>are<span class="w"> </span>launched<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>CUDA<span class="w"> </span>graph.<span class="w"> </span>Useful<span class="w"> </span>when<span class="w"> </span>the<span class="w"> </span>kernel<span class="w"> </span>launch<span class="w"> </span><span class="nb">time</span><span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span>bottleneck.
+
+<span class="w">  </span>--sleep-duration<span class="o">=</span>&lt;duration&gt;<span class="w">                      </span>Number<span class="w"> </span>of<span class="w"> </span>ms<span class="w"> </span>to<span class="w"> </span>sleep<span class="w"> </span>between<span class="w"> </span>profiling<span class="w"> </span>periods<span class="w"> </span><span class="o">(</span>ms<span class="o">)</span>.
+
+<span class="w">  </span>--profiling-enabled<span class="o">=</span>&lt;bool&gt;<span class="w">                       </span>If<span class="w"> </span>true,<span class="w"> </span>profiling<span class="w"> </span>is<span class="w"> </span>actually<span class="w"> </span>conducted.
+
+Verification:
+<span class="w">  </span>--verification-enabled<span class="o">=</span>&lt;bool&gt;<span class="w">                    </span>Whether<span class="w"> </span>to<span class="w"> </span>perform<span class="w"> </span>verification<span class="w"> </span>checks.
+
+<span class="w">  </span>--epsilon<span class="o">=</span>&lt;error&gt;<span class="w">                                </span>Error<span class="w"> </span>threshold.<span class="w"> </span>Setting<span class="w"> </span>to<span class="w"> </span>zero<span class="w"> </span><span class="o">(</span>default<span class="o">)</span><span class="w"> </span>requires
+<span class="w">                                                   </span>bit-level<span class="w"> </span>equivalence.
+
+<span class="w">  </span>--nonzero-floor<span class="o">=</span>&lt;floor&gt;<span class="w">                          </span>Results<span class="w"> </span>whose<span class="w"> </span>absolute<span class="w"> </span>value<span class="w"> </span>is<span class="w"> </span>less<span class="w"> </span>than<span class="w"> </span>this<span class="w"> </span>quantity
+<span class="w">                                                   </span>are<span class="w"> </span>treated<span class="w"> </span>as<span class="w"> </span>zero<span class="w"> </span><span class="k">for</span><span class="w"> </span>comparisons.
+
+<span class="w">  </span>--save-workspace<span class="o">=</span>&lt;string&gt;<span class="w">                        </span>Specifies<span class="w"> </span>when<span class="w"> </span>to<span class="w"> </span>save<span class="w"> </span>the<span class="w"> </span>GEMM<span class="w"> </span>inputs<span class="w"> </span>and<span class="w"> </span>results<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>filesystem.
+<span class="w">                                                    </span>--save-workspace<span class="o">=</span>never<span class="w">      </span>never<span class="w"> </span>save<span class="w"> </span>workspace<span class="w"> </span><span class="o">(</span>default<span class="o">)</span>
+<span class="w">                                                    </span>--save-workspace<span class="o">=</span>incorrect<span class="w">  </span>save<span class="w"> </span>workspace<span class="w"> </span><span class="k">for</span><span class="w"> </span>incorrect<span class="w"> </span>results
+<span class="w">                                                    </span>--save-workspace<span class="o">=</span>always<span class="w">     </span>always<span class="w"> </span>save<span class="w"> </span>workspace
+
+<span class="w">  </span>--verification-providers<span class="o">=</span>&lt;providers&gt;<span class="w">             </span>List<span class="w"> </span>of<span class="w"> </span>providers<span class="w"> </span>used<span class="w"> </span>to<span class="w"> </span>verify<span class="w"> </span>result.<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span><span class="s1">&#39;*&#39;</span><span class="o">)</span>
+<span class="w">                                                   </span>Gemm<span class="w"> </span>verification-providers<span class="w"> </span><span class="o">{</span>cublas*<span class="o">}</span>
+<span class="w">                                                   </span>Conv2d<span class="w"> </span>verification-providers<span class="w"> </span><span class="o">{</span>cudnn*,<span class="w"> </span>device*,<span class="w"> </span>host<span class="o">}</span>
+
+
+Report:
+<span class="w">  </span>--append<span class="o">=</span>&lt;bool&gt;<span class="w">                                  </span>If<span class="w"> </span>true,<span class="w"> </span>result<span class="w"> </span>is<span class="w"> </span>appended<span class="w"> </span>to<span class="w"> </span>possibly<span class="w"> </span>existing<span class="w"> </span>file.<span class="w"> </span>Otherwise,
+<span class="w">                                                   </span>any<span class="w"> </span>existing<span class="w"> </span>file<span class="w"> </span>is<span class="w"> </span>overwritten.
+
+<span class="w">  </span>--output<span class="o">=</span>&lt;path&gt;<span class="w">                                  </span>Path<span class="w"> </span>to<span class="w"> </span>output<span class="w"> </span>file<span class="w"> </span><span class="k">for</span><span class="w"> </span>machine<span class="w"> </span>readable<span class="w"> </span>results.<span class="w"> </span>Operation<span class="w"> </span>kind<span class="w"> </span>and<span class="w"> </span><span class="s1">&#39;.csv&#39;</span><span class="w"> </span>is<span class="w"> </span>appended.
+
+<span class="w">  </span>--junit-output<span class="o">=</span>&lt;path&gt;<span class="w">                            </span>Path<span class="w"> </span>to<span class="w"> </span>junit<span class="w"> </span>output<span class="w"> </span>file<span class="w"> </span><span class="k">for</span><span class="w"> </span>result<span class="w"> </span>reporting.<span class="w"> </span>Operation<span class="w"> </span>kind<span class="w"> </span>and<span class="w"> </span><span class="s1">&#39;.junit.xml&#39;</span><span class="w"> </span>is<span class="w"> </span>appended.
+
+<span class="w">  </span>--report-not-run<span class="o">=</span>&lt;bool&gt;<span class="w">                          </span>If<span class="w"> </span>true,<span class="w"> </span>reports<span class="w"> </span>the<span class="w"> </span>status<span class="w"> </span>of<span class="w"> </span>all<span class="w"> </span>kernels<span class="w"> </span>including<span class="w"> </span>those<span class="w"> </span>that
+<span class="w">                                                   </span><span class="k">do</span><span class="w"> </span>not<span class="w"> </span>satisfy<span class="w"> </span>the<span class="w"> </span>given<span class="w"> </span>arguments.
+
+<span class="w">  </span>--tags<span class="o">=</span>&lt;column:tag,...&gt;<span class="w">                          </span>Inserts<span class="w"> </span>leading<span class="w"> </span>columns<span class="w"> </span><span class="k">in</span><span class="w"> </span>output<span class="w"> </span>table<span class="w"> </span>and<span class="w"> </span>uniform<span class="w"> </span>values<span class="w"> </span><span class="k">for</span><span class="w"> </span>each
+<span class="w">                                                   </span>column.<span class="w"> </span>Useful<span class="w"> </span><span class="k">for</span><span class="w"> </span>generating<span class="w"> </span>pivot<span class="w"> </span>tables.
+
+<span class="w">  </span>--verbose<span class="o">=</span>&lt;bool&gt;<span class="w">                                 </span>Prints<span class="w"> </span>human-readable<span class="w"> </span>text<span class="w"> </span>to<span class="w"> </span>stdout.<span class="w"> </span>If<span class="w"> </span>false,<span class="w"> </span>nothing<span class="w"> </span>is<span class="w"> </span>written<span class="w"> </span>to<span class="w"> </span>stdout.
+
+
+About:
+<span class="w">  </span>--version<span class="w">                                        </span>CUTLASS<span class="w"> </span><span class="m">2</span>.4.0<span class="w"> </span>built<span class="w"> </span>on<span class="w"> </span>Nov<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">2020</span><span class="w"> </span>at<span class="w"> </span><span class="m">11</span>:59:00
+
+
+Operations:
+
+<span class="w">     </span>gemm<span class="w">                                          </span>General<span class="w"> </span>matrix-matrix<span class="w"> </span>product.<span class="w"> </span><span class="nv">D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>alpha<span class="w"> </span>*<span class="w"> </span>A*B<span class="w"> </span>+<span class="w"> </span>beta<span class="w"> </span>*<span class="w"> </span>C
+<span class="w">     </span>spgemm<span class="w">                                        </span>Structured<span class="w"> </span>sparse<span class="w"> </span>GEMM.<span class="w"> </span><span class="nv">D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>alpha<span class="w"> </span>*<span class="w"> </span>A*B<span class="w"> </span>+<span class="w"> </span>beta<span class="w"> </span>*<span class="w"> </span>C
+<span class="w">     </span>conv2d<span class="w">                                        </span>Conv2d<span class="w"> </span>operation.<span class="w"> </span>Output<span class="o">(</span>Tensor4D<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>alpha<span class="w"> </span>*<span class="w"> </span>Input<span class="o">(</span>Tensor4D<span class="o">)</span><span class="w"> </span>*<span class="w"> </span>Filter<span class="o">(</span>Tensor4D<span class="o">)</span><span class="w"> </span>+<span class="w"> </span>beta<span class="w"> </span>*<span class="w"> </span>Input<span class="o">(</span>Tensor4D<span class="o">)</span>
+<span class="w">     </span>conv3d<span class="w">                                        </span>Conv3d<span class="w"> </span>operation.<span class="w"> </span>Output<span class="o">(</span>Tensor5D<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>alpha<span class="w"> </span>*<span class="w"> </span>Input<span class="o">(</span>Tensor5D<span class="o">)</span><span class="w"> </span>*<span class="w"> </span>Filter<span class="o">(</span>Tensor5D<span class="o">)</span><span class="w"> </span>+<span class="w"> </span>beta<span class="w"> </span>*<span class="w"> </span>Input<span class="o">(</span>Tensor5D<span class="o">)</span>
+
+
+For<span class="w"> </span>details<span class="w"> </span>about<span class="w"> </span>a<span class="w"> </span>particular<span class="w"> </span><span class="k">function</span>,<span class="w"> </span>specify<span class="w"> </span>the<span class="w"> </span><span class="k">function</span><span class="w"> </span>name<span class="w"> </span>with<span class="w"> </span>--help.
+
+Example:
+
+<span class="w">  </span>$<span class="w"> </span>cutlass_profiler<span class="w"> </span>--operation<span class="o">=</span>Gemm<span class="w"> </span>--help
+
+<span class="w">  </span>$<span class="w"> </span>cutlass_profiler<span class="w"> </span>--operation<span class="o">=</span>Conv3d<span class="w"> </span>--help
+
+<span class="w">  </span>$<span class="w"> </span>cutlass_profiler<span class="w"> </span>--operation<span class="o">=</span>Conv2d<span class="w"> </span>--help
+</pre></div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="gemm">
+<h1>GEMM<a class="headerlink" href="#gemm" title="Link to this heading">#</a></h1>
+<p>The CUTLASS Profiler is capable of executing GEMM and Sparse GEMM problems.</p>
+<p>The CUTLASS Profiler can be built with cuBLAS enabled to use as a reference implementation. If CMake detects
+the cuBLAS library available in the system, it is included as a dependency. This may be explicitly overridden
+with CMake flag <code class="docutils literal notranslate"><span class="pre">CUTLASS_ENABLE_CUBLAS</span></code>.</p>
+<section id="gemm-arguments">
+<h2>GEMM Arguments<a class="headerlink" href="#gemm-arguments" title="Link to this heading">#</a></h2>
+<p>The complete set of arguments available to each operation may be viewed by specifying the operation name
+in addition to <code class="docutils literal notranslate"><span class="pre">--help</span></code>. The argument flags and their aliases usable for GEMM appear as follows.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>./tools/profiler/cutlass_profiler<span class="w"> </span>--operation<span class="o">=</span>gemm<span class="w"> </span>--help
+
+GEMM
+
+<span class="w">  </span><span class="o">[</span>enum<span class="o">]</span><span class="w">      </span>--gemm_kind<span class="w">                                       </span>Variant<span class="w"> </span>of<span class="w"> </span>GEMM<span class="w"> </span><span class="o">(</span>e.g.<span class="w"> </span>universal,<span class="w"> </span>gemm,<span class="w"> </span>planar_complex,<span class="w"> </span>planar_complex_array<span class="o">)</span>
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--m,--problem-size::m<span class="w">                             </span>M<span class="w"> </span>dimension<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>GEMM<span class="w"> </span>problem<span class="w"> </span>space
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--n,--problem-size::n<span class="w">                             </span>N<span class="w"> </span>dimension<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>GEMM<span class="w"> </span>problem<span class="w"> </span>space
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--k,--problem-size::k<span class="w">                             </span>K<span class="w"> </span>dimension<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>GEMM<span class="w"> </span>problem<span class="w"> </span>space
+<span class="w">  </span><span class="o">[</span>tensor<span class="o">]</span><span class="w">    </span>--A<span class="w">                                               </span>Tensor<span class="w"> </span>storing<span class="w"> </span>the<span class="w"> </span>A<span class="w"> </span>operand
+<span class="w">  </span><span class="o">[</span>tensor<span class="o">]</span><span class="w">    </span>--B<span class="w">                                               </span>Tensor<span class="w"> </span>storing<span class="w"> </span>the<span class="w"> </span>B<span class="w"> </span>operand
+<span class="w">  </span><span class="o">[</span>tensor<span class="o">]</span><span class="w">    </span>--C<span class="w">                                               </span>Tensor<span class="w"> </span>storing<span class="w"> </span>the<span class="w"> </span>C<span class="w"> </span>operand
+<span class="w">  </span><span class="o">[</span>scalar<span class="o">]</span><span class="w">    </span>--alpha,--epilogue::alpha<span class="w">                         </span>Epilogue<span class="w"> </span>scalar<span class="w"> </span>alpha
+<span class="w">  </span><span class="o">[</span>scalar<span class="o">]</span><span class="w">    </span>--beta,--epilogue::beta<span class="w">                           </span>Epilogue<span class="w"> </span>scalar<span class="w"> </span>beta
+<span class="w">  </span><span class="o">[</span>enum<span class="o">]</span><span class="w">      </span>--split_k_mode,--split-k-mode<span class="w">                     </span>Variant<span class="w"> </span>of<span class="w"> </span>split<span class="w"> </span>K<span class="w"> </span>mode<span class="o">(</span>serial,<span class="w"> </span>parallel<span class="o">)</span>
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--split_k_slices,--split-k-slices<span class="w">                 </span>Number<span class="w"> </span>of<span class="w"> </span>partitions<span class="w"> </span>of<span class="w"> </span>K<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--batch_count,--batch-count<span class="w">                       </span>Number<span class="w"> </span>of<span class="w"> </span>GEMMs<span class="w"> </span>computed<span class="w"> </span><span class="k">in</span><span class="w"> </span>one<span class="w"> </span>batch
+<span class="w">  </span><span class="o">[</span>enum<span class="o">]</span><span class="w">      </span>--op_class,--opcode-class<span class="w">                         </span>Class<span class="w"> </span>of<span class="w"> </span>math<span class="w"> </span>instruction<span class="w"> </span><span class="o">(</span>simt,<span class="w"> </span>tensorop,<span class="w"> </span>wmmatensorop,<span class="w"> </span>wmma<span class="o">)</span>.
+<span class="w">  </span><span class="o">[</span>enum<span class="o">]</span><span class="w">      </span>--accum,--accumulator-type<span class="w">                        </span>Math<span class="w"> </span>instruction<span class="w"> </span>accumulator<span class="w"> </span>data<span class="w"> </span><span class="nb">type</span>
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cta_m,--threadblock-shape::m<span class="w">                    </span>Threadblock<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>M<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cta_n,--threadblock-shape::n<span class="w">                    </span>Threadblock<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>N<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cta_k,--threadblock-shape::k<span class="w">                    </span>Threadblock<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>K<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cluster_m,--cluster-shape::m<span class="w">                    </span>Cluster<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>M<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cluster_n,--cluster-shape::n<span class="w">                    </span>Cluster<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>N<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cluster_k,--cluster-shape::k<span class="w">                    </span>Cluster<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>K<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cluster_m_fallback,--cluster-shape-fallback::m<span class="w">  </span>Fallback<span class="w"> </span>cluster<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>M<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cluster_n_fallback,--cluster-shape-fallback::n<span class="w">  </span>Fallback<span class="w"> </span>cluster<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>N<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cluster_k_fallback,--cluster-shape-fallback::k<span class="w">  </span>Fallback<span class="w"> </span>cluster<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>K<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--stages,--threadblock-stages<span class="w">                     </span>Number<span class="w"> </span>of<span class="w"> </span>stages<span class="w"> </span>of<span class="w"> </span>threadblock-scoped<span class="w"> </span>matrix<span class="w"> </span>multiply
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--warps_m,--warp-count::m<span class="w">                         </span>Number<span class="w"> </span>of<span class="w"> </span>warps<span class="w"> </span>within<span class="w"> </span>threadblock<span class="w"> </span>along<span class="w"> </span>the<span class="w"> </span>M<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--warps_n,--warp-count::n<span class="w">                         </span>Number<span class="w"> </span>of<span class="w"> </span>warps<span class="w"> </span>within<span class="w"> </span>threadblock<span class="w"> </span>along<span class="w"> </span>the<span class="w"> </span>N<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--warps_k,--warp-count::k<span class="w">                         </span>Number<span class="w"> </span>of<span class="w"> </span>warps<span class="w"> </span>within<span class="w"> </span>threadblock<span class="w"> </span>along<span class="w"> </span>the<span class="w"> </span>K<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--inst_m,--instruction-shape::m<span class="w">                   </span>Math<span class="w"> </span>instruction<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>M<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--inst_n,--instruction-shape::n<span class="w">                   </span>Math<span class="w"> </span>instruction<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>N<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--inst_k,--instruction-shape::k<span class="w">                   </span>Math<span class="w"> </span>instruction<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>K<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--min_cc,--minimum-compute-capability<span class="w">             </span>Minimum<span class="w"> </span>device<span class="w"> </span>compute<span class="w"> </span>capability
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--max_cc,--maximum-compute-capability<span class="w">             </span>Maximum<span class="w"> </span>device<span class="w"> </span>compute<span class="w"> </span>capability
+<span class="w">  </span><span class="o">[</span>enum<span class="o">]</span><span class="w">      </span>--raster_order<span class="o">={</span>heuristic<span class="p">|</span>H<span class="p">|</span>along_m<span class="p">|</span>M<span class="p">|</span>along_n<span class="p">|</span>N<span class="o">}</span><span class="w">  </span>If<span class="w"> </span>supported<span class="w"> </span>by<span class="w"> </span>kernel,<span class="w"> </span>sets<span class="w"> </span>the<span class="w"> </span>tile<span class="w"> </span>raster<span class="w"> </span>direction
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--swizzle_size<span class="o">={</span><span class="m">1</span>,2,4,8<span class="o">}</span><span class="w">                          </span>If<span class="w"> </span>supported<span class="w"> </span>by<span class="w"> </span>kernel,<span class="w"> </span>sets<span class="w"> </span>the<span class="w"> </span>2D<span class="w"> </span>tile<span class="w"> </span>swizzle<span class="w"> </span>extent<span class="w"> </span><span class="o">(</span>In<span class="w"> </span>Hopper,<span class="w"> </span>other<span class="w"> </span>values<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>rounded<span class="w"> </span>down<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>nearest<span class="w"> </span>supported<span class="w"> </span>value<span class="o">)</span>
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--use_pdl,--use-pdl<span class="w">                               </span>Use<span class="w"> </span>PDL<span class="w"> </span><span class="o">(</span>true,<span class="w"> </span><span class="nb">false</span><span class="o">)</span>
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--enable_sm90_mixed_dtype_shuffle_test<span class="w">            </span>If<span class="w"> </span>true,<span class="w"> </span>the<span class="w"> </span>profiler<span class="w"> </span>will<span class="w"> </span><span class="nb">test</span><span class="w"> </span>SM90<span class="w"> </span>mixed<span class="w"> </span>input<span class="w"> </span>kernels<span class="w"> </span>that<span class="w"> </span>can<span class="w"> </span>use<span class="w"> </span>shuffled<span class="w"> </span>input<span class="w"> </span>layouts<span class="w"> </span><span class="k">for</span><span class="w"> </span>better<span class="w"> </span>performance
+<span class="w">  </span><span class="o">[</span>enum<span class="o">]</span><span class="w">      </span>--runtime_input_datatype_a<span class="w">                        </span>Runtime<span class="w"> </span>data<span class="w"> </span><span class="nb">type</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>A<span class="w"> </span>matrix,<span class="w"> </span>narrow-precision<span class="w"> </span>only<span class="w"> </span><span class="o">(</span>e4m3,<span class="w"> </span>e5m2,<span class="w"> </span>e3m2,<span class="w"> </span>e2m3,<span class="w"> </span>e2m1<span class="o">)</span>
+<span class="w">  </span><span class="o">[</span>enum<span class="o">]</span><span class="w">      </span>--runtime_input_datatype_b<span class="w">                        </span>Runtime<span class="w"> </span>data<span class="w"> </span><span class="nb">type</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>B<span class="w"> </span>matrix,<span class="w"> </span>narrow-precision<span class="w"> </span>only<span class="w"> </span><span class="o">(</span>e4m3,<span class="w"> </span>e5m2,<span class="w"> </span>e3m2,<span class="w"> </span>e2m3,<span class="w"> </span>e2m1<span class="o">)</span>
+
+Examples:
+
+Profile<span class="w"> </span>a<span class="w"> </span>particular<span class="w"> </span>problem<span class="w"> </span>size:
+<span class="w">  </span>$<span class="w"> </span>cutlass_profiler<span class="w"> </span>--operation<span class="o">=</span>Gemm<span class="w"> </span>--m<span class="o">=</span><span class="m">1024</span><span class="w"> </span>--n<span class="o">=</span><span class="m">1024</span><span class="w"> </span>--k<span class="o">=</span><span class="m">128</span>
+
+Schmoo<span class="w"> </span>over<span class="w"> </span>problem<span class="w"> </span>size<span class="w"> </span>and<span class="w"> </span>beta:
+<span class="w">  </span>$<span class="w"> </span>cutlass_profiler<span class="w"> </span>--operation<span class="o">=</span>Gemm<span class="w"> </span>--m<span class="o">=</span><span class="m">1024</span>:4096:256<span class="w"> </span>--n<span class="o">=</span><span class="m">1024</span>:4096:256<span class="w"> </span>--k<span class="o">=</span><span class="m">128</span>:8192:128<span class="w"> </span>--beta<span class="o">=</span><span class="m">0</span>,1,2.5
+
+Schmoo<span class="w"> </span>over<span class="w"> </span>accumulator<span class="w"> </span>types:
+<span class="w">  </span>$<span class="w"> </span>cutlass_profiler<span class="w"> </span>--operation<span class="o">=</span>Gemm<span class="w"> </span>--accumulator-type<span class="o">=</span>f16,f32
+
+Run<span class="w"> </span>when<span class="w"> </span>A<span class="w"> </span>is<span class="w"> </span>f16<span class="w"> </span>with<span class="w"> </span>column-major<span class="w"> </span>and<span class="w"> </span>B<span class="w"> </span>is<span class="w"> </span>any<span class="w"> </span>datatype<span class="w"> </span>with<span class="w"> </span>row-major<span class="w"> </span><span class="o">(</span>For<span class="w"> </span>column<span class="w"> </span>major,<span class="w"> </span>use<span class="w"> </span>column,<span class="w"> </span>col,<span class="w"> </span>or<span class="w"> </span>n.<span class="w"> </span>For<span class="w"> </span>row<span class="w"> </span>major<span class="w"> </span>use,<span class="w"> </span>row<span class="w"> </span>or<span class="w"> </span>t<span class="o">)</span>:
+<span class="w">  </span>$<span class="w"> </span>cutlass_profiler<span class="w"> </span>--operation<span class="o">=</span>Gemm<span class="w"> </span>--A<span class="o">=</span>f16:column<span class="w"> </span>--B<span class="o">=</span>*:row
+
+Using<span class="w"> </span>various<span class="w"> </span>input<span class="w"> </span>value<span class="w"> </span>distribution:
+<span class="w">  </span>$<span class="w"> </span>cutlass_profiler<span class="w"> </span>--operation<span class="o">=</span>Gemm<span class="w"> </span>--dist<span class="o">=</span>uniform,min:0,max:3
+<span class="w">  </span>$<span class="w"> </span>cutlass_profiler<span class="w"> </span>--operation<span class="o">=</span>Gemm<span class="w"> </span>--dist<span class="o">=</span>gaussian,mean:0,stddev:3
+<span class="w">  </span>$<span class="w"> </span>cutlass_profiler<span class="w"> </span>--operation<span class="o">=</span>Gemm<span class="w"> </span>--dist<span class="o">=</span>sequential,start:0,delta:1
+
+Using<span class="w"> </span>CUTLASS<span class="w"> </span><span class="m">3</span>.x<span class="w"> </span>GEMM<span class="w"> </span>kernel<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span>tile<span class="w"> </span>scheduler<span class="w"> </span>that<span class="w"> </span>supports<span class="w"> </span>runtime<span class="w"> </span>tile<span class="w"> </span>remapping<span class="w"> </span>and<span class="w"> </span>raster<span class="w"> </span>mode<span class="w"> </span>order:
+<span class="w">  </span>$<span class="w"> </span>cutlass_profiler<span class="w"> </span>--operation<span class="o">=</span>Gemm<span class="w"> </span>--m<span class="o">=</span><span class="m">2048</span><span class="w"> </span>--n<span class="o">=</span><span class="m">2048</span><span class="w"> </span>--k<span class="o">=</span><span class="m">2048</span><span class="w"> </span>--raster_order<span class="o">=</span>M<span class="w"> </span>--swizzle_size<span class="o">=</span><span class="m">2</span>
+
+Run<span class="w"> </span>a<span class="w"> </span>kernel<span class="w"> </span>with<span class="w"> </span>cta<span class="w"> </span>tile<span class="w"> </span>size<span class="w"> </span>of<span class="w"> </span>256x128x32<span class="w"> </span>and<span class="w"> </span>save<span class="w"> </span>workspace<span class="w"> </span><span class="k">if</span><span class="w"> </span>results<span class="w"> </span>are<span class="w"> </span>incorrect<span class="w"> </span><span class="o">(</span>note<span class="w"> </span>that<span class="w"> </span>--cta-tile::k<span class="o">=</span><span class="m">32</span><span class="w"> </span>is<span class="w"> </span>default<span class="w"> </span>cta-tile<span class="w"> </span>size<span class="o">)</span>:
+<span class="w"> </span>$<span class="w"> </span>cutlass_profiler<span class="w"> </span>--operation<span class="o">=</span>Gemm<span class="w"> </span>--cta_m<span class="o">=</span><span class="m">256</span><span class="w"> </span>--cta_n<span class="o">=</span><span class="m">128</span><span class="w">  </span>--cta_k<span class="o">=</span><span class="m">32</span><span class="w"> </span>--save-workspace<span class="o">=</span>incorrect
+
+Test<span class="w"> </span>your<span class="w"> </span>changes<span class="w"> </span>to<span class="w"> </span>gemm<span class="w"> </span>kernels<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span>quick<span class="w"> </span>functional<span class="w"> </span><span class="nb">test</span><span class="w"> </span>and<span class="w"> </span>save<span class="w"> </span>results<span class="w"> </span><span class="k">in</span><span class="w"> </span>functional-test.csv:
+<span class="w"> </span>$<span class="w"> </span>cutlass_profiler<span class="w">  </span>--operation<span class="o">=</span>Gemm<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--m<span class="o">=</span><span class="m">8</span>,56,120,136,256,264,512,520,1024,1032,4096,8192,16384<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--n<span class="o">=</span><span class="m">8</span>,56,120,136,256,264,512,520,1024,1032,4096,8192,16384<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--k<span class="o">=</span><span class="m">8</span>,16,32,64,128,256,288,384,504,512,520<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--beta<span class="o">=</span><span class="m">0</span>,1,2<span class="w"> </span>--profiling-iterations<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--providers<span class="o">=</span>cutlass<span class="w"> </span>--output<span class="o">=</span>functional-test.csv
+
+Profile<span class="w"> </span>when<span class="w"> </span>execution<span class="w"> </span>is<span class="w"> </span>performed<span class="w"> </span>on<span class="w"> </span>device<span class="w"> </span><span class="m">0</span><span class="w"> </span>and<span class="w"> </span>the<span class="w"> </span>C<span class="w"> </span>tensor<span class="w"> </span>is<span class="w"> </span>located<span class="w"> </span>on<span class="w"> </span>a<span class="w"> </span>device<span class="w"> </span><span class="m">1</span><span class="w"> </span>and<span class="w"> </span>D<span class="w"> </span>on<span class="w"> </span>device<span class="w"> </span><span class="m">2</span>:
+<span class="w">  </span>$<span class="w"> </span>cutlass_profiler<span class="w"> </span>--device<span class="o">=</span><span class="m">0</span><span class="w"> </span>--allocations<span class="o">=</span>C:1,D:2<span class="w"> </span>--operation<span class="o">=</span>Gemm<span class="w"> </span>--m<span class="o">=</span><span class="m">1024</span><span class="w"> </span>--n<span class="o">=</span><span class="m">1024</span><span class="w"> </span>--k<span class="o">=</span><span class="m">128</span>
+</pre></div>
+</div>
+<p>The format of tensor argument is followed by <code class="docutils literal notranslate"><span class="pre">&lt;type&gt;:&lt;layout&gt;</span></code>. The type could be <code class="docutils literal notranslate"><span class="pre">f32</span></code> as 32-bit floating point, <code class="docutils literal notranslate"><span class="pre">s8</span></code> as 8-bit signed integer, etc. The available types can be referred to the <code class="docutils literal notranslate"><span class="pre">NumericTypeID_enumerants</span></code> in <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/tools/library/src/util.cu">util.cu</a>. The layout could be <code class="docutils literal notranslate"><span class="pre">row</span></code> or <code class="docutils literal notranslate"><span class="pre">column</span></code>. If <code class="docutils literal notranslate"><span class="pre">--enable_sm90_mixed_dtype_shuffle_test=true</span></code> is used, the actual layout of the narrow data type matrix is a shuffled layout, neither <code class="docutils literal notranslate"><span class="pre">row</span></code> nor <code class="docutils literal notranslate"><span class="pre">column</span></code>.</p>
+<p>In addition to encoded data types, CUTLASS profiler allows non-encoded generic data types, namely <code class="docutils literal notranslate"><span class="pre">f8</span></code>, <code class="docutils literal notranslate"><span class="pre">f6</span></code>, and <code class="docutils literal notranslate"><span class="pre">f4</span></code>, with corresponding encoding specified through GEMM input argument: <code class="docutils literal notranslate"><span class="pre">--runtime_input_datatype_a</span></code> and <code class="docutils literal notranslate"><span class="pre">--runtime_input_datatype_b</span></code>. Currently, six encoding schemes are supported: <code class="docutils literal notranslate"><span class="pre">e4m3</span></code>, <code class="docutils literal notranslate"><span class="pre">e5m2</span></code>, <code class="docutils literal notranslate"><span class="pre">e3m2</span></code>, <code class="docutils literal notranslate"><span class="pre">e2m3</span></code>, and <code class="docutils literal notranslate"><span class="pre">e2m1</span></code>.</p>
+<p>Cluster shapes can be statically set to <code class="docutils literal notranslate"><span class="pre">Shape&lt;int,int,_1&gt;;</span></code> and specified via runtime arguments: <code class="docutils literal notranslate"><span class="pre">cluster_m</span></code>, <code class="docutils literal notranslate"><span class="pre">cluster_n</span></code> and <code class="docutils literal notranslate"><span class="pre">cluster_k</span></code> in CUTLASS profiler.  In addition to preferred cluster shapes, a user can also specify fallback cluster shapes via runtime arguments: <code class="docutils literal notranslate"><span class="pre">cluster_m_fallback</span></code>, <code class="docutils literal notranslate"><span class="pre">cluster_n_fallback</span></code> and <code class="docutils literal notranslate"><span class="pre">cluster_k_fallback</span></code> in CUTLASS profiler. Those fallback cluster shapes are smaller shapes than the preferred ones for the hardware to assign when there is no chance to issue a larger preferred CGA cluster to the GPU. There are several rules for using a flexible CGA: 1) Preferred CGA size should be divisible by fallback CGA size. 2) Grid dim should be divisible by preferred CGA size. 3) Preferred CGA and fallback CGA must have the same depth (cluster_dim.z must be equal). One may refer to our CUTLASS Example <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/examples/73_blackwell_gemm_preferred_cluster/blackwell_gemm_preferred_cluster.cu">73_blackwell_gemm_flexible_cluster</a> for more details of the this feature.
+Please be noted that this feature (flexible cluster shapes within a single grid) is only applicable to <code class="docutils literal notranslate"><span class="pre">sm100a</span></code> kernels. The hardware will rasterize into a single cluster shape for those kernels that do not support this feature even with preferred or fallback cluster shapes assigned.</p>
+<p>CUTLASS 3.x kernels for Hopper and Blackwell also support a new feature called programatic dependent launch (PDL). This can be enabled with <code class="docutils literal notranslate"><span class="pre">--use-pdl</span></code>, and can overlap the epilogue of the prior kernel with the prologue of the next kernel. This can effectively hide kernel prologues. Using PDL can improve performance for back to back GEMMs. See <a class="reference internal" href="dependent_kernel_launch.html"><span class="std std-doc">dependent kernel launch</span></a> for more information. CUDA graphs can also be used (<code class="docutils literal notranslate"><span class="pre">--use-cuda-graphs</span></code>) with PDL to ensure that smaller kernels are enqueued back-to-back on a stream.</p>
+</section>
+<section id="exhaustive-search-mode-and-top-k-output-ranking-according-to-performance-in-gflops-s">
+<h2>Exhaustive search mode and top-k output ranking according to performance in GFLOPS/s<a class="headerlink" href="#exhaustive-search-mode-and-top-k-output-ranking-according-to-performance-in-gflops-s" title="Link to this heading">#</a></h2>
+<p>CUTLASS also allows a few options to enable searching best performing kernel in a broader parameter space.</p>
+<ol class="arabic simple">
+<li><p><strong>Sorting Performance Results by GFLOPs/second</strong><br />
+A new option enables users to sort the final performance report based on GFLOPs/second, making it easier to identify the most efficient kernels.</p></li>
+<li><p><strong>Exhaustive Search for Best Kernel Performance in GFLOPs/second</strong><br />
+This feature allows the profiler to search for the best-performing kernel across a range of problem sizes, swizzle sizes, rasterization orders, and dynamic cluster configurations. It ensures that all viable configurations are considered to maximize performance.</p></li>
+<li><p><strong>Performance Search Under a Fixed GEMM Shape</strong><br />
+This option enables exhaustive performance tuning for a specific problem size. Unlike the previous feature, this restricts the search to a fixed GEMM shape while still exploring various kernel parameters to find the best configuration.</p></li>
+</ol>
+<section id="usage-examples">
+<h3>Usage Examples<a class="headerlink" href="#usage-examples" title="Link to this heading">#</a></h3>
+<section id="finding-the-best-performing-kernel">
+<h4>1. Finding the Best Performing Kernel<a class="headerlink" href="#finding-the-best-performing-kernel" title="Link to this heading">#</a></h4>
+<p>Use the following command to conduct an exhaustive search and sort results by GFLOPs/second:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cutlass_profiler<span class="w"> </span>--kernels<span class="o">=</span>*gemm*<span class="w"> </span>--enable-kernel-performance-search<span class="w"> </span>--sort-results-flops-per-sec
+</pre></div>
+</div>
+</section>
+<section id="performance-optimization-for-a-fixed-gemm-shape">
+<h4>2. Performance Optimization for a Fixed GEMM Shape<a class="headerlink" href="#performance-optimization-for-a-fixed-gemm-shape" title="Link to this heading">#</a></h4>
+<p>To optimize kernel performance for a specific GEMM problem size:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cutlass_profiler<span class="w"> </span>--kernels<span class="o">=</span>*gemm*<span class="w"> </span>--enable-best-kernel-for-fixed-shape<span class="w"> </span>--m<span class="o">=</span><span class="m">6144</span><span class="w"> </span>--n<span class="o">=</span><span class="m">6144</span><span class="w"> </span>--k<span class="o">=</span><span class="m">6144</span><span class="w"> </span>--sort-results-flops-per-sec
+</pre></div>
+</div>
+<p>To search optimized kernel performance for a series of GEMM shapes (m, n, k = 1024, 2048):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cutlass_profiler<span class="w"> </span>--kernels<span class="o">=</span>*gemm*<span class="w"> </span>--enable-best-kernel-for-fixed-shape<span class="w"> </span>--m<span class="o">=</span><span class="m">1024</span>,2048<span class="w"> </span>--n<span class="o">=</span><span class="m">1024</span>,2048<span class="w"> </span>--k<span class="o">=</span><span class="m">1024</span>,2048<span class="w"> </span>--sort-results-flops-per-sec
+</pre></div>
+</div>
+<p>It is worth noting that by enabling exhaustive performance search via <code class="docutils literal notranslate"><span class="pre">--enable-kernel-performance-search</span></code>, a user is still able and responsible to decide parameters like data distribution in argument list, for which a user can choose <code class="docutils literal notranslate"><span class="pre">--dist=uniform,min:-1,max:1,scale:-1</span></code> to initialize a tensor with floating point numbers in uniform distribution. Otherwise, those parameters will be initialized to their default values.</p>
+<p>For examples above, one can change the kernel filtering regex according to their own use cases.</p>
+</section>
+</section>
+</section>
+<section id="example-cuda-core-gemm-operation">
+<h2>Example CUDA Core GEMM Operation<a class="headerlink" href="#example-cuda-core-gemm-operation" title="Link to this heading">#</a></h2>
+<p>Example command line for profiling SGEMM kernels is as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>./tools/profiler/cutlass_profiler<span class="w"> </span>--kernels<span class="o">=</span>sgemm<span class="w"> </span>--m<span class="o">=</span><span class="m">3456</span><span class="w"> </span>--n<span class="o">=</span><span class="m">4096</span><span class="w"> </span>--k<span class="o">=</span><span class="nv">4096</span>
+
+
+
+<span class="o">=============================</span>
+<span class="w">  </span>Problem<span class="w"> </span>ID:<span class="w"> </span><span class="m">1</span>
+
+<span class="w">        </span>Provider:<span class="w"> </span>CUTLASS
+<span class="w">   </span>OperationKind:<span class="w"> </span>gemm
+<span class="w">       </span>Operation:<span class="w"> </span>cutlass_simt_sgemm_128x128_8x2_nn_align1
+
+<span class="w">          </span>Status:<span class="w"> </span>Success
+<span class="w">    </span>Verification:<span class="w"> </span>ON
+<span class="w">     </span>Disposition:<span class="w"> </span>Passed
+
+<span class="w">          </span>cuBLAS:<span class="w"> </span>Passed
+
+<span class="w">       </span>Arguments:<span class="w"> </span>--m<span class="o">=</span><span class="m">3456</span><span class="w"> </span>--n<span class="o">=</span><span class="m">4096</span><span class="w"> </span>--k<span class="o">=</span><span class="m">4096</span><span class="w"> </span>--A<span class="o">=</span>f32:column<span class="w"> </span>--B<span class="o">=</span>f32:column<span class="w"> </span>--C<span class="o">=</span>f32:column<span class="w"> </span>--alpha<span class="o">=</span><span class="m">1</span><span class="w"> </span>--beta<span class="o">=</span><span class="m">0</span><span class="w"> </span>--split_k_slices<span class="o">=</span><span class="m">1</span><span class="w">  </span><span class="se">\</span>
+<span class="w">                  </span>--batch_count<span class="o">=</span><span class="m">1</span><span class="w"> </span>--op_class<span class="o">=</span>simt<span class="w"> </span>--accum<span class="o">=</span>f32<span class="w"> </span>--cta_m<span class="o">=</span><span class="m">128</span><span class="w"> </span>--cta_n<span class="o">=</span><span class="m">128</span><span class="w"> </span>--cta_k<span class="o">=</span><span class="m">8</span><span class="w"> </span>--stages<span class="o">=</span><span class="m">2</span><span class="w"> </span>--warps_m<span class="o">=</span><span class="m">4</span><span class="w">  </span><span class="se">\</span>
+<span class="w">                  </span>--warps_n<span class="o">=</span><span class="m">2</span><span class="w"> </span>--warps_k<span class="o">=</span><span class="m">1</span><span class="w"> </span>--inst_m<span class="o">=</span><span class="m">1</span><span class="w"> </span>--inst_n<span class="o">=</span><span class="m">1</span><span class="w"> </span>--inst_k<span class="o">=</span><span class="m">1</span><span class="w"> </span>--min_cc<span class="o">=</span><span class="m">50</span><span class="w"> </span>--max_cc<span class="o">=</span><span class="m">1024</span>
+
+<span class="w">           </span>Bytes:<span class="w"> </span><span class="m">180355072</span><span class="w">  </span>bytes
+<span class="w">           </span>FLOPs:<span class="w"> </span><span class="m">115992428544</span><span class="w">  </span>flops
+
+<span class="w">         </span>Runtime:<span class="w"> </span><span class="m">6</span>.73655<span class="w">  </span>ms
+<span class="w">          </span>Memory:<span class="w"> </span><span class="m">24</span>.934<span class="w"> </span>GiB/s
+
+<span class="w">            </span>Math:<span class="w"> </span><span class="m">17218</span>.4<span class="w"> </span>GFLOP/s
+</pre></div>
+</div>
+<p>Note, the arguments which appear in the output may be used as command line parameters for subsequent invocations.</p>
+</section>
+<section id="example-tensor-core-gemm-operations">
+<h2>Example Tensor Core GEMM Operations<a class="headerlink" href="#example-tensor-core-gemm-operations" title="Link to this heading">#</a></h2>
+<p>To execute kernels targeting Tensor Core operations, supply the flag <code class="docutils literal notranslate"><span class="pre">--op_class=tensorop</span></code> in the command line.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>./tools/profiler/cutlass_profiler<span class="w"> </span>--op_class<span class="o">=</span>tensorop<span class="w"> </span>--m<span class="o">=</span><span class="m">3456</span><span class="w"> </span>--n<span class="o">=</span><span class="m">4096</span><span class="w"> </span>--k<span class="o">=</span><span class="nv">8192</span>
+
+
+
+<span class="o">=============================</span>
+<span class="w">  </span>Problem<span class="w"> </span>ID:<span class="w"> </span><span class="m">1</span>
+
+<span class="w">        </span>Provider:<span class="w"> </span>CUTLASS
+<span class="w">   </span>OperationKind:<span class="w"> </span>gemm
+<span class="w">       </span>Operation:<span class="w"> </span>cutlass_tensorop_s16816gemm_f16_256x128_32x3_nn_align8
+
+<span class="w">          </span>Status:<span class="w"> </span>Success
+<span class="w">    </span>Verification:<span class="w"> </span>ON
+<span class="w">     </span>Disposition:<span class="w"> </span>Passed
+
+<span class="w">          </span>cuBLAS:<span class="w"> </span>Passed
+
+<span class="w">       </span>Arguments:<span class="w"> </span>--m<span class="o">=</span><span class="m">3456</span><span class="w"> </span>--n<span class="o">=</span><span class="m">4096</span><span class="w"> </span>--k<span class="o">=</span><span class="m">8192</span><span class="w"> </span>--A<span class="o">=</span>f16:column<span class="w"> </span>--B<span class="o">=</span>f16:column<span class="w"> </span>--C<span class="o">=</span>f32:column<span class="w"> </span>--alpha<span class="o">=</span><span class="m">1</span><span class="w"> </span>--beta<span class="o">=</span><span class="m">0</span><span class="w"> </span>--split_k_slices<span class="o">=</span><span class="m">1</span><span class="w">  </span><span class="se">\</span>
+<span class="w">                  </span>--batch_count<span class="o">=</span><span class="m">1</span><span class="w"> </span>--op_class<span class="o">=</span>tensorop<span class="w"> </span>--accum<span class="o">=</span>f32<span class="w"> </span>--cta_m<span class="o">=</span><span class="m">256</span><span class="w"> </span>--cta_n<span class="o">=</span><span class="m">128</span><span class="w"> </span>--cta_k<span class="o">=</span><span class="m">32</span><span class="w"> </span>--stages<span class="o">=</span><span class="m">3</span><span class="w"> </span>--warps_m<span class="o">=</span><span class="m">4</span><span class="w">  </span><span class="se">\</span>
+<span class="w">                  </span>--warps_n<span class="o">=</span><span class="m">2</span><span class="w"> </span>--warps_k<span class="o">=</span><span class="m">1</span><span class="w"> </span>--inst_m<span class="o">=</span><span class="m">16</span><span class="w"> </span>--inst_n<span class="o">=</span><span class="m">8</span><span class="w"> </span>--inst_k<span class="o">=</span><span class="m">16</span><span class="w"> </span>--min_cc<span class="o">=</span><span class="m">80</span><span class="w"> </span>--max_cc<span class="o">=</span><span class="m">1024</span>
+
+<span class="w">           </span>Bytes:<span class="w"> </span><span class="m">180355072</span><span class="w">  </span>bytes
+<span class="w">           </span>FLOPs:<span class="w"> </span><span class="m">231956545536</span><span class="w">  </span>flops
+
+<span class="w">         </span>Runtime:<span class="w"> </span><span class="m">0</span>.98647<span class="w">  </span>ms
+<span class="w">          </span>Memory:<span class="w"> </span><span class="m">170</span>.272<span class="w"> </span>GiB/s
+
+<span class="w">            </span>Math:<span class="w"> </span><span class="m">235138</span><span class="w"> </span>GFLOP/s
+</pre></div>
+</div>
+</section>
+<section id="covering-the-problem-space">
+<h2>Covering the problem space<a class="headerlink" href="#covering-the-problem-space" title="Link to this heading">#</a></h2>
+<p>All arguments may have single values or comma-delimited set of values. Integers may also be specified
+as an inclusive range with the following syntax <code class="docutils literal notranslate"><span class="pre">start:end:increment</span></code> or simply <code class="docutils literal notranslate"><span class="pre">start:end</span></code>.</p>
+<p>For example, the following sweeps over the range of the GEMM K dimension from 8 to 4096 in increments
+of 8 elements.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>./tools/profiler/cutlass_profiler<span class="w"> </span>--kernels<span class="o">=</span>cutlass_simt_sgemm_128x128_nn<span class="w"> </span>--m<span class="o">=</span><span class="m">4352</span><span class="w"> </span>--n<span class="o">=</span><span class="m">4096</span><span class="w"> </span>--k<span class="o">=</span><span class="m">8</span>:4096:8
+</pre></div>
+</div>
+</section>
+<section id="output">
+<h2>Output<a class="headerlink" href="#output" title="Link to this heading">#</a></h2>
+<p>By default, runtime and computed GFLOP/s are reported for each operation and problem size. Additionally,
+a table of comma separated values are reported at the end of the execution. This may be output to a file
+with the <code class="docutils literal notranslate"><span class="pre">--output=&lt;filename.csv&gt;</span></code> command line option as shown:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>./tools/profiler/cutlass_profiler<span class="w"> </span>--kernels<span class="o">=</span>cutlass_simt_sgemm_128x128_nn<span class="w">            </span><span class="se">\</span>
+<span class="w">                                    </span>--m<span class="o">=</span><span class="m">3456</span><span class="w"> </span>--n<span class="o">=</span><span class="m">4096</span><span class="w"> </span>--k<span class="o">=</span><span class="m">8</span>:4096:8<span class="w"> </span>--output<span class="o">=</span>report.csv
+</pre></div>
+</div>
+<p>To faclitate generation of pivot tables and charts, additional columns may be prepended with the
+<code class="docutils literal notranslate"><span class="pre">--tags=&lt;column&gt;:&lt;value&gt;</span></code> option. One or more tags may be specified using a comma-delimited list.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>./tools/profiler/cutlass_profiler<span class="w"> </span>--kernels<span class="o">=</span>cutlass_simt_sgemm_128x128_nn<span class="w">            </span><span class="se">\</span>
+<span class="w">                                    </span>--m<span class="o">=</span><span class="m">3456</span><span class="w"> </span>--n<span class="o">=</span><span class="m">4096</span><span class="w"> </span>--k<span class="o">=</span><span class="m">8</span>:4096:8<span class="w"> </span>--output<span class="o">=</span>report.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">                                    </span>--tags<span class="o">=</span>cutlass:2.2,date:2020-06-08
+</pre></div>
+</div>
+</section>
+<section id="cutlass-3-0-gemm-procedural-names">
+<h2>CUTLASS 3.0 GEMM procedural names<a class="headerlink" href="#cutlass-3-0-gemm-procedural-names" title="Link to this heading">#</a></h2>
+<p>CUTLASS 3.0 introduces a new naming convention for GEMMs used by the profiler targeting the NVIDIA
+Hopper architecture and beyond so as to indicate new features of the kernel within the name
+(e.g., the cluster shape).</p>
+<p>To best illustrate this naming convention, we will walk through the meaning of each of the components
+in a GEMM kernel used by the profiler:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cutlass3x_sm90_tensorop_s64x128x16gemm_f16_f16_f32_f16_f32_</span><span class="p">{</span><span class="n">optional</span><span class="o">-</span><span class="n">mixed</span><span class="o">-</span><span class="n">dtype</span><span class="o">-</span><span class="n">config</span><span class="p">}</span><span class="n">_128x128x64_2x1x1_0_ntn_align8</span>
+</pre></div>
+</div>
+<p>The components within this name are as follows:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cutlass3x</span></code>: indicates that the kernel was generated through the CUTLASS 3.0 API</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sm90</span></code>: indicates that the kernel targets NVIDIA GPUs with compute capability 90</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tensorop</span></code>: indicates that the kernel makes use of NVIDIA Tensor Cores
+(as opposed to <code class="docutils literal notranslate"><span class="pre">simt</span></code>, which indicates the use of “CUDA cores”)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">s</span></code>: indicates that the Tensor Core instruction being used accumulates in single precision
+(as opposed to <code class="docutils literal notranslate"><span class="pre">h</span></code>, which indicates half precision)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">64x128x16gemm</span></code>: indicates that the shape of the Tensor Core instruction being used (MxNxK) is 64x128x16</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">f16_f16_f32_f16_f16</span></code>: indicates that the data types for operands A, B, Accumulator, C and D (in that order).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">optional-mixed-dtype-config</span></code>: optional, will be empty if this is not a mixed dtype kernel. For mixed dtype kernels, it contains <code class="docutils literal notranslate"><span class="pre">_cvt</span></code>, <code class="docutils literal notranslate"><span class="pre">_scl</span></code>, <code class="docutils literal notranslate"><span class="pre">_sclzr</span></code>, respectively, for convert-only, scale-only, scale-with-zero-point running modes. It further contains <code class="docutils literal notranslate"><span class="pre">_shfl</span></code> if the kernel uses a shuffled layout for the narrow data type input matrix.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">128x128x64</span></code>: indicates that the thread block shape used in the GEMM (MxNxK) is 128x128x64</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">2x1x1</span></code>: indicates that the cluster shape being used is 2x1x1</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: indicates that the kernel uses the CollectiveBuilder’s automatic stage calculation to determine the
+number of pipeline stages in the kernel. Note that <code class="docutils literal notranslate"><span class="pre">0</span></code> does not mean that no stages are used. A nonzero value indicates that automatic stage calculation is not performed and indicates the number of pipeline stages to be used.
+This 0 is only added to the kernel’s procedural name, the profiler will still report the actual stage count
+when printing the kernel argument details (<code class="docutils literal notranslate"><span class="pre">--stages=N</span></code>) and kernel discovery will still support filtering through the <code class="docutils literal notranslate"><span class="pre">--stages</span></code> argument.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ntn</span></code>: indicates that the layouts for operands A, B, and C are column major (“n”; non-transposed),
+row major (“t”; transposed), and column major, respectively.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">align8</span></code>: indicates that the maximum alignment between operands A and B is 8.</p></li>
+</ul>
+<p>Note that in some special cases where the input A/B types do not match that of the MMA
+instruction’s, the MMA facing input type is added to the instruction string as well.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cutlass3x_sm90_tensorop_s64x128x8tf32gemm_f32_f32_f32_f32_f32_128x128x32_2x1x1_0_tnn_align4</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">s64x128x8tf32gemm</span></code>: indicates that the MMA consumes inputs in <code class="docutils literal notranslate"><span class="pre">tf32</span></code> format, and therefore
+the kernel performs rounding of the <code class="docutils literal notranslate"><span class="pre">f32</span></code> values in global memory while loading them into shared memory.</p></li>
+</ul>
+<p>For custom mainloop or epilogue schedules, details of the opted-in schedule are appended to the end of the
+kernel name. For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cutlass3x_sm90_tensorop_h64x128x16gemm_f16_f16_f16_void_f16_128x128x64_1x1x1_0_nnn_align8_warpspecialized_cooperative_epi_tma</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">warpspecialized_cooperative</span></code>: Mainloop employs a persistent warp-specialized mainloop and kernel schedule.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">epi_tma</span></code>: Kernel epilogue employs TMA based vectorization.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">f16_f16_f16_void_f16</span></code>: In this case, C type is set to <code class="docutils literal notranslate"><span class="pre">void</span></code>, indicating that residual matrix support
+is disabled.</p></li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="convolution">
+<h1>Convolution<a class="headerlink" href="#convolution" title="Link to this heading">#</a></h1>
+<p>The CUTLASS Profiler is capable of executing 2-D and 3-D convolution problems for forwards and backwards
+operator variants.</p>
+<p>The CUTLASS Profiler can be built with cuDNN enabled to use as a reference implementation. If CMake detects
+the cuDNN library available in the system, it is included as a dependency. This may be explicitly overridden
+with CMake flag <code class="docutils literal notranslate"><span class="pre">CUTLASS_ENABLE_CUDNN</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cmake<span class="w"> </span>..<span class="w"> </span>-DCUTLASS_LIBRARY_OPERATIONS<span class="o">=</span>conv2d<span class="w"> </span>-DCUTLASS_ENABLE_CUDNN<span class="o">=</span>OFF
+...
+$<span class="w"> </span>make<span class="w"> </span>-j16<span class="w"> </span>cutlass_profiler
+</pre></div>
+</div>
+<section id="convolution-arguments">
+<h2>Convolution Arguments<a class="headerlink" href="#convolution-arguments" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>./tools/profiler/cutlass_profiler<span class="w"> </span>--help<span class="w"> </span>--operation<span class="o">=</span>Conv2d
+
+Conv2d
+
+<span class="w">  </span><span class="o">[</span>enum<span class="o">]</span><span class="w">      </span>--conv_kind<span class="w">                                       </span>Convolutional<span class="w"> </span>operator<span class="w"> </span><span class="o">(</span>fprop,<span class="w"> </span>dgrad,<span class="w"> </span>wgrad<span class="o">)</span>
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--n,--input_n<span class="w">                                     </span>Input<span class="w"> </span>N<span class="w"> </span>dimension<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>Conv2d<span class="w"> </span>problem<span class="w"> </span>space
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--h,--input_h<span class="w">                                     </span>Input<span class="w"> </span>H<span class="w"> </span>dimension<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>Conv2d<span class="w"> </span>problem<span class="w"> </span>space
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--w,--input_w<span class="w">                                     </span>Input<span class="w"> </span>W<span class="w"> </span>dimension<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>Conv2d<span class="w"> </span>problem<span class="w"> </span>space
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--c,--input_c<span class="w">                                     </span>Input<span class="w"> </span>C<span class="w"> </span>dimension<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>Conv2d<span class="w"> </span>problem<span class="w"> </span>space
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--k,--filter_k<span class="w">                                    </span>Filter<span class="w"> </span>K<span class="w"> </span>dimension<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>Conv2d<span class="w"> </span>problem<span class="w"> </span>space
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--r,--filter_r<span class="w">                                    </span>Filter<span class="w"> </span>R<span class="w"> </span>dimension<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>Conv2d<span class="w"> </span>problem<span class="w"> </span>space
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--s,--filter_s<span class="w">                                    </span>Filter<span class="w"> </span>S<span class="w"> </span>dimension<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>Conv2d<span class="w"> </span>problem<span class="w"> </span>space
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--p,--output_p<span class="w">                                    </span>Output<span class="w"> </span>P<span class="w"> </span>dimension<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>Conv2d<span class="w"> </span>problem<span class="w"> </span>space
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--q,--output_q<span class="w">                                    </span>Output<span class="w"> </span>Q<span class="w"> </span>dimension<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>Conv2d<span class="w"> </span>problem<span class="w"> </span>space
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--g,--groups<span class="w">                                      </span>Number<span class="w"> </span>of<span class="w"> </span>convolution<span class="w"> </span>groups
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--pad_h<span class="w">                                           </span>Padding<span class="w"> </span><span class="k">in</span><span class="w"> </span>H<span class="w"> </span>direction
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--pad_w<span class="w">                                           </span>Padding<span class="w"> </span><span class="k">in</span><span class="w"> </span>W<span class="w"> </span>direction
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--stride_h<span class="w">                                        </span>Stride<span class="w"> </span><span class="k">in</span><span class="w"> </span>H<span class="w"> </span>direction
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--stride_w<span class="w">                                        </span>Stride<span class="w"> </span><span class="k">in</span><span class="w"> </span>W<span class="w"> </span>direction
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--dilation_h<span class="w">                                      </span>Dilation<span class="w"> </span><span class="k">in</span><span class="w"> </span>H<span class="w"> </span>direction
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--dilation_w<span class="w">                                      </span>Dilation<span class="w"> </span><span class="k">in</span><span class="w"> </span>W<span class="w"> </span>direction
+<span class="w">  </span><span class="o">[</span>tensor<span class="o">]</span><span class="w">    </span>--Activation<span class="w">                                      </span>Tensor<span class="w"> </span>storing<span class="w"> </span>the<span class="w"> </span>Activation<span class="w"> </span>operand
+<span class="w">  </span><span class="o">[</span>tensor<span class="o">]</span><span class="w">    </span>--Filter<span class="w">                                          </span>Tensor<span class="w"> </span>storing<span class="w"> </span>the<span class="w"> </span>Filter<span class="w"> </span>operand
+<span class="w">  </span><span class="o">[</span>tensor<span class="o">]</span><span class="w">    </span>--Output<span class="w">                                          </span>Tensor<span class="w"> </span>storing<span class="w"> </span>the<span class="w"> </span>Output<span class="w"> </span>operand
+<span class="w">  </span><span class="o">[</span>enum<span class="o">]</span><span class="w">      </span>--conv_mode<span class="w">                                       </span>Convolution<span class="w"> </span>filter<span class="w"> </span>mode<span class="w"> </span><span class="o">(</span>conv,<span class="w"> </span>cross<span class="o">)</span>
+<span class="w">  </span><span class="o">[</span>enum<span class="o">]</span><span class="w">      </span>--iterator_algorithm,--iterator_algo<span class="w">              </span>Convolution<span class="w"> </span>iterator<span class="w"> </span>algorithm<span class="w"> </span><span class="o">(</span>analytic,<span class="w"> </span>optimized<span class="o">)</span>
+<span class="w">  </span><span class="o">[</span>scalar<span class="o">]</span><span class="w">    </span>--alpha,--epilogue::alpha<span class="w">                         </span>Epilogue<span class="w"> </span>scalar<span class="w"> </span>alpha
+<span class="w">  </span><span class="o">[</span>scalar<span class="o">]</span><span class="w">    </span>--beta,--epilogue::beta<span class="w">                           </span>Epilogue<span class="w"> </span>scalar<span class="w"> </span>beta
+<span class="w">  </span><span class="o">[</span>enum<span class="o">]</span><span class="w">      </span>--split_k_mode,--split-k-mode<span class="w">                     </span>SplitK<span class="w"> </span>mode<span class="w"> </span><span class="k">for</span><span class="w"> </span>serial<span class="w"> </span>or<span class="w"> </span>parallel<span class="w"> </span>reduction<span class="w"> </span><span class="o">(</span>serial,<span class="w"> </span>parallel<span class="o">)</span>
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--split_k_slices,--split-k-slices<span class="w">                 </span>Number<span class="w"> </span>of<span class="w"> </span>partitions<span class="w"> </span>of<span class="w"> </span>K<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>enum<span class="o">]</span><span class="w">      </span>--eq_gemm_provider,--eq-gemm-provider<span class="w">             </span>Enable<span class="w"> </span>profiling<span class="w"> </span>equivalent<span class="w"> </span>gemm<span class="w"> </span>by<span class="w"> </span>the<span class="w"> </span>following<span class="w"> </span>providers<span class="w"> </span><span class="o">(</span>cutlass<span class="o">)</span>
+<span class="w">  </span><span class="o">[</span>enum<span class="o">]</span><span class="w">      </span>--op_class,--opcode-class<span class="w">                         </span>Class<span class="w"> </span>of<span class="w"> </span>math<span class="w"> </span>instruction<span class="w"> </span><span class="o">(</span>simt,<span class="w"> </span>tensorop,<span class="w"> </span>wmmatensorop,<span class="w"> </span>wmma<span class="o">)</span>
+<span class="w">  </span><span class="o">[</span>enum<span class="o">]</span><span class="w">      </span>--accum,--accumulator-type<span class="w">                        </span>Math<span class="w"> </span>instruction<span class="w"> </span>accumulator<span class="w"> </span>data<span class="w"> </span><span class="nb">type</span>
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cta_m,--threadblock-shape::m<span class="w">                    </span>Threadblock<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>M<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cta_n,--threadblock-shape::n<span class="w">                    </span>Threadblock<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>N<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cta_k,--threadblock-shape::k<span class="w">                    </span>Threadblock<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>K<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cluster_m,--cluster-shape::m<span class="w">                    </span>Cluster<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>M<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cluster_n,--cluster-shape::n<span class="w">                    </span>Cluster<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>N<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cluster_k,--cluster-shape::k<span class="w">                    </span>Cluster<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>K<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cluster_m_fallback,--cluster-shape-fallback::m<span class="w">  </span>Fallback<span class="w"> </span>cluster<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>M<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cluster_n_fallback,--cluster-shape-fallback::n<span class="w">  </span>Fallback<span class="w"> </span>cluster<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>N<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--cluster_k_fallback,--cluster-shape-fallback::k<span class="w">  </span>Fallback<span class="w"> </span>cluster<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>K<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--stages,--threadblock-stages<span class="w">                     </span>Number<span class="w"> </span>of<span class="w"> </span>stages<span class="w"> </span>of<span class="w"> </span>threadblock-scoped<span class="w"> </span>matrix<span class="w"> </span>multiply
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--warps_m,--warp-count::m<span class="w">                         </span>Number<span class="w"> </span>of<span class="w"> </span>warps<span class="w"> </span>within<span class="w"> </span>threadblock<span class="w"> </span>along<span class="w"> </span>the<span class="w"> </span>M<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--warps_n,--warp-count::n<span class="w">                         </span>Number<span class="w"> </span>of<span class="w"> </span>warps<span class="w"> </span>within<span class="w"> </span>threadblock<span class="w"> </span>along<span class="w"> </span>the<span class="w"> </span>N<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--warps_k,--warp-count::k<span class="w">                         </span>Number<span class="w"> </span>of<span class="w"> </span>warps<span class="w"> </span>within<span class="w"> </span>threadblock<span class="w"> </span>along<span class="w"> </span>the<span class="w"> </span>K<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--inst_m,--instruction-shape::m<span class="w">                   </span>Math<span class="w"> </span>instruction<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>M<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--inst_n,--instruction-shape::n<span class="w">                   </span>Math<span class="w"> </span>instruction<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>N<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--inst_k,--instruction-shape::k<span class="w">                   </span>Math<span class="w"> </span>instruction<span class="w"> </span>shape<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>K<span class="w"> </span>dimension
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--min_cc,--minimum-compute-capability<span class="w">             </span>Minimum<span class="w"> </span>device<span class="w"> </span>compute<span class="w"> </span>capability
+<span class="w">  </span><span class="o">[</span>int<span class="o">]</span><span class="w">       </span>--max_cc,--maximum-compute-capability<span class="w">             </span>Maximum<span class="w"> </span>device<span class="w"> </span>compute<span class="w"> </span>capability
+
+Examples:
+
+Profile<span class="w"> </span>a<span class="w"> </span>particular<span class="w"> </span>convolution<span class="w"> </span><span class="o">(</span>specify<span class="w"> </span>all<span class="w"> </span>the<span class="w"> </span>convolution<span class="w"> </span>parameters<span class="o">)</span>:
+<span class="w"> </span>$<span class="w"> </span>cutlass_profiler<span class="w"> </span>--operation<span class="o">=</span>Conv2d<span class="w"> </span>--Activation<span class="o">=</span>f16:nhwc<span class="w"> </span>--Filter<span class="o">=</span>f16:nhwc<span class="w"> </span>--Output<span class="o">=</span>f16<span class="w"> </span>--accumulator-type<span class="o">=</span>f32<span class="w"> </span>--n<span class="o">=</span><span class="m">32</span><span class="w"> </span>--h<span class="o">=</span><span class="m">14</span><span class="w"> </span>--w<span class="o">=</span><span class="m">14</span><span class="w"> </span>--c<span class="o">=</span><span class="m">8</span><span class="w"> </span>--k<span class="o">=</span><span class="m">64</span><span class="w"> </span>--r<span class="o">=</span><span class="m">3</span><span class="w"> </span>--s<span class="o">=</span><span class="m">3</span><span class="w"> </span>--pad_h<span class="o">=</span><span class="m">1</span><span class="w"> </span>--pad_w<span class="o">=</span><span class="m">1</span><span class="w"> </span>--stride_h<span class="o">=</span><span class="m">1</span><span class="w"> </span>--stride_w<span class="o">=</span><span class="m">1</span><span class="w"> </span>--dilation_h<span class="o">=</span><span class="m">1</span><span class="w"> </span>--dilation_w<span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+</section>
+<section id="example-cuda-core-convolution-operation">
+<h2>Example CUDA Core Convolution Operation<a class="headerlink" href="#example-cuda-core-convolution-operation" title="Link to this heading">#</a></h2>
+<p>Example command line for profiling forward propagation convolution kernels on CUDA cores is as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>./tools/profiler/cutlass_profiler<span class="w"> </span>--kernels<span class="o">=</span>simt_sfprop<span class="w">  </span>--verification-providers<span class="o">=</span>device<span class="w"> </span>--n<span class="o">=</span><span class="m">8</span><span class="w"> </span>--h<span class="o">=</span><span class="m">224</span><span class="w"> </span>--w<span class="o">=</span><span class="m">224</span><span class="w"> </span>--c<span class="o">=</span><span class="m">128</span><span class="w"> </span>--k<span class="o">=</span><span class="m">128</span><span class="w"> </span>--r<span class="o">=</span><span class="m">3</span><span class="w"> </span>--s<span class="o">=</span><span class="nv">3</span>
+
+
+<span class="o">=============================</span>
+<span class="w">  </span>Problem<span class="w"> </span>ID:<span class="w"> </span><span class="m">1</span>
+
+<span class="w">        </span>Provider:<span class="w"> </span>CUTLASS
+<span class="w">   </span>OperationKind:<span class="w"> </span>conv2d
+<span class="w">       </span>Operation:<span class="w"> </span>cutlass_simt_sfprop_optimized_128x128_8x2_nhwc
+
+<span class="w">          </span>Status:<span class="w"> </span>Success
+<span class="w">    </span>Verification:<span class="w"> </span>ON
+<span class="w">     </span>Disposition:<span class="w"> </span>Passed
+
+reference_device:<span class="w"> </span>Passed
+
+<span class="w">       </span>Arguments:<span class="w"> </span>--conv_kind<span class="o">=</span>fprop<span class="w"> </span>--n<span class="o">=</span><span class="m">8</span><span class="w"> </span>--h<span class="o">=</span><span class="m">224</span><span class="w"> </span>--w<span class="o">=</span><span class="m">224</span><span class="w"> </span>--c<span class="o">=</span><span class="m">128</span><span class="w"> </span>--k<span class="o">=</span><span class="m">128</span><span class="w"> </span>--r<span class="o">=</span><span class="m">3</span><span class="w"> </span>--s<span class="o">=</span><span class="m">3</span><span class="w"> </span>--p<span class="o">=</span><span class="m">224</span><span class="w"> </span>--q<span class="o">=</span><span class="m">224</span><span class="w"> </span>--pad_h<span class="o">=</span><span class="m">1</span><span class="w"> </span>--pad_w<span class="o">=</span><span class="m">1</span><span class="w">  </span><span class="se">\</span>
+<span class="w">                  </span>--stride_h<span class="o">=</span><span class="m">1</span><span class="w"> </span>--stride_w<span class="o">=</span><span class="m">1</span><span class="w"> </span>--dilation_h<span class="o">=</span><span class="m">1</span><span class="w"> </span>--dilation_w<span class="o">=</span><span class="m">1</span><span class="w"> </span>--Activation<span class="o">=</span>f32:nhwc<span class="w"> </span>--Filter<span class="o">=</span>f32:nhwc<span class="w"> </span>--Output<span class="o">=</span>f32:nhwc<span class="w">  </span><span class="se">\</span>
+<span class="w">                  </span>--conv_mode<span class="o">=</span>cross<span class="w"> </span>--iterator_algorithm<span class="o">=</span>optimized<span class="w"> </span>--alpha<span class="o">=</span><span class="m">1</span><span class="w"> </span>--beta<span class="o">=</span><span class="m">0</span><span class="w"> </span>--split_k_mode<span class="o">=</span>serial<span class="w"> </span>--split_k_slices<span class="o">=</span><span class="m">1</span><span class="w">  </span><span class="se">\</span>
+<span class="w">                  </span>--eq_gemm_provider<span class="o">=</span>none<span class="w"> </span>--op_class<span class="o">=</span>simt<span class="w"> </span>--accum<span class="o">=</span>f32<span class="w"> </span>--cta_m<span class="o">=</span><span class="m">128</span><span class="w"> </span>--cta_n<span class="o">=</span><span class="m">128</span><span class="w"> </span>--cta_k<span class="o">=</span><span class="m">8</span><span class="w"> </span>--stages<span class="o">=</span><span class="m">2</span><span class="w"> </span>--warps_m<span class="o">=</span><span class="m">4</span><span class="w">  </span><span class="se">\</span>
+<span class="w">                  </span>--warps_n<span class="o">=</span><span class="m">2</span><span class="w"> </span>--warps_k<span class="o">=</span><span class="m">1</span><span class="w"> </span>--inst_m<span class="o">=</span><span class="m">1</span><span class="w"> </span>--inst_n<span class="o">=</span><span class="m">1</span><span class="w"> </span>--inst_k<span class="o">=</span><span class="m">1</span><span class="w"> </span>--min_cc<span class="o">=</span><span class="m">50</span><span class="w"> </span>--max_cc<span class="o">=</span><span class="m">1024</span>
+
+<span class="w">           </span>Bytes:<span class="w"> </span><span class="m">2055798784</span><span class="w">  </span>bytes
+<span class="w">           </span>FLOPs:<span class="w"> </span><span class="m">118482796544</span><span class="w">  </span>flops
+
+<span class="w">         </span>Runtime:<span class="w"> </span><span class="m">8</span>.13237<span class="w">  </span>ms
+<span class="w">          </span>Memory:<span class="w"> </span><span class="m">235</span>.431<span class="w"> </span>GiB/s
+
+<span class="w">            </span>Math:<span class="w"> </span><span class="m">14569</span>.3<span class="w"> </span>GFLOP/s
+</pre></div>
+</div>
+</section>
+<section id="example-tensor-core-convolution-operation">
+<h2>Example Tensor Core Convolution Operation<a class="headerlink" href="#example-tensor-core-convolution-operation" title="Link to this heading">#</a></h2>
+<p>Example command line for profiling forward propagation convolution kernels runing on Tensor Cores is as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>./tools/profiler/cutlass_profiler<span class="w"> </span>--kernels<span class="o">=</span>tensorop*fprop<span class="w">  </span>--verification-providers<span class="o">=</span>device<span class="w"> </span>--n<span class="o">=</span><span class="m">8</span><span class="w"> </span>--h<span class="o">=</span><span class="m">224</span><span class="w"> </span>--w<span class="o">=</span><span class="m">224</span><span class="w"> </span>--c<span class="o">=</span><span class="m">128</span><span class="w"> </span>--k<span class="o">=</span><span class="m">128</span><span class="w"> </span>--r<span class="o">=</span><span class="m">3</span><span class="w"> </span>--s<span class="o">=</span><span class="nv">3</span>
+
+
+
+<span class="o">=============================</span>
+<span class="w">  </span>Problem<span class="w"> </span>ID:<span class="w"> </span><span class="m">1</span>
+
+<span class="w">        </span>Provider:<span class="w"> </span>CUTLASS
+<span class="w">   </span>OperationKind:<span class="w"> </span>conv2d
+<span class="w">       </span>Operation:<span class="w"> </span>cutlass_tensorop_s16816fprop_optimized_f16_128x128_64x4_nhwc
+
+<span class="w">          </span>Status:<span class="w"> </span>Success
+<span class="w">    </span>Verification:<span class="w"> </span>ON
+<span class="w">     </span>Disposition:<span class="w"> </span>Passed
+
+reference_device:<span class="w"> </span>Passed
+
+<span class="w">       </span>Arguments:<span class="w"> </span>--conv_kind<span class="o">=</span>fprop<span class="w"> </span>--n<span class="o">=</span><span class="m">8</span><span class="w"> </span>--h<span class="o">=</span><span class="m">224</span><span class="w"> </span>--w<span class="o">=</span><span class="m">224</span><span class="w"> </span>--c<span class="o">=</span><span class="m">128</span><span class="w"> </span>--k<span class="o">=</span><span class="m">128</span><span class="w"> </span>--r<span class="o">=</span><span class="m">3</span><span class="w"> </span>--s<span class="o">=</span><span class="m">3</span><span class="w"> </span>--p<span class="o">=</span><span class="m">224</span><span class="w"> </span>--q<span class="o">=</span><span class="m">224</span><span class="w"> </span>--pad_h<span class="o">=</span><span class="m">1</span><span class="w"> </span>--pad_w<span class="o">=</span><span class="m">1</span><span class="w">  </span><span class="se">\</span>
+<span class="w">                  </span>--stride_h<span class="o">=</span><span class="m">1</span><span class="w"> </span>--stride_w<span class="o">=</span><span class="m">1</span><span class="w"> </span>--dilation_h<span class="o">=</span><span class="m">1</span><span class="w"> </span>--dilation_w<span class="o">=</span><span class="m">1</span><span class="w"> </span>--Activation<span class="o">=</span>f16:nhwc<span class="w"> </span>--Filter<span class="o">=</span>f16:nhwc<span class="w"> </span>--Output<span class="o">=</span>f32:nhwc<span class="w">  </span><span class="se">\</span>
+<span class="w">                  </span>--conv_mode<span class="o">=</span>cross<span class="w"> </span>--iterator_algorithm<span class="o">=</span>optimized<span class="w"> </span>--alpha<span class="o">=</span><span class="m">1</span><span class="w"> </span>--beta<span class="o">=</span><span class="m">0</span><span class="w"> </span>--split_k_mode<span class="o">=</span>serial<span class="w"> </span>--split_k_slices<span class="o">=</span><span class="m">1</span><span class="w">  </span><span class="se">\</span>
+<span class="w">                  </span>--eq_gemm_provider<span class="o">=</span>none<span class="w"> </span>--op_class<span class="o">=</span>tensorop<span class="w"> </span>--accum<span class="o">=</span>f32<span class="w"> </span>--cta_m<span class="o">=</span><span class="m">128</span><span class="w"> </span>--cta_n<span class="o">=</span><span class="m">128</span><span class="w"> </span>--cta_k<span class="o">=</span><span class="m">64</span><span class="w"> </span>--stages<span class="o">=</span><span class="m">4</span><span class="w">  </span><span class="se">\</span>
+<span class="w">                  </span>--warps_m<span class="o">=</span><span class="m">2</span><span class="w"> </span>--warps_n<span class="o">=</span><span class="m">2</span><span class="w"> </span>--warps_k<span class="o">=</span><span class="m">1</span><span class="w"> </span>--inst_m<span class="o">=</span><span class="m">16</span><span class="w"> </span>--inst_n<span class="o">=</span><span class="m">8</span><span class="w"> </span>--inst_k<span class="o">=</span><span class="m">16</span><span class="w"> </span>--min_cc<span class="o">=</span><span class="m">80</span><span class="w"> </span>--max_cc<span class="o">=</span><span class="m">1024</span>
+
+<span class="w">           </span>Bytes:<span class="w"> </span><span class="m">1130659840</span><span class="w">  </span>bytes
+<span class="w">           </span>FLOPs:<span class="w"> </span><span class="m">118482796544</span><span class="w">  </span>flops
+
+<span class="w">         </span>Runtime:<span class="w"> </span><span class="m">0</span>.945071<span class="w">  </span>ms
+<span class="w">          </span>Memory:<span class="w"> </span><span class="m">1114</span>.21<span class="w"> </span>GiB/s
+
+<span class="w">            </span>Math:<span class="w"> </span><span class="m">125369</span><span class="w"> </span>GFLOP/s
+</pre></div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="copyright">
+<h1>Copyright<a class="headerlink" href="#copyright" title="Link to this heading">#</a></h1>
+<p>Copyright (c) 2017 - 2025 NVIDIA CORPORATION &amp; AFFILIATES. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">Redistribution</span> <span class="ow">and</span> <span class="n">use</span> <span class="ow">in</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">binary</span> <span class="n">forms</span><span class="p">,</span> <span class="k">with</span> <span class="ow">or</span> <span class="n">without</span>
+  <span class="n">modification</span><span class="p">,</span> <span class="n">are</span> <span class="n">permitted</span> <span class="n">provided</span> <span class="n">that</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span> <span class="n">are</span> <span class="n">met</span><span class="p">:</span>
+
+  <span class="mf">1.</span> <span class="n">Redistributions</span> <span class="n">of</span> <span class="n">source</span> <span class="n">code</span> <span class="n">must</span> <span class="n">retain</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span> <span class="n">this</span>
+  <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span><span class="o">.</span>
+
+  <span class="mf">2.</span> <span class="n">Redistributions</span> <span class="ow">in</span> <span class="n">binary</span> <span class="n">form</span> <span class="n">must</span> <span class="n">reproduce</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span>
+  <span class="n">this</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">documentation</span>
+  <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">other</span> <span class="n">materials</span> <span class="n">provided</span> <span class="k">with</span> <span class="n">the</span> <span class="n">distribution</span><span class="o">.</span>
+
+  <span class="mf">3.</span> <span class="n">Neither</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">holder</span> <span class="n">nor</span> <span class="n">the</span> <span class="n">names</span> <span class="n">of</span> <span class="n">its</span>
+  <span class="n">contributors</span> <span class="n">may</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">endorse</span> <span class="ow">or</span> <span class="n">promote</span> <span class="n">products</span> <span class="n">derived</span> <span class="kn">from</span>
+<span class="w">  </span><span class="nn">this</span> <span class="n">software</span> <span class="n">without</span> <span class="n">specific</span> <span class="n">prior</span> <span class="n">written</span> <span class="n">permission</span><span class="o">.</span>
+
+  <span class="n">THIS</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">PROVIDED</span> <span class="n">BY</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span> <span class="n">AND</span> <span class="n">CONTRIBUTORS</span> <span class="s2">&quot;AS IS&quot;</span>
+  <span class="n">AND</span> <span class="n">ANY</span> <span class="n">EXPRESS</span> <span class="n">OR</span> <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span><span class="p">,</span> <span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">THE</span>
+  <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span> <span class="n">AND</span> <span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span> <span class="n">ARE</span>
+  <span class="n">DISCLAIMED</span><span class="o">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">SHALL</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDER</span> <span class="n">OR</span> <span class="n">CONTRIBUTORS</span> <span class="n">BE</span> <span class="n">LIABLE</span>
+  <span class="n">FOR</span> <span class="n">ANY</span> <span class="n">DIRECT</span><span class="p">,</span> <span class="n">INDIRECT</span><span class="p">,</span> <span class="n">INCIDENTAL</span><span class="p">,</span> <span class="n">SPECIAL</span><span class="p">,</span> <span class="n">EXEMPLARY</span><span class="p">,</span> <span class="n">OR</span> <span class="n">CONSEQUENTIAL</span>
+  <span class="n">DAMAGES</span> <span class="p">(</span><span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">PROCUREMENT</span> <span class="n">OF</span> <span class="n">SUBSTITUTE</span> <span class="n">GOODS</span> <span class="n">OR</span>
+  <span class="n">SERVICES</span><span class="p">;</span> <span class="n">LOSS</span> <span class="n">OF</span> <span class="n">USE</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">OR</span> <span class="n">PROFITS</span><span class="p">;</span> <span class="n">OR</span> <span class="n">BUSINESS</span> <span class="n">INTERRUPTION</span><span class="p">)</span> <span class="n">HOWEVER</span>
+  <span class="n">CAUSED</span> <span class="n">AND</span> <span class="n">ON</span> <span class="n">ANY</span> <span class="n">THEORY</span> <span class="n">OF</span> <span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">STRICT</span> <span class="n">LIABILITY</span><span class="p">,</span>
+  <span class="n">OR</span> <span class="n">TORT</span> <span class="p">(</span><span class="n">INCLUDING</span> <span class="n">NEGLIGENCE</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">)</span> <span class="n">ARISING</span> <span class="n">IN</span> <span class="n">ANY</span> <span class="n">WAY</span> <span class="n">OUT</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">USE</span>
+  <span class="n">OF</span> <span class="n">THIS</span> <span class="n">SOFTWARE</span><span class="p">,</span> <span class="n">EVEN</span> <span class="n">IF</span> <span class="n">ADVISED</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">POSSIBILITY</span> <span class="n">OF</span> <span class="n">SUCH</span> <span class="n">DAMAGE</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="blackwell_cluster_launch_control.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Blackwell Cluster Launch Control</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="build/building_in_windows_with_visual_studio.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Building on Windows with Visual Studio</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">CUTLASS Profiler</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#emitting-kernels-via-emit-kernel-listing-py">Emitting kernels via <code class="docutils literal notranslate"><span class="pre">emit_kernel_listing.py</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instantiating-more-kernels-with-hopper">Instantiating more kernels with Hopper</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-input-data-type-kernels-for-hopper">Mixed input data type kernels for Hopper</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-profiler-usage">CUTLASS Profiler usage</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#gemm">GEMM</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gemm-arguments">GEMM Arguments</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exhaustive-search-mode-and-top-k-output-ranking-according-to-performance-in-gflops-s">Exhaustive search mode and top-k output ranking according to performance in GFLOPS/s</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-examples">Usage Examples</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-best-performing-kernel">1. Finding the Best Performing Kernel</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-optimization-for-a-fixed-gemm-shape">2. Performance Optimization for a Fixed GEMM Shape</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-cuda-core-gemm-operation">Example CUDA Core GEMM Operation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-tensor-core-gemm-operations">Example Tensor Core GEMM Operations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#covering-the-problem-space">Covering the problem space</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output">Output</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-3-0-gemm-procedural-names">CUTLASS 3.0 GEMM procedural names</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#convolution">Convolution</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convolution-arguments">Convolution Arguments</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-cuda-core-convolution-operation">Example CUDA Core Convolution Operation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-tensor-core-convolution-operation">Example Tensor Core Convolution Operation</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

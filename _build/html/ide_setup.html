@@ -1,0 +1,788 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>IDE Setup for CUTLASS Development &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ide_setup';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Functionality" href="functionality.html" />
+    <link rel="prev" title="CUTLASS Terminology" href="terminology.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="overview.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="overview.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">CUTLASS Terminology</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">IDE Setup for CUTLASS Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functionality.html">Functionality</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="fundamental_types.html">Fundamental Types</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="layout.html">Layouts and Tensors</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="tile_iterator_concept.html">Tile Iterator Concepts</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Synchronization primitives</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="code_organization.html">CUTLASS Code Organization</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="programming_guidelines.html">Programming Guidelines</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">CUTLASS Utilities</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Key Operations &amp; APIs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="gemm_api.html">CUTLASS GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="gemm_api_3x.html">CUTLASS 3.0 GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="efficient_gemm.html">Efficient GEMM in CUDA</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="implicit_gemm_convolution.html">CUTLASS Convolution</a></li>
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTLASS 3.x Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cutlass_3x_design.html">CUTLASS 3.0 Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cutlass_3x_backwards_compatibility.html">CUTLASS 3.0 GEMM Backwards Compatibility</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTE - Compositional Universal Tile Engine</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cute/00_quickstart.html">Getting Started With CuTe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/01_layout.html">CuTe Layouts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/02_layout_algebra.html">CuTe Layout Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/03_tensor.html">CuTe Tensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/04_algorithms.html">CuTe Tensor algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0t_mma_atom.html">CuTe’s support for Matrix Multiply-Accumulate instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0x_gemm_tutorial.html">CuTe dense matrix-matrix multiply tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0y_predication.html">Predication: What to do when tiling isn’t perfect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0z_tma_tensors.html">CuTe TMA Tensors</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Features &amp; Platform Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="dependent_kernel_launch.html">Dependent kernel launches</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grouped_scheduler.html">CUTLASS Grouped Kernel Schedulers</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="blackwell_functionality.html">Blackwell SM100 GEMMs</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="blackwell_cluster_launch_control.html">Blackwell Cluster Launch Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="profiler.html">CUTLASS Profiler</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Building CUTLASS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="build/building_in_windows_with_visual_studio.html">Building on Windows with Visual Studio</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="build/building_with_clang_as_host_compiler.html">Building with Clang as host compiler</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fide_setup.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/ide_setup.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>IDE Setup for CUTLASS Development</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vscode-setup">VSCode Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clangd-setup">clangd Setup</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#global-config">Global Config</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-config">Local Config</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#note-on-compile-commands-json">Note on compile_commands.json</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="ide-setup-for-cutlass-development">
+<h1>IDE Setup for CUTLASS Development<a class="headerlink" href="#ide-setup-for-cutlass-development" title="Link to this heading">#</a></h1>
+<p>This document outlines instructions and tips for setting up a local editor for CUTLASS development, including support
+for intellisense, go-to-definition, code formatting, and so on.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>In order for any intellisense tool to work with CUTLASS, the following things need to be configured with it:</p>
+<ul class="simple">
+<li><p>Include paths, i.e. where the compiler (or in this case, the intellisense tool) should look for header files</p></li>
+<li><p>Compiler flags; especially the C++ standard (<code class="docutils literal notranslate"><span class="pre">--std</span></code>)</p></li>
+<li><p>Preprocessor variables; especially CUDA-related ones</p></li>
+</ul>
+<p>One usually needs to configure the above variables in a settings file. Below, two config approaches are described:
+for VSCode, and for any editor that uses the clangd language server, which includes
+Vim, Emacs, NeoVim, Sublime Text, and so on. Note that VSCode can also be configured to use clangd.
+It might be worth setting up clangd for VSCode rather than the default intellisense,
+and you might see faster responses and more stable performance with clangd.</p>
+</section>
+<section id="vscode-setup">
+<h2>VSCode Setup<a class="headerlink" href="#vscode-setup" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Install the <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">Official C/C++ extension</a></p></li>
+<li><p>Open settings…</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl+Shift+P</span></code> to open the command palette</p></li>
+<li><p>Enter “C/C++” to filter results</p></li>
+<li><p>Select “C/C++ Edit Configurations (UI)” (or “… (JSON)” if you feel like editing the raw JSON)</p></li>
+<li><p>View the documentation for these settings
+<a class="reference external" href="https://code.visualstudio.com/docs/cpp/c-cpp-properties-schema-reference">here</a></p></li>
+</ol>
+</li>
+<li><p>Edit “Include Path” to set up <strong>include paths</strong>. For CUTLASS, this includes the following:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">${workspaceFolder}/include</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">${workspaceFolder}/tools/util/include</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">${workspaceFolder}/examples/common</span></code></p></li>
+<li><p>…others, depending on which files you edit</p></li>
+</ul>
+</li>
+<li><p>Edit C++ standard to be <code class="docutils literal notranslate"><span class="pre">c++17</span></code>, <code class="docutils literal notranslate"><span class="pre">gnu++17</span></code>, or equivalent.</p></li>
+<li><p>Edit <code class="docutils literal notranslate"><span class="pre">defines</span></code> to define preprocessor variables. See
+<a class="reference internal" href="#global-config"><span class="xref myst">Global Config below</span></a> for examples. The important
+ones include <code class="docutils literal notranslate"><span class="pre">__CUDACC_VER_MAJOR__</span></code>, <code class="docutils literal notranslate"><span class="pre">__CUDA_ARCH__</span></code>, <code class="docutils literal notranslate"><span class="pre">__CUDA_ARCH_FEAT_SM90_ALL__</span></code>. But configure
+them according to your target architecture.</p></li>
+<li><p>…and possible edit any other fields for your specific setup.</p></li>
+</ol>
+</section>
+<section id="clangd-setup">
+<h2>clangd Setup<a class="headerlink" href="#clangd-setup" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">clangd</span></code> is a C++ language server that is part of the LLVM project. You must first set it up your specific IDE:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">clangd</span></code> official <a class="reference external" href="https://clangd.llvm.org/installation#editor-plugins">documentation</a> for editor setup.</p></li>
+<li><p>NeoVim setup is possible through <a class="reference external" href="https://neovim.io/doc/user/lsp.html">lsp</a> and either manually installing clangd or
+using an installation manager like Mason.</p></li>
+</ul>
+<p>Then, one needs to edit the config (<a class="reference external" href="https://clangd.llvm.org/config">documentation</a>). One typically has a
+<strong>global</strong> and a <strong>per-project</strong> config.</p>
+<section id="global-config">
+<h3>Global Config<a class="headerlink" href="#global-config" title="Link to this heading">#</a></h3>
+<p>Here is one example for a global config.
+On linux this is usually located at <code class="docutils literal notranslate"><span class="pre">~/.config/clangd/config.yaml</span></code> . Here is one example config for CUDA projects on SM90.
+The key settings here are the preprocessor vars (<code class="docutils literal notranslate"><span class="pre">-D__CUDACC_VER_MAJOR__</span></code> , <code class="docutils literal notranslate"><span class="pre">-D__CUDA_ARCH__</span></code>)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CompileFlags</span><span class="p">:</span>
+  <span class="n">Compiler</span><span class="p">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">nvcc</span>
+  <span class="n">Add</span><span class="p">:</span>
+    <span class="o">-</span> <span class="o">--</span><span class="n">cuda</span><span class="o">-</span><span class="n">path</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span>
+    <span class="o">-</span> <span class="o">--</span><span class="n">cuda</span><span class="o">-</span><span class="n">gpu</span><span class="o">-</span><span class="n">arch</span><span class="o">=</span><span class="n">sm_90a</span>
+    <span class="o">-</span> <span class="o">-</span><span class="n">I</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">include</span>
+    <span class="o">-</span> <span class="s2">&quot;-xcuda&quot;</span>
+    <span class="c1"># report all errors</span>
+    <span class="o">-</span> <span class="s2">&quot;-ferror-limit=0&quot;</span>
+    <span class="o">-</span> <span class="o">--</span><span class="n">cuda</span><span class="o">-</span><span class="n">gpu</span><span class="o">-</span><span class="n">arch</span><span class="o">=</span><span class="n">sm_90a</span>
+    <span class="o">-</span> <span class="o">--</span><span class="n">std</span><span class="o">=</span><span class="n">c</span><span class="o">++</span><span class="mi">17</span>
+    <span class="o">-</span> <span class="s2">&quot;-D__INTELLISENSE__&quot;</span>
+    <span class="o">-</span> <span class="s2">&quot;-D__CLANGD__&quot;</span>
+    <span class="o">-</span> <span class="s2">&quot;-DCUDA_12_0_SM90_FEATURES_SUPPORTED&quot;</span>
+    <span class="o">-</span> <span class="s2">&quot;-DCUTLASS_ARCH_MMA_SM90_SUPPORTED=1&quot;</span>
+    <span class="o">-</span> <span class="s2">&quot;-D_LIBCUDACXX_STD_VER=12&quot;</span>
+    <span class="o">-</span> <span class="s2">&quot;-D__CUDACC_VER_MAJOR__=12&quot;</span>
+    <span class="o">-</span> <span class="s2">&quot;-D__CUDACC_VER_MINOR__=3&quot;</span>
+    <span class="o">-</span> <span class="s2">&quot;-D__CUDA_ARCH__=900&quot;</span>
+    <span class="o">-</span> <span class="s2">&quot;-D__CUDA_ARCH_FEAT_SM90_ALL&quot;</span>
+    <span class="o">-</span> <span class="s2">&quot;-Wno-invalid-constexpr&quot;</span>
+  <span class="n">Remove</span><span class="p">:</span>
+    <span class="c1"># strip CUDA fatbin args</span>
+    <span class="o">-</span> <span class="s2">&quot;-Xfatbin*&quot;</span>
+    <span class="c1"># strip CUDA arch flags</span>
+    <span class="o">-</span> <span class="s2">&quot;-gencode*&quot;</span>
+    <span class="o">-</span> <span class="s2">&quot;--generate-code*&quot;</span>
+    <span class="c1"># strip CUDA flags unknown to clang</span>
+    <span class="o">-</span> <span class="s2">&quot;-ccbin*&quot;</span>
+    <span class="o">-</span> <span class="s2">&quot;--compiler-options*&quot;</span>
+    <span class="o">-</span> <span class="s2">&quot;--expt-extended-lambda&quot;</span>
+    <span class="o">-</span> <span class="s2">&quot;--expt-relaxed-constexpr&quot;</span>
+    <span class="o">-</span> <span class="s2">&quot;-forward-unknown-to-host-compiler&quot;</span>
+    <span class="o">-</span> <span class="s2">&quot;-Werror=cross-execution-space-call&quot;</span>
+<span class="n">Hover</span><span class="p">:</span>
+  <span class="n">ShowAKA</span><span class="p">:</span> <span class="n">No</span>
+<span class="n">InlayHints</span><span class="p">:</span>
+  <span class="n">Enabled</span><span class="p">:</span> <span class="n">No</span>
+<span class="n">Diagnostics</span><span class="p">:</span>
+  <span class="n">Suppress</span><span class="p">:</span>
+    <span class="o">-</span> <span class="s2">&quot;variadic_device_fn&quot;</span>
+    <span class="o">-</span> <span class="s2">&quot;attributes_not_allowed&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="local-config">
+<h3>Local Config<a class="headerlink" href="#local-config" title="Link to this heading">#</a></h3>
+<p>Local config is needed to specify per-project settings, especially include paths. An example is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CompileFlags</span><span class="p">:</span>
+  <span class="n">Add</span><span class="p">:</span>
+    <span class="o">-</span> <span class="o">-</span><span class="n">I</span><span class="o">&lt;/</span><span class="n">absolute</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">cutlass</span><span class="o">&gt;/</span><span class="n">include</span><span class="o">/</span>
+    <span class="o">-</span> <span class="o">-</span><span class="n">I</span><span class="o">&lt;/</span><span class="n">absolute</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">cutlass</span><span class="o">&gt;/</span><span class="n">tools</span><span class="o">/</span><span class="n">util</span><span class="o">/</span><span class="n">include</span><span class="o">/</span>
+    <span class="o">-</span> <span class="o">-</span><span class="n">I</span><span class="o">&lt;/</span><span class="n">absolute</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">cutlass</span><span class="o">&gt;/</span><span class="n">cutlass</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">common</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>Note that absolute paths are needed since clangd doesn’t support relative paths.</p>
+</section>
+<section id="note-on-compile-commands-json">
+<h3>Note on compile_commands.json<a class="headerlink" href="#note-on-compile-commands-json" title="Link to this heading">#</a></h3>
+<p>For typical C++ projects, clangd can <em>automatically</em> configure itself by parsing the <code class="docutils literal notranslate"><span class="pre">compile_commands.json</span></code>
+generated by your CMake build. The path to such a file is by default <code class="docutils literal notranslate"><span class="pre">build/compile_commands.json</span></code> and is
+configured by the <code class="docutils literal notranslate"><span class="pre">CompilationDatabase</span></code> config.</p>
+<p>This is usually a convenient way to configure projects, but it’s not as simple for CUDA/nvcc projects, since
+clang doesn’t understand many of the compiler flags used by nvcc. Hence, for now, we don’t recommend using
+<code class="docutils literal notranslate"><span class="pre">compile_commands.json</span></code> to configure your CUDA project.</p>
+</section>
+</section>
+<section id="copyright">
+<h2>Copyright<a class="headerlink" href="#copyright" title="Link to this heading">#</a></h2>
+<p>Copyright (c) 2017 - 2025 NVIDIA CORPORATION &amp; AFFILIATES. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">Redistribution</span> <span class="ow">and</span> <span class="n">use</span> <span class="ow">in</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">binary</span> <span class="n">forms</span><span class="p">,</span> <span class="k">with</span> <span class="ow">or</span> <span class="n">without</span>
+  <span class="n">modification</span><span class="p">,</span> <span class="n">are</span> <span class="n">permitted</span> <span class="n">provided</span> <span class="n">that</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span> <span class="n">are</span> <span class="n">met</span><span class="p">:</span>
+
+  <span class="mf">1.</span> <span class="n">Redistributions</span> <span class="n">of</span> <span class="n">source</span> <span class="n">code</span> <span class="n">must</span> <span class="n">retain</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span> <span class="n">this</span>
+  <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span><span class="o">.</span>
+
+  <span class="mf">2.</span> <span class="n">Redistributions</span> <span class="ow">in</span> <span class="n">binary</span> <span class="n">form</span> <span class="n">must</span> <span class="n">reproduce</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span>
+  <span class="n">this</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">documentation</span>
+  <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">other</span> <span class="n">materials</span> <span class="n">provided</span> <span class="k">with</span> <span class="n">the</span> <span class="n">distribution</span><span class="o">.</span>
+
+  <span class="mf">3.</span> <span class="n">Neither</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">holder</span> <span class="n">nor</span> <span class="n">the</span> <span class="n">names</span> <span class="n">of</span> <span class="n">its</span>
+  <span class="n">contributors</span> <span class="n">may</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">endorse</span> <span class="ow">or</span> <span class="n">promote</span> <span class="n">products</span> <span class="n">derived</span> <span class="kn">from</span>
+<span class="w">  </span><span class="nn">this</span> <span class="n">software</span> <span class="n">without</span> <span class="n">specific</span> <span class="n">prior</span> <span class="n">written</span> <span class="n">permission</span><span class="o">.</span>
+
+  <span class="n">THIS</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">PROVIDED</span> <span class="n">BY</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span> <span class="n">AND</span> <span class="n">CONTRIBUTORS</span> <span class="s2">&quot;AS IS&quot;</span>
+  <span class="n">AND</span> <span class="n">ANY</span> <span class="n">EXPRESS</span> <span class="n">OR</span> <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span><span class="p">,</span> <span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">THE</span>
+  <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span> <span class="n">AND</span> <span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span> <span class="n">ARE</span>
+  <span class="n">DISCLAIMED</span><span class="o">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">SHALL</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDER</span> <span class="n">OR</span> <span class="n">CONTRIBUTORS</span> <span class="n">BE</span> <span class="n">LIABLE</span>
+  <span class="n">FOR</span> <span class="n">ANY</span> <span class="n">DIRECT</span><span class="p">,</span> <span class="n">INDIRECT</span><span class="p">,</span> <span class="n">INCIDENTAL</span><span class="p">,</span> <span class="n">SPECIAL</span><span class="p">,</span> <span class="n">EXEMPLARY</span><span class="p">,</span> <span class="n">OR</span> <span class="n">CONSEQUENTIAL</span>
+  <span class="n">DAMAGES</span> <span class="p">(</span><span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">PROCUREMENT</span> <span class="n">OF</span> <span class="n">SUBSTITUTE</span> <span class="n">GOODS</span> <span class="n">OR</span>
+  <span class="n">SERVICES</span><span class="p">;</span> <span class="n">LOSS</span> <span class="n">OF</span> <span class="n">USE</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">OR</span> <span class="n">PROFITS</span><span class="p">;</span> <span class="n">OR</span> <span class="n">BUSINESS</span> <span class="n">INTERRUPTION</span><span class="p">)</span> <span class="n">HOWEVER</span>
+  <span class="n">CAUSED</span> <span class="n">AND</span> <span class="n">ON</span> <span class="n">ANY</span> <span class="n">THEORY</span> <span class="n">OF</span> <span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">STRICT</span> <span class="n">LIABILITY</span><span class="p">,</span>
+  <span class="n">OR</span> <span class="n">TORT</span> <span class="p">(</span><span class="n">INCLUDING</span> <span class="n">NEGLIGENCE</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">)</span> <span class="n">ARISING</span> <span class="n">IN</span> <span class="n">ANY</span> <span class="n">WAY</span> <span class="n">OUT</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">USE</span>
+  <span class="n">OF</span> <span class="n">THIS</span> <span class="n">SOFTWARE</span><span class="p">,</span> <span class="n">EVEN</span> <span class="n">IF</span> <span class="n">ADVISED</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">POSSIBILITY</span> <span class="n">OF</span> <span class="n">SUCH</span> <span class="n">DAMAGE</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="terminology.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">CUTLASS Terminology</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="functionality.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Functionality</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vscode-setup">VSCode Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clangd-setup">clangd Setup</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#global-config">Global Config</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-config">Local Config</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#note-on-compile-commands-json">Note on compile_commands.json</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1176 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CUTLASS GEMM API &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gemm_api';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CUTLASS 3.0 GEMM API" href="gemm_api_3x.html" />
+    <link rel="prev" title="CUTLASS Utilities" href="utilities.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="overview.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="overview.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">CUTLASS Terminology</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="ide_setup.html">IDE Setup for CUTLASS Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functionality.html">Functionality</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="fundamental_types.html">Fundamental Types</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="layout.html">Layouts and Tensors</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="tile_iterator_concept.html">Tile Iterator Concepts</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Synchronization primitives</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="code_organization.html">CUTLASS Code Organization</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="programming_guidelines.html">Programming Guidelines</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">CUTLASS Utilities</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Key Operations &amp; APIs</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">CUTLASS GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="gemm_api_3x.html">CUTLASS 3.0 GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="efficient_gemm.html">Efficient GEMM in CUDA</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="implicit_gemm_convolution.html">CUTLASS Convolution</a></li>
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTLASS 3.x Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cutlass_3x_design.html">CUTLASS 3.0 Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cutlass_3x_backwards_compatibility.html">CUTLASS 3.0 GEMM Backwards Compatibility</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTE - Compositional Universal Tile Engine</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cute/00_quickstart.html">Getting Started With CuTe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/01_layout.html">CuTe Layouts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/02_layout_algebra.html">CuTe Layout Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/03_tensor.html">CuTe Tensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/04_algorithms.html">CuTe Tensor algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0t_mma_atom.html">CuTe’s support for Matrix Multiply-Accumulate instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0x_gemm_tutorial.html">CuTe dense matrix-matrix multiply tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0y_predication.html">Predication: What to do when tiling isn’t perfect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0z_tma_tensors.html">CuTe TMA Tensors</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Features &amp; Platform Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="dependent_kernel_launch.html">Dependent kernel launches</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grouped_scheduler.html">CUTLASS Grouped Kernel Schedulers</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="blackwell_functionality.html">Blackwell SM100 GEMMs</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="blackwell_cluster_launch_control.html">Blackwell Cluster Launch Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="profiler.html">CUTLASS Profiler</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Building CUTLASS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="build/building_in_windows_with_visual_studio.html">Building on Windows with Visual Studio</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="build/building_with_clang_as_host_compiler.html">Building with Clang as host compiler</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fgemm_api.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/gemm_api.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>CUTLASS GEMM API</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">CUTLASS GEMM API</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-gemm-model">CUTLASS GEMM Model</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-gemm-components">CUTLASS GEMM Components</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device-wide-gemm-api">Device-wide GEMM API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#threadblock-level-gemm-api">Threadblock-level GEMM API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#warp-level-matrix-multiply-api">Warp-level Matrix Multiply API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#thread-level-gemm-api">Thread-level GEMM API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#efficient-epilogue">Efficient Epilogue</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instruction-level-operations">Instruction-level operations</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="ALT" src="../../images/gemm-hierarchy-with-epilogue-no-labels.png" /></p>
+<section class="tex2jax_ignore mathjax_ignore" id="cutlass-gemm-api">
+<h1>CUTLASS GEMM API<a class="headerlink" href="#cutlass-gemm-api" title="Link to this heading">#</a></h1>
+<p>CUTLASS presents a uniform programming model for matrix multiply-accumulate operations at each level of the hierarchy. This document
+focuses on device-level, threadblock-level GEMMs, warp-level GEMMs, thread-level GEMMs, and instruction-level GEMMs.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="cutlass-gemm-model">
+<h1>CUTLASS GEMM Model<a class="headerlink" href="#cutlass-gemm-model" title="Link to this heading">#</a></h1>
+<p>CUTLASS implements the basic GEMM triple loop nest with a tiled structure mirroring the execution model hierarchy.</p>
+<p>The following pseudocode describes the model for a GEMM kernel targeting a warp-synchronous matrix multiply instruction like
+mma.sync. The entire operation is referred to as “Gemm,” as it is assumed that an epilogue operation performs the general matrix
+update similar to BLAS.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">                                                                            </span><span class="c1">// cutlass::gemm::device::Gemm</span>
+<span class="w">                                                                            </span><span class="c1">//</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">cta_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">cta_n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">GemmN</span><span class="p">;</span><span class="w"> </span><span class="n">cta_n</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">CtaTileN</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">                     </span><span class="c1">// for each CTA       } CTA-level concurrency</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">cta_m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">cta_m</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">GemmM</span><span class="p">;</span><span class="w"> </span><span class="n">cta_m</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">CtaTileM</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">                   </span><span class="c1">//    for each CTA    }</span>
+<span class="w">                                                                            </span><span class="c1">//    </span>
+<span class="w">                                                                            </span><span class="c1">// cutlass::gemm::threadblock::Mma</span>
+<span class="w">                                                                            </span><span class="c1">//</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">cta_k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">cta_k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">GemmK</span><span class="p">;</span><span class="w"> </span><span class="n">cta_k</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">CtaTileK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">                 </span><span class="c1">//       &quot;GEMM mainloop&quot; - no unrolling - one iteration of this loop is one &quot;stage&quot;</span>
+<span class="w">                                                                            </span><span class="c1">//</span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">warp_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">warp_n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">CtaTileN</span><span class="p">;</span><span class="w"> </span><span class="n">warp_n</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">WarpTileN</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">        </span><span class="c1">// for each warp      } warp-level concurrency</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">warp_m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">warp_m</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">CtaTileM</span><span class="p">;</span><span class="w"> </span><span class="n">warp_m</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">WarpTileM</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">      </span><span class="c1">//    for each warp   }</span>
+<span class="w">                                                                            </span><span class="c1">//</span>
+<span class="w">          </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">warp_k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">warp_k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">CtaTileK</span><span class="p">;</span><span class="w"> </span><span class="n">warp_k</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">WarpTileK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">    </span><span class="c1">//       fully unroll across CtaTileK - one iteration of this loop is one &quot;k Group&quot;</span>
+<span class="w">                                                                            </span><span class="c1">//</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">mma_k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">mma_k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">WarpTileK</span><span class="p">;</span><span class="w"> </span><span class="n">mma_k</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">MmaK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">         </span><span class="c1">// cutlass::gemm::warp::Mma</span>
+<span class="w">              </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">mma_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">mma_n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">WarpTileN</span><span class="p">;</span><span class="w"> </span><span class="n">mma_n</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">MmaN</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">       </span><span class="c1">//</span>
+<span class="w">                </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">mma_m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">mma_m</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">WarpTileM</span><span class="p">;</span><span class="w"> </span><span class="n">mma_m</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">MmaM</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">     </span><span class="c1">//</span>
+<span class="w">                                                                            </span><span class="c1">//</span>
+<span class="w">                  </span><span class="n">mma_instruction</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">);</span><span class="w">                              </span><span class="c1">// cutlass::arch::mma - warp-wide matrix multiply instruction</span>
+
+<span class="w">                </span><span class="p">}</span><span class="w">   </span><span class="c1">// for mma_m</span>
+<span class="w">              </span><span class="p">}</span><span class="w">   </span><span class="c1">// for mma_n</span>
+<span class="w">            </span><span class="p">}</span><span class="w">   </span><span class="c1">// for mma_k</span>
+
+<span class="w">          </span><span class="p">}</span><span class="w">   </span><span class="c1">// for warp_k</span>
+<span class="w">        </span><span class="p">}</span><span class="w">   </span><span class="c1">// for warp_m</span>
+<span class="w">      </span><span class="p">}</span><span class="w">   </span><span class="c1">// for warp_n</span>
+
+<span class="w">    </span><span class="p">}</span><span class="w">   </span><span class="c1">// for cta_k</span>
+<span class="w">  </span><span class="p">}</span><span class="w">   </span><span class="c1">// for cta_m</span>
+<span class="p">}</span><span class="w">   </span><span class="c1">// for cta_n</span>
+</pre></div>
+</div>
+<p>The outer-most loops correspond to CTA-level hardware concurrency and are not explicitly written as loops in the code. These
+are implied by CUDA grid launch semantics.</p>
+<p>The comment <code class="docutils literal notranslate"><span class="pre">cutlass::gemm::threadblock::Mma</span></code> refers to the threadblock-scoped matrix multiply-accumulate concept. This is
+the computation performed by one threadblock to compute a matrix product in registers. The “GEMM main loop” is listed.</p>
+<p>The comment <code class="docutils literal notranslate"><span class="pre">cutlass::gemm::warp::Mma</span></code> refers to the computation performed by each warp. This is a nested loop executing a
+sequence of accumulated outer products.</p>
+<p>The inner-most operation corresponds directly to hardware support. In this example, the nested structure terminates with
+warp-synchronous matrix multiply instructions targeting Tensor Cores.
+Alternatively, GEMMs targeting single-thread instructions may have an additional series of nested loops corresponding to
+thread-level concurrency.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="cutlass-gemm-components">
+<h1>CUTLASS GEMM Components<a class="headerlink" href="#cutlass-gemm-components" title="Link to this heading">#</a></h1>
+<p>This loop nest is expressed in CUTLASS via the following components which are specialized for data type, layout, and
+math instruction.</p>
+<p><img alt="ALT" src="../../images/cutlass-gemm-components.png" /></p>
+<p>These components are described in the following sections.</p>
+<section id="device-wide-gemm-api">
+<h2>Device-wide GEMM API<a class="headerlink" href="#device-wide-gemm-api" title="Link to this heading">#</a></h2>
+<p>The device-level GEMM API is intended to streamline instantiation and execution of the standard
+GEMM computation across the GPU. This operator is intended to be used in host-side .cu code and
+has semantics similar to cuBLAS.</p>
+<p>The device-wide GEMM API is embodied by the following operators:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/device/gemm.h">cutlass::gemm::device::Gemm</a> - basic GEMM operation</p></li>
+<li><p><a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/device/gemm_array.h">cutlass::gemm::device::GemmArray</a> - batched GEMM operation in which input matrices are read from arrays of pointers</p></li>
+<li><p><a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/device/gemm_batched.h">cutlass::gemm::device::GemmBatched</a> - batched GEMM operation in which input matrices are separated by a constant stride</p></li>
+<li><p><a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/device/gemm_splitk_parallel.h">cutlass::gemm::device::GemmSplitKParallel</a> - GEMM operation that partitions the GEMM K dimension then launches a separate reduction kernel</p></li>
+</ul>
+<p><strong>Example:</strong> launch a mixed-precision GEMM targeting Volta Tensor Cores.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">Gemm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cutlass</span><span class="o">::</span><span class="n">gemm</span><span class="o">::</span><span class="n">device</span><span class="o">::</span><span class="n">Gemm</span><span class="o">&lt;</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">half_t</span><span class="p">,</span><span class="w">                           </span><span class="c1">// ElementA</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">layout</span><span class="o">::</span><span class="n">ColumnMajor</span><span class="p">,</span><span class="w">              </span><span class="c1">// LayoutA</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">half_t</span><span class="p">,</span><span class="w">                           </span><span class="c1">// ElementB</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">layout</span><span class="o">::</span><span class="n">ColumnMajor</span><span class="p">,</span><span class="w">              </span><span class="c1">// LayoutB</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">half_t</span><span class="p">,</span><span class="w">                           </span><span class="c1">// ElementOutput</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">layout</span><span class="o">::</span><span class="n">ColumnMajor</span><span class="p">,</span><span class="w">              </span><span class="c1">// LayoutOutput</span>
+<span class="w">    </span><span class="kt">float</span><span class="p">,</span><span class="w">                                     </span><span class="c1">// ElementAccumulator</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">arch</span><span class="o">::</span><span class="n">OpClassTensorOp</span><span class="p">,</span><span class="w">            </span><span class="c1">// tag indicating Tensor Cores</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">arch</span><span class="o">::</span><span class="n">Sm70</span><span class="w">                        </span><span class="c1">// tag indicating target GPU compute architecture</span>
+<span class="w">  </span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">Gemm</span><span class="w"> </span><span class="n">gemm_op</span><span class="p">;</span>
+<span class="w">  </span><span class="n">cutlass</span><span class="o">::</span><span class="n">Status</span><span class="w"> </span><span class="n">status</span><span class="p">;</span>
+<span class="w"> </span>
+<span class="w">  </span><span class="c1">//</span>
+<span class="w">  </span><span class="c1">// Launch GEMM on the device</span>
+<span class="w">  </span><span class="c1">//</span>
+<span class="w"> </span>
+<span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gemm_op</span><span class="p">({</span>
+<span class="w">    </span><span class="p">{</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="n">ptrA</span><span class="p">,</span><span class="w"> </span><span class="n">lda</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="n">ptrB</span><span class="p">,</span><span class="w"> </span><span class="n">ldb</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="n">ptrC</span><span class="p">,</span><span class="w"> </span><span class="n">ldc</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="n">ptrD</span><span class="p">,</span><span class="w"> </span><span class="n">ldd</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">}</span>
+<span class="w">  </span><span class="p">});</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">cutlass</span><span class="o">::</span><span class="n">Status</span><span class="o">::</span><span class="n">kSuccess</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="threadblock-level-gemm-api">
+<h2>Threadblock-level GEMM API<a class="headerlink" href="#threadblock-level-gemm-api" title="Link to this heading">#</a></h2>
+<p>GEMMs at this scope are expected to efficiently load tiles of data from global memory into internal storage and then compute matrix
+products with warp-level GEMM operators.</p>
+<p>The threadblock-scoped matrix multiply operation is embodied by
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/threadblock/mma_pipelined.h">cutlass::gemm::threadblock::MmaPipelined</a>.
+This is a class inspired by <a class="reference external" href="https://en.cppreference.com/w/cpp/algorithm/transform_reduce">std::transform_reduce()</a>
+which computes the accumulated matrix product of a range of tiles defined by tile iterators.</p>
+<p><img alt="ALT" src="../../images/cutlass-threadblock-mma-pipelined.png" /></p>
+<p>In the case of GEMM, the tile iterators are
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/transform/threadblock/predicated_tile_iterator.h">cutlass::transform::threadblock::PredicatedTileIterator</a>
+to traverse a sequence of tiles in global memory with appropriate predication to avoid out-of-bounds
+memory accesses.</p>
+<p><em>Concept.</em> Threadblock-level matrix multiply accumulate operators are function objects satisfying the following concept.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">Mma</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">/// Shape of warp-level matrix operation (concept: GemmShape)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">Shape</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Data type of multiplicand A (concept: numeric type)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">ElementA</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Layout of multiplicand A (concept: Layout)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">LayoutA</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Data type of multiplicand B (concept: numeric type)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">ElementB</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Layout of multiplicand B (concept: Layout)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">LayoutB</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Data type of accumulator matrix C (concept: numeric type)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">ElementC</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Layout of accumulator matrix C (concept: Layout)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">LayoutC</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Iterator of A operand in shared memory - satisfies: ReadableRandomAccessTileIteratorConcept</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">IteratorA</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Fragment object loaded from IteratorA (concept: Array&lt;ElementA, ..&gt;)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">FragmentA</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Iterator of B operand in shared memory - satisfies: ReadableRandomAccessTileIteratorConcept</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">IteratorB</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Fragment object loaded from IteratorB (concept: Array&lt;ElementB, ..&gt;)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">FragmentB</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Iterator of C operand in shared memory - </span>
+<span class="w">  </span><span class="c1">///    satisfies: ReadableRandomAccessTileIteratorConcept | WriteableRandomAccessTileIteratorConcept</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">IteratorC</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Fragment object loaded from IteratorC (concept: Array&lt;ElementC, ..&gt;)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">FragmentC</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Warp-level matrix multiply operator (concept: satisfies gemm::warp::Mma)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">Operator</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">//</span>
+<span class="w">  </span><span class="c1">// Method</span>
+<span class="w">  </span><span class="c1">//</span>
+
+<span class="w">  </span><span class="c1">/// Computes a matrix product accumulated in D</span>
+<span class="w">  </span><span class="n">CUTLASS_DEVICE</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="k">operator</span><span class="p">()(</span>
+<span class="w">    </span><span class="n">FragmentC</span><span class="w"> </span><span class="o">&amp;</span><span class="n">D</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">IteratorA</span><span class="w"> </span><span class="n">iter_A</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">IteratorB</span><span class="w"> </span><span class="n">iter_B</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">FragmentC</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">C</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</section>
+<section id="warp-level-matrix-multiply-api">
+<h2>Warp-level Matrix Multiply API<a class="headerlink" href="#warp-level-matrix-multiply-api" title="Link to this heading">#</a></h2>
+<p>Warp-level GEMM operators load tiles from shared memory into registers and then compute matrix multiplies using either
+Tensor Cores or CUDA Cores. The result is accumulated in a register tile. Iterators are defined for each
+operand <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">B</span></code>, and <code class="docutils literal notranslate"><span class="pre">C</span></code>.</p>
+<p>The warp-level GEMM API is a generalization of CUDA’s WMMA API to achieve the following objectives:</p>
+<ul class="simple">
+<li><p>native matrix multiply sizes of Tensor Cores</p></li>
+<li><p>permuted shared memory layouts to ensure conflict-free accesses</p></li>
+<li><p>pointer initilization outside of the mainloop</p></li>
+<li><p>efficient traversal</p></li>
+</ul>
+<p>Defining a warp-level matrix multiply in CUTLASS is similar to WMMA as shown below.</p>
+<p><img alt="ALT" src="../../images/cutlass-warp-level-gemm-api-instantiation.png" /></p>
+<p>The usage model is also similar. The following example computes a warp-level GEMM operation,
+accumulating a series of matrix products in a register-backed array. The input to a warp-level
+GEMM operation in CUTLASS <em>must</em> be data in shared memory loaded by iterators or on
+register-backed fragments.</p>
+<p><img alt="ALT" src="../../images/cutlass-warp-level-gemm-operation.png" /></p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cutlass/gemm/warp/default_mma_tensor_op.h&quot;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="n">LayoutA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cutlass</span><span class="o">::</span><span class="n">layout</span><span class="o">::</span><span class="n">ColumnMajorTensorOpMultiplicandCongruous</span><span class="o">&lt;</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">sizeof_bits</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="n">LayoutB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cutlass</span><span class="o">::</span><span class="n">layout</span><span class="o">::</span><span class="n">RowMajorTensorOpMultiplicandCongruous</span><span class="o">&lt;</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">sizeof_bits</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="n">WarpMma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">cutlass</span><span class="o">::</span><span class="n">gemm</span><span class="o">::</span><span class="n">warp</span><span class="o">::</span><span class="n">DefaultMmaTensorOp</span><span class="o">&lt;</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">gemm</span><span class="o">::</span><span class="n">GemmShape</span><span class="o">&lt;</span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="o">&gt;</span><span class="p">,</span><span class="w">                            </span><span class="c1">// Overall warp-level GEMM operation</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">gemm</span><span class="o">::</span><span class="n">GemmShape</span><span class="o">&lt;</span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="o">&gt;</span><span class="p">,</span><span class="w">                             </span><span class="c1">// Target instruction</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">half_t</span><span class="p">,</span><span class="w"> </span><span class="n">LayoutA</span><span class="p">,</span><span class="w">                                       </span><span class="c1">// operand A type and layout</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">half_t</span><span class="p">,</span><span class="w"> </span><span class="n">LayoutB</span><span class="p">,</span><span class="w">                                       </span><span class="c1">// operand B type and layout</span>
+<span class="w">    </span><span class="kt">float</span><span class="p">,</span><span class="w">                                                          </span><span class="c1">// accumulator type</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">layout</span><span class="o">::</span><span class="n">RowMajor</span><span class="o">&gt;::</span><span class="n">Type</span><span class="p">;</span><span class="w">                               </span><span class="c1">// accumulator layout</span>
+
+<span class="c1">//</span>
+<span class="c1">// Define a GEMM operation loading data from shared memory</span>
+<span class="c1">//</span>
+<span class="kt">int</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">kGemmK</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">;</span>
+
+<span class="n">__shared__</span><span class="w"> </span><span class="n">ElementA</span><span class="w"> </span><span class="n">smem_buffer_A</span><span class="p">[</span><span class="n">WarpMma</span><span class="o">::</span><span class="n">Shape</span><span class="o">::</span><span class="n">kM</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">kGemmK</span><span class="p">];</span>
+<span class="n">__shared__</span><span class="w"> </span><span class="n">ElementB</span><span class="w"> </span><span class="n">smem_buffer_B</span><span class="p">[</span><span class="n">WarpMma</span><span class="o">::</span><span class="n">Shape</span><span class="o">::</span><span class="n">kN</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">kGemmK</span><span class="p">];</span>
+
+<span class="c1">//</span>
+<span class="c1">// Construct iterators into SMEM tiles</span>
+<span class="c1">//</span>
+
+<span class="c1">// leading dimensions inferred from matrix problem size</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">lda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WarpMma</span><span class="o">::</span><span class="n">Shape</span><span class="o">::</span><span class="n">kM</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">ldb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WarpMma</span><span class="o">::</span><span class="n">Shape</span><span class="o">::</span><span class="n">kN</span><span class="p">;</span>
+
+<span class="c1">// iterators into shared memory</span>
+<span class="n">WarpMma</span><span class="o">::</span><span class="n">IteratorA</span><span class="w"> </span><span class="nf">warp_iterator_A</span><span class="p">({</span><span class="n">smem_buffer_A</span><span class="p">,</span><span class="w"> </span><span class="n">lda</span><span class="p">});</span>
+<span class="n">WarpMma</span><span class="o">::</span><span class="n">IteratorB</span><span class="w"> </span><span class="nf">warp_iterator_B</span><span class="p">({</span><span class="n">smem_buffer_B</span><span class="p">,</span><span class="w"> </span><span class="n">ldb</span><span class="p">});</span>
+
+<span class="c1">// Fragments in registers storing the operands</span>
+<span class="n">FragmentA</span><span class="w"> </span><span class="n">frag_A</span><span class="p">;</span>
+<span class="n">FragmentB</span><span class="w"> </span><span class="n">frag_B</span><span class="p">;</span>
+<span class="n">FragmentC</span><span class="w"> </span><span class="n">accum</span><span class="p">;</span>
+
+<span class="n">WarpMma</span><span class="w"> </span><span class="n">mma</span><span class="p">;</span>
+
+<span class="n">accum</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+
+<span class="c1">//</span>
+<span class="c1">// Accumulated outer product</span>
+<span class="c1">//</span>
+
+<span class="cp">#pragma unroll 1</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">kGemmK</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">WarpMma</span><span class="o">::</span><span class="n">Shape</span><span class="o">::</span><span class="n">kK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">  </span>
+<span class="w">  </span><span class="n">iter_A</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">frag_A</span><span class="p">);</span><span class="w">  </span><span class="c1">// Load fragments from A and B matrices</span>
+<span class="w">  </span><span class="n">iter_B</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">frag_B</span><span class="p">);</span>
+
+<span class="w">  </span><span class="o">++</span><span class="n">iter_A</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">iter_B</span><span class="p">;</span><span class="w">   </span><span class="c1">// Advance along GEMM K to next tile in A</span>
+<span class="w">                        </span><span class="c1">//   and B matrices</span>
+
+<span class="w">                        </span><span class="c1">// Compute matrix product</span>
+<span class="w">  </span><span class="n">mma</span><span class="p">(</span><span class="n">accum</span><span class="p">,</span><span class="w"> </span><span class="n">frag_A</span><span class="p">,</span><span class="w"> </span><span class="n">frag_B</span><span class="p">,</span><span class="w"> </span><span class="n">accum</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><em>Concept.</em> Warp-level Mma operations are function objects satisfying the following concept.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">Mma</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">/// Shape of warp-level matrix operation (concept: GemmShape)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">Shape</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Data type of multiplicand A (concept: numeric type)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">ElementA</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Layout of multiplicand A (concept: Layout)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">LayoutA</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Data type of multiplicand B (concept: numeric type)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">ElementB</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Layout of multiplicand B (concept: Layout)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">LayoutB</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Data type of accumulator matrix C (concept: numeric type)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">ElementC</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Layout of accumulator matrix C (concept: Layout)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">LayoutC</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Iterator of A operand in shared memory - satisfies: ReadableRandomAccessTileIteratorConcept</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">IteratorA</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Fragment object loaded from IteratorA (concept: Array&lt;ElementA, ..&gt;)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">FragmentA</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Iterator of B operand in shared memory - satisfies: ReadableRandomAccessTileIteratorConcept</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">IteratorB</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Fragment object loaded from IteratorB (concept: Array&lt;ElementB, ..&gt;)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">FragmentB</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Iterator of C operand in shared memory - </span>
+<span class="w">  </span><span class="c1">///     satisfies: ReadableRandomAccessTileIteratorConcept | WriteableRandomAccessTileIteratorConcept</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">IteratorC</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Fragment object loaded from IteratorC (concept: Array&lt;ElementC, ..&gt;)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">FragmentC</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Indicates class of matrix operator (arch::OpClassSimt or arch::OpClassTensorOp)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">OperatorClass</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">//</span>
+<span class="w">  </span><span class="c1">// Methods</span>
+<span class="w">  </span><span class="c1">//</span>
+
+<span class="w">  </span><span class="c1">/// Computes a matrix multiply-accumulate</span>
+<span class="w">  </span><span class="n">CUTLASS_DEVICE</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="k">operator</span><span class="p">()(</span>
+<span class="w">    </span><span class="n">FragmentC</span><span class="w"> </span><span class="o">&amp;</span><span class="n">D</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">IteratorA</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">IteratorB</span><span class="w"> </span><span class="n">B</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">FragmentC</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">C</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p><em>Tensor Core Operators.</em> Warp-level matrix multiply operators targeting Tensor Cores
+may be defined with the following template arguments. The <code class="docutils literal notranslate"><span class="pre">Policy</span></code> type specifies implementation-level details which may
+be used to affect performance or internal implementation of the warp-level operator.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">namespace</span><span class="w"> </span><span class="nn">cutlass</span><span class="w"> </span><span class="p">{</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">gemm</span><span class="w"> </span><span class="p">{</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">warp</span><span class="w"> </span><span class="p">{</span>
+
+<span class="c1">/// Structure to compute the matrix product targeting CUDA cores and SIMT math instructions.</span>
+<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span>
+<span class="w">  </span><span class="c1">/// Size of the Gemm problem - concept: gemm::GemmShape&lt;&gt;</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">Shape_</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Data type of A elements</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">ElementA_</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Layout of A matrix (concept: MatrixLayout)</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">LayoutA_</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Data type of B elements</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">ElementB_</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Layout of B matrix (concept: MatrixLayout)</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">LayoutB_</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Element type of C matrix</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">ElementC_</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Layout of C matrix (concept: MatrixLayout)</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">LayoutC_</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Shape of the warp in units of thread (concept: MmaSimtPolicy)</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">Policy_</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Used for partial specialization</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">Enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">bool</span>
+<span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MmaTensorOp</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace warp</span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace gemm</span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace cutlass</span>
+</pre></div>
+</div>
+<p><em>SIMT Math Instructions.</em>  Warp-level matrix multiply operators targeting CUDA Cores
+may be defined with the following template arguments. The <code class="docutils literal notranslate"><span class="pre">Policy</span></code> type specifies implementation-level details which may
+be used to affect performance or internal implementation of the warp-level operator.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">/// Structure to compute the matrix product targeting CUDA cores and SIMT math instructions.</span>
+<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span>
+<span class="w">  </span><span class="c1">/// Size of the Gemm problem - concept: gemm::GemmShape&lt;&gt;</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">Shape_</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Data type of A elements</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">ElementA_</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Layout of A matrix (concept: MatrixLayout)</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">LayoutA_</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Data type of B elements</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">ElementB_</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Layout of B matrix (concept: MatrixLayout)</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">LayoutB_</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Element type of C matrix</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">ElementC_</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Layout of C matrix (concept: MatrixLayout)</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">LayoutC_</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Shape of the warp in units of thread (concept: MmaSimtPolicy)</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">Policy_</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Used for partial specialization</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">Enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">bool</span>
+<span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MmaSimt</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="thread-level-gemm-api">
+<h2>Thread-level GEMM API<a class="headerlink" href="#thread-level-gemm-api" title="Link to this heading">#</a></h2>
+<p>Thread-level GEMM operations perform matrix multiply-accumulate on data held in registers. These target CUDA Cores exclusively.</p>
+<p><em>Concept.</em> Thread-level matrix multiply operations are function objects satisfying the following concept.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">Mma</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">  </span><span class="c1">/// Shape of warp-level matrix operation (concept: GemmShape)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">Shape</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Data type of multiplicand A (concept: numeric type)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">ElementA</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Layout of multiplicand A (concept: Layout)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">LayoutA</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Fragment object loaded from IteratorA (concept: Array&lt;ElementA, ..&gt;)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">FragmentA</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Data type of multiplicand B (concept: numeric type)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">ElementB</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Layout of multiplicand B (concept: Layout)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">LayoutB</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Fragment object loaded from IteratorA (concept: Array&lt;ElementB, ..&gt;)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">FragmentB</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Data type of accumulator matrix C (concept: numeric type)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">ElementC</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Layout of accumulator matrix C (concept: Layout)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">LayoutC</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">/// Fragment object loaded from IteratorA (concept: Array&lt;ElementC, ..&gt;)</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">FragmentC</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">//</span>
+<span class="w">  </span><span class="c1">// Methods</span>
+<span class="w">  </span><span class="c1">//</span>
+
+<span class="w">  </span><span class="c1">/// Computes a matrix multiply-accumulate</span>
+<span class="w">  </span><span class="n">CUTLASS_DEVICE</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="k">operator</span><span class="p">()(</span>
+<span class="w">    </span><span class="n">FragmentC</span><span class="w"> </span><span class="o">&amp;</span><span class="n">D</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">FragmentA</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">A</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">FragmentB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">B</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">FragmentC</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">C</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The CUTLASS thread-level GEMM template accepts the following template arguments.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">namespace</span><span class="w"> </span><span class="nn">cutlass</span><span class="w"> </span><span class="p">{</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">gemm</span><span class="w"> </span><span class="p">{</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">thread</span><span class="w"> </span><span class="p">{</span>
+
+<span class="c1">/// Structure to compute the matrix product</span>
+<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span>
+<span class="w">  </span><span class="c1">/// Size of the Gemm problem - concept: gemm::GemmShape&lt;&gt;</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">Shape</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Data type of A elements</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">ElementA</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Layout of A matrix (concept: MatrixLayout)</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">LayoutA</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Data type of B elements</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">ElementB</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Layout of B matrix (concept: MatrixLayout)</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">LayoutB</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Element type of C matrix</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">ElementC</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Layout of C matrix (concept: MatrixLayout)</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">LayoutC</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Concept: arch::OpMultiplyAdd or arch::Mma&lt;&gt;</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">Operator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arch</span><span class="o">::</span><span class="n">OpMultiplyAdd</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">/// Used for partial specialization</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">Enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">bool</span>
+<span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Mma</span><span class="p">;</span>
+
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace thread</span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace gemm</span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace cutlass</span>
+</pre></div>
+</div>
+</section>
+<section id="efficient-epilogue">
+<h2>Efficient Epilogue<a class="headerlink" href="#efficient-epilogue" title="Link to this heading">#</a></h2>
+<p>CUTLASS GEMM operators perform mma followed by epilogue operation similar
+to cuBLAS. CUTLASS implements an efficient row-major epilogue. Thus, to achieve
+column-major GEMM, operands A &amp; B are transposed and swapped.</p>
+<p>To enable efficient row-major epilogue for both row-major and column-major output layout,
+CUTLASS’ device-level GEMM operators <code class="docutils literal notranslate"><span class="pre">cutlass::device::Gemm</span></code> and <code class="docutils literal notranslate"><span class="pre">cutlass::device::GemmUniversal</span></code>
+provide two template definitions:</p>
+<ul class="simple">
+<li><p>(a) <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/device/gemm.h#L217">General definition</a></p></li>
+<li><p>(b) <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/device/gemm.h#L545">Specialized definition for column-major source/output</a></p></li>
+</ul>
+<p>Efficient row-major epilogue for:</p>
+<ul class="simple">
+<li><p>(i)  GEMM operator on row-major source/output uses template (a). It runs row-major GEMM and
+an efficient row-major epilogue.</p></li>
+<li><p>(ii)  GEMM operator on column-major source/output uses template (b). It transposes and swaps
+operands A and B to enable efficient epilogue. <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">x</span> <span class="pre">B</span> <span class="pre">=</span> <span class="pre">C</span> <span class="pre">=&gt;</span> <span class="pre">Transpose(B)</span> <span class="pre">x</span> <span class="pre">Transpose(A)</span> <span class="pre">=</span> <span class="pre">Transpose(C)</span></code>.
+For column-major source (C) matrix, Transpose(C) is row-major, and efficient epilogue works on
+row-major.</p></li>
+</ul>
+<p>Note that cuBLAS typically expects a column-major source (C) and output matrix (D). Thus,
+CUTLASS library only instantiates and generates GEMM operatos with column-major layout. However,
+CUTLASS by itself can run both row-major and column-major output layouts for all combinations
+of input layouts. Thus, CUTLASS supports the following layout combinations for input and output layouts:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">{N,T}</span> <span class="pre">x</span> <span class="pre">{N,T}</span> <span class="pre">=&gt;</span> <span class="pre">{N,T}</span></code> - NN, TN, TN, TT GEMM for both row-major and column-major output</p></li>
+</ul>
+</section>
+<section id="instruction-level-operations">
+<h2>Instruction-level operations<a class="headerlink" href="#instruction-level-operations" title="Link to this heading">#</a></h2>
+<p>CUTLASS defines a template-based interface to Tensor Core operations to avoid resorting
+to inline PTX.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/arch/mma_sm70.h">mma_sm70.h</a> - Volta TensorCore operations</p></li>
+<li><p><a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/arch/mma_sm75.h">mma_sm75.h</a> - Turing TensorCore operations</p></li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="copyright">
+<h1>Copyright<a class="headerlink" href="#copyright" title="Link to this heading">#</a></h1>
+<p>Copyright (c) 2017 - 2025 NVIDIA CORPORATION &amp; AFFILIATES. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">Redistribution</span> <span class="ow">and</span> <span class="n">use</span> <span class="ow">in</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">binary</span> <span class="n">forms</span><span class="p">,</span> <span class="k">with</span> <span class="ow">or</span> <span class="n">without</span>
+  <span class="n">modification</span><span class="p">,</span> <span class="n">are</span> <span class="n">permitted</span> <span class="n">provided</span> <span class="n">that</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span> <span class="n">are</span> <span class="n">met</span><span class="p">:</span>
+
+  <span class="mf">1.</span> <span class="n">Redistributions</span> <span class="n">of</span> <span class="n">source</span> <span class="n">code</span> <span class="n">must</span> <span class="n">retain</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span> <span class="n">this</span>
+  <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span><span class="o">.</span>
+
+  <span class="mf">2.</span> <span class="n">Redistributions</span> <span class="ow">in</span> <span class="n">binary</span> <span class="n">form</span> <span class="n">must</span> <span class="n">reproduce</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span>
+  <span class="n">this</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">documentation</span>
+  <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">other</span> <span class="n">materials</span> <span class="n">provided</span> <span class="k">with</span> <span class="n">the</span> <span class="n">distribution</span><span class="o">.</span>
+
+  <span class="mf">3.</span> <span class="n">Neither</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">holder</span> <span class="n">nor</span> <span class="n">the</span> <span class="n">names</span> <span class="n">of</span> <span class="n">its</span>
+  <span class="n">contributors</span> <span class="n">may</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">endorse</span> <span class="ow">or</span> <span class="n">promote</span> <span class="n">products</span> <span class="n">derived</span> <span class="kn">from</span>
+<span class="w">  </span><span class="nn">this</span> <span class="n">software</span> <span class="n">without</span> <span class="n">specific</span> <span class="n">prior</span> <span class="n">written</span> <span class="n">permission</span><span class="o">.</span>
+
+  <span class="n">THIS</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">PROVIDED</span> <span class="n">BY</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span> <span class="n">AND</span> <span class="n">CONTRIBUTORS</span> <span class="s2">&quot;AS IS&quot;</span>
+  <span class="n">AND</span> <span class="n">ANY</span> <span class="n">EXPRESS</span> <span class="n">OR</span> <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span><span class="p">,</span> <span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">THE</span>
+  <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span> <span class="n">AND</span> <span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span> <span class="n">ARE</span>
+  <span class="n">DISCLAIMED</span><span class="o">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">SHALL</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDER</span> <span class="n">OR</span> <span class="n">CONTRIBUTORS</span> <span class="n">BE</span> <span class="n">LIABLE</span>
+  <span class="n">FOR</span> <span class="n">ANY</span> <span class="n">DIRECT</span><span class="p">,</span> <span class="n">INDIRECT</span><span class="p">,</span> <span class="n">INCIDENTAL</span><span class="p">,</span> <span class="n">SPECIAL</span><span class="p">,</span> <span class="n">EXEMPLARY</span><span class="p">,</span> <span class="n">OR</span> <span class="n">CONSEQUENTIAL</span>
+  <span class="n">DAMAGES</span> <span class="p">(</span><span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">PROCUREMENT</span> <span class="n">OF</span> <span class="n">SUBSTITUTE</span> <span class="n">GOODS</span> <span class="n">OR</span>
+  <span class="n">SERVICES</span><span class="p">;</span> <span class="n">LOSS</span> <span class="n">OF</span> <span class="n">USE</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">OR</span> <span class="n">PROFITS</span><span class="p">;</span> <span class="n">OR</span> <span class="n">BUSINESS</span> <span class="n">INTERRUPTION</span><span class="p">)</span> <span class="n">HOWEVER</span>
+  <span class="n">CAUSED</span> <span class="n">AND</span> <span class="n">ON</span> <span class="n">ANY</span> <span class="n">THEORY</span> <span class="n">OF</span> <span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">STRICT</span> <span class="n">LIABILITY</span><span class="p">,</span>
+  <span class="n">OR</span> <span class="n">TORT</span> <span class="p">(</span><span class="n">INCLUDING</span> <span class="n">NEGLIGENCE</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">)</span> <span class="n">ARISING</span> <span class="n">IN</span> <span class="n">ANY</span> <span class="n">WAY</span> <span class="n">OUT</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">USE</span>
+  <span class="n">OF</span> <span class="n">THIS</span> <span class="n">SOFTWARE</span><span class="p">,</span> <span class="n">EVEN</span> <span class="n">IF</span> <span class="n">ADVISED</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">POSSIBILITY</span> <span class="n">OF</span> <span class="n">SUCH</span> <span class="n">DAMAGE</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="utilities.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">CUTLASS Utilities</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="gemm_api_3x.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">CUTLASS 3.0 GEMM API</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">CUTLASS GEMM API</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-gemm-model">CUTLASS GEMM Model</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-gemm-components">CUTLASS GEMM Components</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device-wide-gemm-api">Device-wide GEMM API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#threadblock-level-gemm-api">Threadblock-level GEMM API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#warp-level-matrix-multiply-api">Warp-level Matrix Multiply API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#thread-level-gemm-api">Thread-level GEMM API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#efficient-epilogue">Efficient Epilogue</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instruction-level-operations">Instruction-level operations</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

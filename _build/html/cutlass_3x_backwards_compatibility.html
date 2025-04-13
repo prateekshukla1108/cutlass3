@@ -1,0 +1,1132 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CUTLASS 3.0 GEMM Backwards Compatibility &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cutlass_3x_backwards_compatibility';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started With CuTe" href="cute/00_quickstart.html" />
+    <link rel="prev" title="CUTLASS 3.0 Design" href="cutlass_3x_design.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="overview.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="overview.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">CUTLASS Terminology</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="ide_setup.html">IDE Setup for CUTLASS Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functionality.html">Functionality</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="fundamental_types.html">Fundamental Types</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="layout.html">Layouts and Tensors</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="tile_iterator_concept.html">Tile Iterator Concepts</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Synchronization primitives</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="code_organization.html">CUTLASS Code Organization</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="programming_guidelines.html">Programming Guidelines</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">CUTLASS Utilities</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Key Operations &amp; APIs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="gemm_api.html">CUTLASS GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="gemm_api_3x.html">CUTLASS 3.0 GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="efficient_gemm.html">Efficient GEMM in CUDA</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="implicit_gemm_convolution.html">CUTLASS Convolution</a></li>
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTLASS 3.x Specifics</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cutlass_3x_design.html">CUTLASS 3.0 Design</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">CUTLASS 3.0 GEMM Backwards Compatibility</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTE - Compositional Universal Tile Engine</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cute/00_quickstart.html">Getting Started With CuTe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/01_layout.html">CuTe Layouts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/02_layout_algebra.html">CuTe Layout Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/03_tensor.html">CuTe Tensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/04_algorithms.html">CuTe Tensor algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0t_mma_atom.html">CuTe’s support for Matrix Multiply-Accumulate instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0x_gemm_tutorial.html">CuTe dense matrix-matrix multiply tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0y_predication.html">Predication: What to do when tiling isn’t perfect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0z_tma_tensors.html">CuTe TMA Tensors</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Features &amp; Platform Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="dependent_kernel_launch.html">Dependent kernel launches</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grouped_scheduler.html">CUTLASS Grouped Kernel Schedulers</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="blackwell_functionality.html">Blackwell SM100 GEMMs</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="blackwell_cluster_launch_control.html">Blackwell Cluster Launch Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="profiler.html">CUTLASS Profiler</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Building CUTLASS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="build/building_in_windows_with_visual_studio.html">Building on Windows with Visual Studio</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="build/building_with_clang_as_host_compiler.html">Building with Clang as host compiler</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fcutlass_3x_backwards_compatibility.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/cutlass_3x_backwards_compatibility.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>CUTLASS 3.0 GEMM Backwards Compatibility</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">CUTLASS 3.0 GEMM Backwards Compatibility</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compatible-device-api">Compatible Device API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#device-api-design-differences">Device API design differences</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compatible-kernel-api">Compatible Kernel API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-api-design-differences">Kernel API design differences</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#threadblock-api-and-inner-loops">Threadblock API and Inner Loops</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#porting-from-2-x-to-3-0-api">Porting from 2.x to 3.0 API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-2-x-layout-tags-and-cutlass-3-0-major-modes">CUTLASS 2.x layout tags and CUTLASS 3.0 major modes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conversions-between-2-x-tags-and-3-0-types">Conversions between 2.x tags and 3.0 types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="cutlass-3-0-gemm-backwards-compatibility">
+<h1>CUTLASS 3.0 GEMM Backwards Compatibility<a class="headerlink" href="#cutlass-3-0-gemm-backwards-compatibility" title="Link to this heading">#</a></h1>
+<p>Although CUTLASS 3.0 restructures the GEMM hierarchy and introduces new types for the
+threadblock layer and below, we intend the entire source code to be usable in user applications.
+We expect users to be able to <code class="docutils literal notranslate"><span class="pre">#include</span></code> any source file from CUTLASS 3.0, whether
+they implement the 2.x or the 3.x API, without breaking user builds. This means that a single
+translation unit should be able to contain any valid kernel regardless of its API version. The
+sections below discuss how <code class="docutils literal notranslate"><span class="pre">device</span></code> and <code class="docutils literal notranslate"><span class="pre">kernel</span></code> layer type names are made compatible across the
+two API versions, and what the users can expect out of the <code class="docutils literal notranslate"><span class="pre">threadblock</span></code> layer API going forward.</p>
+<section id="compatible-device-api">
+<h2>Compatible Device API<a class="headerlink" href="#compatible-device-api" title="Link to this heading">#</a></h2>
+<p>The entry point for CUTLASS’s Device GEMM API
+is the class
+<code class="docutils literal notranslate"><span class="pre">cutlass::gemm::device::GemmUniversalAdapter</span></code>.
+This class lives in the header file
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/device/gemm_universal_adapter.h">include/cutlass/gemm/device/gemm_universal_adapter.h</a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GemmUniversalAdapter</span></code> is a “universal adapter”
+and serves as a common device interface
+for both CUTLASS 3.x and CUTLASS 2.x kernels.
+Its template parameter <code class="docutils literal notranslate"><span class="pre">GemmKernel</span></code>,
+the GEMM kernel type, can be any of the following:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cutlass::gemm::kernel::GemmUniversal</span></code>,
+implementing CUTLASS 3.x API kernels;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cutlass::gemm::kernel::GemmUniversal</span></code>,
+implementing CUTLASS 2.x API kernels;</p></li>
+<li><p>Any valid CUTLASS 2.x <code class="docutils literal notranslate"><span class="pre">kernel</span></code> layer GEMM that
+was previously composable with <code class="docutils literal notranslate"><span class="pre">device::GemmUniversalAdapter</span></code></p></li>
+</ul>
+<p>Users implementing new kernels in either API should prefer
+using <code class="docutils literal notranslate"><span class="pre">kernel::GemmUniversal</span></code> as the kernel type
+and compose it with <code class="docutils literal notranslate"><span class="pre">device::GemmUniversalAdapter</span></code>.
+Users with existing <code class="docutils literal notranslate"><span class="pre">kernel::Gemm</span></code> kernels
+can continue to use them as template arguments
+of <code class="docutils literal notranslate"><span class="pre">device::GemmUniversalAdapter</span></code>. They can adopt
+<code class="docutils literal notranslate"><span class="pre">GemmUniversal</span></code> as a gradual migration path,
+since <code class="docutils literal notranslate"><span class="pre">GemmUniversal</span></code> accepts either 3.0 or 2.x collectives.
+Please see the <a class="reference internal" href="#compatible-kernel-api"><span class="xref myst">next section for <code class="docutils literal notranslate"><span class="pre">kernel::GemmUniversal</span></code></span></a> for details.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GemmUniversalAdapter</span></code> presents a single
+host-side interface to both 3.0 and 2.x kernels.
+CUTLASS accomplishes this by
+specializing <code class="docutils literal notranslate"><span class="pre">GemmUniversalAdapter</span></code>’s implementation
+on either 2.x API implementing kernel layer GEMMs, or 3.x API
+implementing kernel layer GEMMs (as detected by <code class="docutils literal notranslate"><span class="pre">gemm::detail::IsCutlass3GemmKernel</span></code>
+discussed below). As a result, <code class="docutils literal notranslate"><span class="pre">GemmUniversalAdapter</span></code>’s behavior
+might differ between the two specializations.</p>
+<section id="device-api-design-differences">
+<h3>Device API design differences<a class="headerlink" href="#device-api-design-differences" title="Link to this heading">#</a></h3>
+<p>In CUTLASS 2.x, the Device API was more closely tied
+to the Kernel API.  In CUTLASS 3.0, the Device API
+accepts any kernel type that meets the Kernel API
+interface requirements.  CUTLASS 3.0’s Device API code is
+parameterized by the kernel type, but this code
+is <em>generic</em>; the same code works for any kernel type.</p>
+<p>The device layer compatibility interface, <code class="docutils literal notranslate"><span class="pre">device::GemmUniversalAdapter</span></code>,
+also provides reflective mappings from 3.0-specific types
+back to the closest possible 2.x equivalent types. This is <a class="reference internal" href="#conversions-between-2x-tags-and-30-types"><span class="xref myst">discussed further in the section below</span></a>.</p>
+<p>CUTLASS 3.0’s <code class="docutils literal notranslate"><span class="pre">device::GemmUniversalAdapter</span></code> also exposes some new APIs that the 2.x <code class="docutils literal notranslate"><span class="pre">device::GemmUniversalAdapter</span></code> implementation does not. Most notably, this includes the ability to bypass the <code class="docutils literal notranslate"><span class="pre">GemmKernel::Arguments</span></code> to <code class="docutils literal notranslate"><span class="pre">GemmKernel::Params</span></code> lowering.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Primary run() entry point API that is static allowing users to create and manage their own params.</span>
+<span class="k">static</span><span class="w"> </span><span class="n">Status</span>
+<span class="nf">run</span><span class="p">(</span><span class="n">Params</span><span class="o">&amp;</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">cudaStream_t</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This new API is useful for the following scenarios.</p>
+<ul class="simple">
+<li><p>Running again does not require reinvoking <code class="docutils literal notranslate"><span class="pre">GemmKernel::to_underlying_arguments()</span></code></p></li>
+<li><p>Manual control over construction of <code class="docutils literal notranslate"><span class="pre">GemmKernel::Params</span></code> for custom kernels with custom stride types</p></li>
+<li><p>Fully static problem shapes and strides for bespoke kernels where no argument mapping needs to take place</p></li>
+</ul>
+</section>
+</section>
+<section id="compatible-kernel-api">
+<h2>Compatible Kernel API<a class="headerlink" href="#compatible-kernel-api" title="Link to this heading">#</a></h2>
+<p>CUTLASS 3.x API shares the kernel layer API with CUTLASS 2.x
+through the single entry point type <code class="docutils literal notranslate"><span class="pre">cutlass::gemm::kernel::GemmUniversal</span></code>.
+All kernel layer GEMMs are viewed as a composition of a collective mainloop
+and a collective epilogue.</p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">kernel::GemmUniversal</span></code> implements both 2.x and 3.x APIs</strong></p>
+<p>The entry point for CUTLASS’s kernel API is the class
+<code class="docutils literal notranslate"><span class="pre">cutlass::gemm::kernel::GemmUniversal</span></code>.
+This class’ declaration lives in the header file
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/kernel/gemm_universal.hpp">include/cutlass/gemm/kernel/gemm_universal.hpp</a>.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * Stateless universal device GEMM kernel type that treats GEMM as</span>
+<span class="cm"> * a composition of a collective mainloop and a collective epilogue.</span>
+<span class="cm"> * SFIANE shims both 2.x and 3.0 API kernels based on ProblemShapeOrThreadblockMma_.</span>
+<span class="cm">**/</span>
+<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">ProblemShapeOrThreadblockMma_</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">CollectiveMainloopOrEpilogue_</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">CollectiveEpilogueOrThreadblockSwizzle_</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">TileScheduler_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">Enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span>
+<span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GemmUniversal</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>We call this class “universal” because it can be built
+using either the CUTLASS 3.0 or the 2.x mainloops and epilogues.
+If <code class="docutils literal notranslate"><span class="pre">GemmUniversal</span></code>’s first template argument
+(<code class="docutils literal notranslate"><span class="pre">ProblemShapeOrThreadblockMma_</span></code>) is a <code class="docutils literal notranslate"><span class="pre">cute::tuple</span></code>,
+then <code class="docutils literal notranslate"><span class="pre">GemmUniversal</span></code> assumes that
+the remaining three template arguments
+(the mainloop, epilogue, and grid swizzle)
+implement the 3.0 APIs.
+Otherwise, <code class="docutils literal notranslate"><span class="pre">GemmUniversal</span></code> assumes that
+the remaining three template arguments
+implement the 2.x APIs.
+All the template arguments must be either
+CUTLASS 3.0 or CUTLASS 2.x types. For example,
+<code class="docutils literal notranslate"><span class="pre">GemmUniversal</span></code> does not permit using
+a 2.x mainloop with a 3.0 collective epilogue.</p>
+<p>CUTLASS 3.x implements various embodiments of <code class="docutils literal notranslate"><span class="pre">kernel::GemmUniversal</span></code>.
+Each kernel layer schedule is specialized
+for a GEMM scheduling algorithm and GPU architecture.
+Specializations of <code class="docutils literal notranslate"><span class="pre">kernel::GemmUniversal</span></code> for 3.0 APIs live in
+any of various <code class="docutils literal notranslate"><span class="pre">gemm_*.hpp</span></code> files in the directory
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/kernel/">include/cutlass/gemm/kernel/</a>.
+The specialization to which to dispatch is decided through the dispatch policy’s <code class="docutils literal notranslate"><span class="pre">Schedule</span></code> type.</p>
+<p>Specializations for 2.x APIs live in the header file
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/kernel/gemm_universal.h">include/cutlass/gemm/kernel/gemm_universal.h</a>.</p>
+<section id="kernel-api-design-differences">
+<h3>Kernel API design differences<a class="headerlink" href="#kernel-api-design-differences" title="Link to this heading">#</a></h3>
+<p>The CUTLASS 2.x Kernel API was more closely tied
+to the Device API, as we mentioned above.
+In particular, the 2.x Device API specified the grid shape
+used to launch the Kernel API.
+In CUTLASS 3.0, the Kernel API controls its own grid shape,
+while the device adapter simply queries the kernel with which it needs to be launched.</p>
+<p>This change is required to support various kernel schedules
+that may need their own schedule specific grid planning logic.
+For example, persistent kernel schedules generally only launch with
+as many threadblocks as the number of multiprocessors on the GPU.</p>
+<p>All CUTLASS 3 <code class="docutils literal notranslate"><span class="pre">kernel::GemmUniversal</span></code> specializations expose the following (static) API:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Returns true if the kernel can execute the provided GEMM arguments.</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">bool</span>
+<span class="nf">can_implement</span><span class="p">(</span><span class="n">Arguments</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">args</span><span class="p">);</span>
+
+<span class="c1">// Returns a dim3 representing the threadblock shape.</span>
+<span class="k">static</span><span class="w"> </span><span class="n">dim3</span>
+<span class="nf">get_block_shape</span><span class="p">();</span>
+
+<span class="c1">// Returns a dim3 representing the grid shape in terms of threadblocks.</span>
+<span class="k">static</span><span class="w"> </span><span class="n">dim3</span>
+<span class="nf">get_grid_shape</span><span class="p">(</span><span class="n">Params</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">params</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The device adapter simply queries the kernel for these three before launching it on the device.
+CUTLASS 3.0 provides a meta-function to detect whether a <code class="docutils literal notranslate"><span class="pre">cutlass::gemm::kernel::*</span></code> implements
+the 3.x API or 2.x API:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// include/cutlass/gemm/gemm.h</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">cutlass</span><span class="o">:</span><span class="nn">gemm</span><span class="o">::</span><span class="nn">detail</span><span class="w"> </span><span class="p">{</span>
+
+<span class="c1">// The following metafunction is used to detect whether a</span>
+<span class="c1">// `kernel::Gemm` or `kernel::GemmUniversal` implements the CUTLASS 3.x API,</span>
+<span class="c1">// by checking whether the problem shape type is aliased within.</span>
+<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">GemmKernel</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">IsCutlass3GemmKernel</span><span class="p">;</span>
+
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace cutlass:gemm::detail</span>
+</pre></div>
+</div>
+<p>Users can dispatch their generic code against 2.x and 3.x specializations with
+this as a type trait for the kernel API version.</p>
+</section>
+</section>
+<section id="threadblock-api-and-inner-loops">
+<h2>Threadblock API and Inner Loops<a class="headerlink" href="#threadblock-api-and-inner-loops" title="Link to this heading">#</a></h2>
+<p>Much of the CUTLASS 3 GEMM hierarchy for mainloops and inner loops diverges
+from that of CUTLASS 2.x.  With that also comes the introduction of the
+<code class="docutils literal notranslate"><span class="pre">cutlass::gemm::collective</span></code> layer as a direct replacement and a superset
+of the 2.x <code class="docutils literal notranslate"><span class="pre">cutlass::gemm::threadblock</span></code> layer. Going forward,
+CUTLASS 3.x will discontinue new developments in the following namespaces.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cutlass::*::threadblock::*</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cutlass::*::warp::*</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cutlass::gemm::thread::*</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cutlass::arch::*</span></code> (except <code class="docutils literal notranslate"><span class="pre">barrier.h</span></code>)</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">cutlass::gemm::collective</span></code>s are a superset of the threadblock layer where
+all new mainloops will be developed. Users should look to the <code class="docutils literal notranslate"><span class="pre">CollectiveMma</span></code> type
+if they wish to author custom mainloop code in the 3.x API.</p>
+<p>Similarly, for the GEMM inner loops, <code class="docutils literal notranslate"><span class="pre">cute::MMA_Atom</span></code>s replace the
+<code class="docutils literal notranslate"><span class="pre">gemm::warp</span></code> and <code class="docutils literal notranslate"><span class="pre">gemm::thread</span></code> layer code. Going forward, all new PTX instructions
+and associated metadata development will occur directly inside <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/arch/"><code class="docutils literal notranslate"><span class="pre">cute/arch/*.hpp</span></code></a> and <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/atom/"><code class="docutils literal notranslate"><span class="pre">cute/atom/*.hpp</span></code></a>.</p>
+<p>The desired inner loop MMA iteration order and tiling can be achieved through careful
+selection of the atom layout, value layout, and permutations of the <code class="docutils literal notranslate"><span class="pre">cute::TiledMma</span></code>.</p>
+<p>For epilogues, the <code class="docutils literal notranslate"><span class="pre">cutlass::epilogue::collective</span></code> layer replaces <code class="docutils literal notranslate"><span class="pre">cutlass::threadblock::collective</span></code>.  However, the thread-level epilogue elementwise operations
+in <code class="docutils literal notranslate"><span class="pre">cutlass::epilogue::thread</span></code> will continue to be used in 3.x kernels as well, albeit, with
+a more idiomatic epilogue vectorization strategy.
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/examples/50_hopper_gemm_with_epilogue_swizzle/50_hopper_gemm_with_epilogue_swizzle.cu">Example 50</a>
+shows how to use 2.x epilogue thread operators with 3.0 API kernels.</p>
+</section>
+<section id="porting-from-2-x-to-3-0-api">
+<h2>Porting from 2.x to 3.0 API<a class="headerlink" href="#porting-from-2-x-to-3-0-api" title="Link to this heading">#</a></h2>
+<section id="cutlass-2-x-layout-tags-and-cutlass-3-0-major-modes">
+<h3>CUTLASS 2.x layout tags and CUTLASS 3.0 major modes<a class="headerlink" href="#cutlass-2-x-layout-tags-and-cutlass-3-0-major-modes" title="Link to this heading">#</a></h3>
+<p>CUTLASS 2.x and CUTLASS 3.0 use both
+different wording and different types
+to describe the permitted layouts
+of GEMM’s input matrices A and B.</p>
+<p>CUTLASS 3.0 does not use the terms “column major”
+or “row major” to describe matrix layouts.
+Starting with CUTLASS 3.0, adoption of CuTe allows us to decouple</p>
+<ul class="simple">
+<li><p>the coordinate mode order (logical shape) of layouts from</p></li>
+<li><p>the index space stride order of the backing storage.</p></li>
+</ul>
+<p>In line with our switch to a conceptual GEMM hierarchy, we view the major modes not from a BLAS-3 perspective.
+Rather, we divide the modes into two categories.</p>
+<ul class="simple">
+<li><p>“Inner modes” or “K-modes” are contracted over during the GEMM.
+Therefore, they are not present in the output tensor.</p></li>
+<li><p>“Outer modes” or “MN-modes” are preserved in the output.</p></li>
+</ul>
+<p>Now, instead of <code class="docutils literal notranslate"><span class="pre">RowMajor</span></code> or <code class="docutils literal notranslate"><span class="pre">ColumnMajor</span></code>, whose major stride depends on whether we are referring to the
+A or the B matrix, we uniformly employ the “K major” or “MN major” terminology and enforce the convention of all tensors having the shape <code class="docutils literal notranslate"><span class="pre">[M/N,</span> <span class="pre">K,</span> <span class="pre">L]</span></code> regardless of which mode is major.  That is,</p>
+<ul class="simple">
+<li><p>the input matrix A has shape M x K,</p></li>
+<li><p>the input matrix B has shape N x K, and</p></li>
+<li><p>the input/output matrices C/D have shape M x N.</p></li>
+</ul>
+<p>Note that this convention for B
+differs from the BLAS’s GEMM interface,
+which specifies that B has shape K x N.</p>
+<p>CUTLASS 3.0 uses these names of the modes
+to specify which mode of a matrix has stride 1.
+For the matrix A,</p>
+<ul class="simple">
+<li><p>“M major” means that the matrix is stride 1
+in the M mode, and</p></li>
+<li><p>“K major” means that the matrix is stride 1
+in the K mode.</p></li>
+</ul>
+<p>For the matrix B,</p>
+<ul class="simple">
+<li><p>“N major” means that the matrix is stride 1
+in the N mode (which for B is mode 0,
+because the convention is that B is N x K); and</p></li>
+<li><p>“K major” means that the matrix is stride 1
+in the K mode (which for B is mode 1).</p></li>
+</ul>
+<p>CUTLASS 2.x defines “layout tag” classes
+<code class="docutils literal notranslate"><span class="pre">cutlass::layout::ColumnMajor</span></code> and <code class="docutils literal notranslate"><span class="pre">cutlass::layout::RowMajor</span></code>,
+that live in the header file
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/layout/matrix.h"><code class="docutils literal notranslate"><span class="pre">cutlass/layout/matrix.h</span></code></a>.
+The interpretation of these layouts in GEMM
+depends on whether they are applied
+to the input matrix A or B. For the matrix A, “column major” means
+that mode corresponding to M extent has stride 1,
+and “row major” means that mode corresponding to K extent has stride 1.
+This is the usual computer science definition
+of column major and row major for a rank-2 array.
+For the matrix B, the opposite holds:
+“column major” means that mode corresponding to N extent has stride 1,
+and “row major” means that mode corresponding to K extent has stride 1.</p>
+<p>Using the convention of <code class="docutils literal notranslate"><span class="pre">[outer,</span> <span class="pre">inner,</span> <span class="pre">batch]</span></code> mode order for tensor logical shapes
+avoids potential confusion with the meaning of column major and row major
+changing depending on whether they are applied to A or B.</p>
+<p>The table below summarizes our mode order convention and
+mapping of 2.x layout tags to corresponding M-major, N-major, or K-major strides.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Matrix</p></th>
+<th class="head"><p>CUTLASS 2.x layout</p></th>
+<th class="head"><p>2.x Shape</p></th>
+<th class="head"><p>Logical major mode</p></th>
+<th class="head"><p>3.x Shape/Stride</p></th>
+<th class="head"><p>Major ordinal</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>A</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ColumnMajor</span></code></p></td>
+<td><p>M x K</p></td>
+<td><p>M major</p></td>
+<td><p>M x K x L</p></td>
+<td><p>0 (outer)</p></td>
+</tr>
+<tr class="row-odd"><td><p>A</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RowMajor</span></code></p></td>
+<td><p>M x K</p></td>
+<td><p>K major</p></td>
+<td><p>M x K x L</p></td>
+<td><p>1 (inner)</p></td>
+</tr>
+<tr class="row-even"><td><p>B</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RowMajor</span></code></p></td>
+<td><p>K x N</p></td>
+<td><p>N major</p></td>
+<td><p>N x K x L</p></td>
+<td><p>0 (outer)</p></td>
+</tr>
+<tr class="row-odd"><td><p>B</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ColumnMajor</span></code></p></td>
+<td><p>K x N</p></td>
+<td><p>K major</p></td>
+<td><p>N x K x L</p></td>
+<td><p>1 (inner)</p></td>
+</tr>
+<tr class="row-even"><td><p>C</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ColumnMajor</span></code></p></td>
+<td><p>M x N</p></td>
+<td><p>M major</p></td>
+<td><p>M x N x L</p></td>
+<td><p>0 (outer)</p></td>
+</tr>
+<tr class="row-odd"><td><p>C</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RowMajor</span></code></p></td>
+<td><p>M x N</p></td>
+<td><p>N major</p></td>
+<td><p>M x N x L</p></td>
+<td><p>1 (inner)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Notice that in CUTLASS 3.0, interpretation of layouts no longer changes based on
+whether we are talking about the A or B matrix. M and N major inputs always have a
+static size-1 stride in their 0th (outer) mode. Similarly, K major inputs
+always contain the static size-1 stride in their 1st mode. This uniformity in stride order
+allows us to represent tensor layouts much more cleanly and treat both A and B equally in our interfaces.
+See for example the following snippet from our <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/kernel/sm70_gemm.hpp"><code class="docutils literal notranslate"><span class="pre">kernel/sm70_gemm.hpp</span></code></a>
+for Ampere kernel schedules.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Represent the full tensors</span>
+<span class="n">Tensor</span><span class="w"> </span><span class="n">mA_mkl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tensor</span><span class="p">(</span><span class="n">make_gmem_ptr</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="n">mainloop</span><span class="p">.</span><span class="n">ptr_A</span><span class="p">),</span><span class="w"> </span><span class="n">make_shape</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">L</span><span class="p">),</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">mainloop</span><span class="p">.</span><span class="n">dA</span><span class="p">);</span><span class="w"> </span><span class="c1">// (m,k,l)</span>
+<span class="n">Tensor</span><span class="w"> </span><span class="n">mB_nkl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tensor</span><span class="p">(</span><span class="n">make_gmem_ptr</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="n">mainloop</span><span class="p">.</span><span class="n">ptr_B</span><span class="p">),</span><span class="w"> </span><span class="n">make_shape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">L</span><span class="p">),</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">mainloop</span><span class="p">.</span><span class="n">dB</span><span class="p">);</span><span class="w"> </span><span class="c1">// (n,k,l)</span>
+
+<span class="c1">// Get batch slice</span>
+<span class="n">Tensor</span><span class="w"> </span><span class="n">mA_mk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mA_mkl</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">&gt;</span><span class="p">(</span><span class="n">blk_coord_mnkl</span><span class="p">));</span><span class="w"> </span><span class="c1">// (m,k)</span>
+<span class="n">Tensor</span><span class="w"> </span><span class="n">mB_nk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mB_nkl</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">&gt;</span><span class="p">(</span><span class="n">blk_coord_mnkl</span><span class="p">));</span><span class="w"> </span><span class="c1">// (n,k)</span>
+
+<span class="c1">// Slice to get the tiles for which this thread block is responsible</span>
+<span class="n">Tensor</span><span class="w"> </span><span class="n">gA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_tile</span><span class="p">(</span><span class="n">mA_mk</span><span class="p">,</span><span class="w"> </span><span class="n">blk_shape</span><span class="p">,</span><span class="w"> </span><span class="n">take</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="o">&gt;</span><span class="p">(</span><span class="n">blk_coord_mnkl</span><span class="p">),</span><span class="w"> </span><span class="n">Step</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;</span><span class="p">{});</span><span class="w"> </span><span class="c1">// (BLK_M,BLK_K,k)</span>
+<span class="n">Tensor</span><span class="w"> </span><span class="n">gB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_tile</span><span class="p">(</span><span class="n">mB_nk</span><span class="p">,</span><span class="w"> </span><span class="n">blk_shape</span><span class="p">,</span><span class="w"> </span><span class="n">take</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="o">&gt;</span><span class="p">(</span><span class="n">blk_coord_mnkl</span><span class="p">),</span><span class="w"> </span><span class="n">Step</span><span class="o">&lt;</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="n">_1</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;</span><span class="p">{});</span><span class="w"> </span><span class="c1">// (BLK_N,BLK_K,k)</span>
+</pre></div>
+</div>
+<p>As seem in this snippet, all input tensors have the logical shape <code class="docutils literal notranslate"><span class="pre">[outer,</span> <span class="pre">inner,</span> <span class="pre">batch]</span></code>,
+and the strides could represent either outer or inner
+(or any other complex hierarchical stride) major storage.
+CuTe layouts always maintain the logical consistency of the coordinate spaces regardless of the strides.</p>
+<p>By convention, in CUTLASS 3.0, we treat the M and N mode as the 0th mode,
+and K mode as the 1st mode of the stride.</p>
+</section>
+<section id="conversions-between-2-x-tags-and-3-0-types">
+<h3>Conversions between 2.x tags and 3.0 types<a class="headerlink" href="#conversions-between-2-x-tags-and-3-0-types" title="Link to this heading">#</a></h3>
+<p>Starting with CUTLASS 3.0, all layouts are described using
+<code class="docutils literal notranslate"><span class="pre">cute::Shape</span></code> and <code class="docutils literal notranslate"><span class="pre">cute::Stride</span></code> which compose into a <code class="docutils literal notranslate"><span class="pre">cute::Layout&lt;Shape,</span> <span class="pre">Stride&gt;</span></code>.
+In CUTLASS 2.x, various layout tags such as <code class="docutils literal notranslate"><span class="pre">cutlass::layout::RowMajor</span></code> are used to specialize
+template implementations. These tag types only encode information about the tensor strides,
+as 2.x layouts did not incorporate any concept of tensor shape in the layout tags themselves.
+Users may find a need to convert between CUTLASS 2.x layout tags, and 3.0
+CuTe stride types. CUTLASS 3.0 <code class="docutils literal notranslate"><span class="pre">gemm::collective::CollectiveBuilder</span></code> interfaces
+also accept these 2.x layout tags as input parameters in their template API as a convenience for users.
+At every entry point into CUTLASS 3.0, these tags get converted to their corresponding CuTe Stride type with
+metafunctions that best approximate their corresponding <code class="docutils literal notranslate"><span class="pre">cute::Stride</span></code>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cutlass::gemm::detail::TagToStrideA_t&lt;LayoutTag&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cutlass::gemm::detail::TagToStrideB_t&lt;LayoutTag&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cutlass::gemm::detail::TagToStrideC_t&lt;LayoutTag&gt;</span></code></p></li>
+</ul>
+<p>By convention, and to match user expectations, the <code class="docutils literal notranslate"><span class="pre">cute::Stride</span></code> types that these
+map onto always contain one static mode corresponding to the layout tag, and two 64-bit
+dynamic stride modes corresponding to the minor mode and the batch mode. Batch
+mode is included by default as all CUTLASS 3.0 kernels support packed batch-mode GEMMs
+out of the box.</p>
+<p>The <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/gemm.h#440"><code class="docutils literal notranslate"><span class="pre">cutlass/gemm/gemm.h#440</span></code></a>
+header file includes functions
+that can be useful for converting
+from CUTLASS 3.0 <code class="docutils literal notranslate"><span class="pre">cute::Stride</span></code>s back to CUTLASS 2.x layout tags.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cutlass::gemm::detail::StrideToLayoutTagA_t&lt;CuteStride&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cutlass::gemm::detail::StrideToLayoutTagB_t&lt;CuteStride&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cutlass::gemm::detail::StrideToLayoutTagC_t&lt;CuteStride&gt;</span></code></p></li>
+</ul>
+<p>These metafunctions take the CuTe Stride as a template parameter and
+attempt to find the size-1 stride in the idiomatic M, N, or K modes
+to best approximate a corresponding 2.x layout tag type.
+Note that this may not work in general for any <code class="docutils literal notranslate"><span class="pre">cute::Stride</span></code>
+as the mapping between the stride and tag type is not bijective.</p>
+<p>These mapping utilities are kept in a <code class="docutils literal notranslate"><span class="pre">detail</span></code> namespace
+as we do not guarantee stability of their implementation.
+Their behavior may change in future releases as we add new features.
+However, we do expect these type names to remain stable. For users who want
+these 2.x reflective types from an assembled kernel with a more stable API,
+the specialization of <code class="docutils literal notranslate"><span class="pre">cutlass::gemm::device::GemmUniversalAdapter</span></code>
+for CUTLASS 3.0 kernel provides all aliases for all 2.x type aliases
+in addition to the layout tags. You can see how they are used in the header file
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/device/gemm_universal_adapter.h"><code class="docutils literal notranslate"><span class="pre">cutlass/gemm/device/gemm_universal_adapter.h</span></code></a>.
+Here is an excerpt.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Map back to 2.x type as best as possible</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">LayoutA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gemm</span><span class="o">::</span><span class="n">detail</span><span class="o">::</span><span class="n">StrideToLayoutTagA_t</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">GemmKernel</span><span class="o">::</span><span class="n">StrideA</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">LayoutB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gemm</span><span class="o">::</span><span class="n">detail</span><span class="o">::</span><span class="n">StrideToLayoutTagB_t</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">GemmKernel</span><span class="o">::</span><span class="n">StrideB</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">LayoutC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gemm</span><span class="o">::</span><span class="n">detail</span><span class="o">::</span><span class="n">StrideToLayoutTagC_t</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">GemmKernel</span><span class="o">::</span><span class="n">StrideC</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">LayoutD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gemm</span><span class="o">::</span><span class="n">detail</span><span class="o">::</span><span class="n">StrideToLayoutTagC_t</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">GemmKernel</span><span class="o">::</span><span class="n">StrideD</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Legacy: Assume MultiplyAdd only since we do not use this tag type in 3.0</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">MathOperator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cutlass</span><span class="o">::</span><span class="n">arch</span><span class="o">::</span><span class="n">OpMultiplyAdd</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// If our TiledMMA&#39;s instruction thread layout size is larger than 1,</span>
+<span class="w">  </span><span class="c1">// we know it&#39;s a tensorop</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">OperatorClass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">conditional_t</span><span class="o">&lt;</span>
+<span class="w">      </span><span class="p">(</span><span class="n">cute</span><span class="o">::</span><span class="n">size</span><span class="p">(</span><span class="k">typename</span><span class="w"> </span><span class="nc">GemmKernel</span><span class="o">::</span><span class="n">TiledMma</span><span class="o">::</span><span class="n">AtomThrID</span><span class="p">{})</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span>
+<span class="w">      </span><span class="n">cutlass</span><span class="o">::</span><span class="n">arch</span><span class="o">::</span><span class="n">OpClassTensorOp</span><span class="p">,</span><span class="w"> </span><span class="n">cutlass</span><span class="o">::</span><span class="n">arch</span><span class="o">::</span><span class="n">OpClassSimt</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Assume TiledMma&#39;s ShapeMNK is the same as 2.x&#39;s ThreadblockShape</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">ThreadblockShape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cutlass</span><span class="o">::</span><span class="n">gemm</span><span class="o">::</span><span class="n">GemmShape</span><span class="o">&lt;</span>
+<span class="w">      </span><span class="n">cute</span><span class="o">::</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">TileShape</span><span class="p">{}),</span>
+<span class="w">      </span><span class="n">cute</span><span class="o">::</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">TileShape</span><span class="p">{}),</span>
+<span class="w">      </span><span class="n">cute</span><span class="o">::</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">TileShape</span><span class="p">{})</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">ClusterShape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cutlass</span><span class="o">::</span><span class="n">gemm</span><span class="o">::</span><span class="n">GemmShape</span><span class="o">&lt;</span>
+<span class="w">      </span><span class="n">cute</span><span class="o">::</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="k">typename</span><span class="w"> </span><span class="nc">GemmKernel</span><span class="o">::</span><span class="n">DispatchPolicy</span><span class="o">::</span><span class="n">ClusterShape</span><span class="p">{}),</span>
+<span class="w">      </span><span class="n">cute</span><span class="o">::</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="k">typename</span><span class="w"> </span><span class="nc">GemmKernel</span><span class="o">::</span><span class="n">DispatchPolicy</span><span class="o">::</span><span class="n">ClusterShape</span><span class="p">{}),</span>
+<span class="w">      </span><span class="n">cute</span><span class="o">::</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="k">typename</span><span class="w"> </span><span class="nc">GemmKernel</span><span class="o">::</span><span class="n">DispatchPolicy</span><span class="o">::</span><span class="n">ClusterShape</span><span class="p">{})</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// We get the instruction shape directly from our TiledMma&#39;s atom shape</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">InstructionShape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cutlass</span><span class="o">::</span><span class="n">gemm</span><span class="o">::</span><span class="n">GemmShape</span><span class="o">&lt;</span>
+<span class="w">      </span><span class="n">cute</span><span class="o">::</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="k">typename</span><span class="w"> </span><span class="nc">CollectiveMainloop</span><span class="o">::</span><span class="n">TiledMma</span><span class="o">::</span><span class="n">AtomShape_MNK</span><span class="p">{}),</span>
+<span class="w">      </span><span class="n">cute</span><span class="o">::</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="k">typename</span><span class="w"> </span><span class="nc">CollectiveMainloop</span><span class="o">::</span><span class="n">TiledMma</span><span class="o">::</span><span class="n">AtomShape_MNK</span><span class="p">{}),</span>
+<span class="w">      </span><span class="n">cute</span><span class="o">::</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="k">typename</span><span class="w"> </span><span class="nc">CollectiveMainloop</span><span class="o">::</span><span class="n">TiledMma</span><span class="o">::</span><span class="n">AtomShape_MNK</span><span class="p">{})</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="n">kStages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CollectiveMainloop</span><span class="o">::</span><span class="n">DispatchPolicy</span><span class="o">::</span><span class="n">Stages</span><span class="p">;</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">kThreadCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GemmKernel</span><span class="o">::</span><span class="n">MaxThreadsPerBlock</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Warp shape is not a primary API type in 3.x,</span>
+<span class="w">  </span><span class="c1">// but we can best approximate it by inspecting the TiledMma</span>
+<span class="w">  </span><span class="c1">// For this, we make the assumption that we always have 4 warps along M,</span>
+<span class="w">  </span><span class="c1">// and the rest along N, with none along K.  We also always round up</span>
+<span class="w">  </span><span class="c1">// the warp count to 4 if the tiled mma is smaller than 128 threads.</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">WarpsInMma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">max</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">CUTE_STATIC_V</span><span class="p">(</span><span class="n">cute</span><span class="o">::</span><span class="n">size</span><span class="p">(</span><span class="k">typename</span><span class="w"> </span><span class="nc">GemmKernel</span><span class="o">::</span><span class="n">TiledMma</span><span class="p">{}))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">32</span><span class="p">);</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">WarpsInMmaM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">WarpsInMmaN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cute</span><span class="o">::</span><span class="n">ceil_div</span><span class="p">(</span><span class="n">WarpsInMma</span><span class="p">,</span><span class="w"> </span><span class="n">WarpsInMmaM</span><span class="p">);</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">WarpCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cutlass</span><span class="o">::</span><span class="n">gemm</span><span class="o">::</span><span class="n">GemmShape</span><span class="o">&lt;</span><span class="n">WarpsInMmaM</span><span class="p">,</span><span class="w"> </span><span class="n">WarpsInMmaN</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">WarpShape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cutlass</span><span class="o">::</span><span class="n">gemm</span><span class="o">::</span><span class="n">GemmShape</span><span class="o">&lt;</span>
+<span class="w">      </span><span class="n">CUTE_STATIC_V</span><span class="p">(</span><span class="n">cute</span><span class="o">::</span><span class="n">tile_size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="k">typename</span><span class="w"> </span><span class="nc">CollectiveMainloop</span><span class="o">::</span><span class="n">TiledMma</span><span class="p">{}))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">WarpsInMmaM</span><span class="p">,</span>
+<span class="w">      </span><span class="n">CUTE_STATIC_V</span><span class="p">(</span><span class="n">cute</span><span class="o">::</span><span class="n">tile_size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="k">typename</span><span class="w"> </span><span class="nc">CollectiveMainloop</span><span class="o">::</span><span class="n">TiledMma</span><span class="p">{}))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">WarpsInMmaN</span><span class="p">,</span>
+<span class="w">      </span><span class="n">CUTE_STATIC_V</span><span class="p">(</span><span class="n">cute</span><span class="o">::</span><span class="n">tile_size</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="k">typename</span><span class="w"> </span><span class="nc">CollectiveMainloop</span><span class="o">::</span><span class="n">TiledMma</span><span class="p">{}))</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Inspect TiledCopy for A and B to compute the alignment size</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="n">kAlignmentA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gemm</span><span class="o">::</span><span class="n">detail</span><span class="o">::</span><span class="n">get_alignment_count_from_gmem_tiled_copy</span><span class="o">&lt;</span>
+<span class="w">      </span><span class="k">typename</span><span class="w"> </span><span class="nc">CollectiveMainloop</span><span class="o">::</span><span class="n">GmemTiledCopyA</span><span class="p">,</span><span class="w"> </span><span class="n">ElementA</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="n">kAlignmentB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gemm</span><span class="o">::</span><span class="n">detail</span><span class="o">::</span><span class="n">get_alignment_count_from_gmem_tiled_copy</span><span class="o">&lt;</span>
+<span class="w">      </span><span class="k">typename</span><span class="w"> </span><span class="nc">CollectiveMainloop</span><span class="o">::</span><span class="n">GmemTiledCopyB</span><span class="p">,</span><span class="w"> </span><span class="n">ElementB</span><span class="o">&gt;</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>CUTLASS’s library and profiler use these reflective interfaces to
+obtain the kernel’s configuration parameters. Users can use these to approximate the CUTLASS 2.x types
+for 3.0 API kernels.  However, the reflective interfaces cannot always match the types exactly,
+as the mappings are not always bijective.</p>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="copyright">
+<h1>Copyright<a class="headerlink" href="#copyright" title="Link to this heading">#</a></h1>
+<p>Copyright (c) 2023 - 2025 NVIDIA CORPORATION &amp; AFFILIATES. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">Redistribution</span> <span class="ow">and</span> <span class="n">use</span> <span class="ow">in</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">binary</span> <span class="n">forms</span><span class="p">,</span> <span class="k">with</span> <span class="ow">or</span> <span class="n">without</span>
+  <span class="n">modification</span><span class="p">,</span> <span class="n">are</span> <span class="n">permitted</span> <span class="n">provided</span> <span class="n">that</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span> <span class="n">are</span> <span class="n">met</span><span class="p">:</span>
+
+  <span class="mf">1.</span> <span class="n">Redistributions</span> <span class="n">of</span> <span class="n">source</span> <span class="n">code</span> <span class="n">must</span> <span class="n">retain</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span> <span class="n">this</span>
+  <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span><span class="o">.</span>
+
+  <span class="mf">2.</span> <span class="n">Redistributions</span> <span class="ow">in</span> <span class="n">binary</span> <span class="n">form</span> <span class="n">must</span> <span class="n">reproduce</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span>
+  <span class="n">this</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">documentation</span>
+  <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">other</span> <span class="n">materials</span> <span class="n">provided</span> <span class="k">with</span> <span class="n">the</span> <span class="n">distribution</span><span class="o">.</span>
+
+  <span class="mf">3.</span> <span class="n">Neither</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">holder</span> <span class="n">nor</span> <span class="n">the</span> <span class="n">names</span> <span class="n">of</span> <span class="n">its</span>
+  <span class="n">contributors</span> <span class="n">may</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">endorse</span> <span class="ow">or</span> <span class="n">promote</span> <span class="n">products</span> <span class="n">derived</span> <span class="kn">from</span>
+<span class="w">  </span><span class="nn">this</span> <span class="n">software</span> <span class="n">without</span> <span class="n">specific</span> <span class="n">prior</span> <span class="n">written</span> <span class="n">permission</span><span class="o">.</span>
+
+  <span class="n">THIS</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">PROVIDED</span> <span class="n">BY</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span> <span class="n">AND</span> <span class="n">CONTRIBUTORS</span> <span class="s2">&quot;AS IS&quot;</span>
+  <span class="n">AND</span> <span class="n">ANY</span> <span class="n">EXPRESS</span> <span class="n">OR</span> <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span><span class="p">,</span> <span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">THE</span>
+  <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span> <span class="n">AND</span> <span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span> <span class="n">ARE</span>
+  <span class="n">DISCLAIMED</span><span class="o">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">SHALL</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDER</span> <span class="n">OR</span> <span class="n">CONTRIBUTORS</span> <span class="n">BE</span> <span class="n">LIABLE</span>
+  <span class="n">FOR</span> <span class="n">ANY</span> <span class="n">DIRECT</span><span class="p">,</span> <span class="n">INDIRECT</span><span class="p">,</span> <span class="n">INCIDENTAL</span><span class="p">,</span> <span class="n">SPECIAL</span><span class="p">,</span> <span class="n">EXEMPLARY</span><span class="p">,</span> <span class="n">OR</span> <span class="n">CONSEQUENTIAL</span>
+  <span class="n">DAMAGES</span> <span class="p">(</span><span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">PROCUREMENT</span> <span class="n">OF</span> <span class="n">SUBSTITUTE</span> <span class="n">GOODS</span> <span class="n">OR</span>
+  <span class="n">SERVICES</span><span class="p">;</span> <span class="n">LOSS</span> <span class="n">OF</span> <span class="n">USE</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">OR</span> <span class="n">PROFITS</span><span class="p">;</span> <span class="n">OR</span> <span class="n">BUSINESS</span> <span class="n">INTERRUPTION</span><span class="p">)</span> <span class="n">HOWEVER</span>
+  <span class="n">CAUSED</span> <span class="n">AND</span> <span class="n">ON</span> <span class="n">ANY</span> <span class="n">THEORY</span> <span class="n">OF</span> <span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">STRICT</span> <span class="n">LIABILITY</span><span class="p">,</span>
+  <span class="n">OR</span> <span class="n">TORT</span> <span class="p">(</span><span class="n">INCLUDING</span> <span class="n">NEGLIGENCE</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">)</span> <span class="n">ARISING</span> <span class="n">IN</span> <span class="n">ANY</span> <span class="n">WAY</span> <span class="n">OUT</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">USE</span>
+  <span class="n">OF</span> <span class="n">THIS</span> <span class="n">SOFTWARE</span><span class="p">,</span> <span class="n">EVEN</span> <span class="n">IF</span> <span class="n">ADVISED</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">POSSIBILITY</span> <span class="n">OF</span> <span class="n">SUCH</span> <span class="n">DAMAGE</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="cutlass_3x_design.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">CUTLASS 3.0 Design</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="cute/00_quickstart.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Getting Started With CuTe</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">CUTLASS 3.0 GEMM Backwards Compatibility</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compatible-device-api">Compatible Device API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#device-api-design-differences">Device API design differences</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compatible-kernel-api">Compatible Kernel API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-api-design-differences">Kernel API design differences</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#threadblock-api-and-inner-loops">Threadblock API and Inner Loops</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#porting-from-2-x-to-3-0-api">Porting from 2.x to 3.0 API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-2-x-layout-tags-and-cutlass-3-0-major-modes">CUTLASS 2.x layout tags and CUTLASS 3.0 major modes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conversions-between-2-x-tags-and-3-0-types">Conversions between 2.x tags and 3.0 types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

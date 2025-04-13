@@ -1,0 +1,1186 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CuTe Layout Algebra &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cute/02_layout_algebra';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CuTe Tensors" href="03_tensor.html" />
+    <link rel="prev" title="CuTe Layouts" href="01_layout.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../overview.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../overview.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../terminology.html">CUTLASS Terminology</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../ide_setup.html">IDE Setup for CUTLASS Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../functionality.html">Functionality</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../fundamental_types.html">Fundamental Types</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../layout.html">Layouts and Tensors</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../tile_iterator_concept.html">Tile Iterator Concepts</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../pipeline.html">Synchronization primitives</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../code_organization.html">CUTLASS Code Organization</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../programming_guidelines.html">Programming Guidelines</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">CUTLASS Utilities</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Key Operations &amp; APIs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../gemm_api.html">CUTLASS GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../gemm_api_3x.html">CUTLASS 3.0 GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../efficient_gemm.html">Efficient GEMM in CUDA</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../implicit_gemm_convolution.html">CUTLASS Convolution</a></li>
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTLASS 3.x Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../cutlass_3x_design.html">CUTLASS 3.0 Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cutlass_3x_backwards_compatibility.html">CUTLASS 3.0 GEMM Backwards Compatibility</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTE - Compositional Universal Tile Engine</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_quickstart.html">Getting Started With CuTe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_layout.html">CuTe Layouts</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">CuTe Layout Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_tensor.html">CuTe Tensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_algorithms.html">CuTe Tensor algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0t_mma_atom.html">CuTe’s support for Matrix Multiply-Accumulate instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0x_gemm_tutorial.html">CuTe dense matrix-matrix multiply tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0y_predication.html">Predication: What to do when tiling isn’t perfect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0z_tma_tensors.html">CuTe TMA Tensors</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Features &amp; Platform Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../dependent_kernel_launch.html">Dependent kernel launches</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../grouped_scheduler.html">CUTLASS Grouped Kernel Schedulers</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../blackwell_functionality.html">Blackwell SM100 GEMMs</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../blackwell_cluster_launch_control.html">Blackwell Cluster Launch Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../profiler.html">CUTLASS Profiler</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Building CUTLASS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../build/building_in_windows_with_visual_studio.html">Building on Windows with Visual Studio</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../build/building_with_clang_as_host_compiler.html">Building with Clang as host compiler</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fcute/02_layout_algebra.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/cute/02_layout_algebra.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>CuTe Layout Algebra</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coalesce">Coalesce</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#by-mode-coalesce">By-mode Coalesce</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#composition">Composition</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-composition">Computing Composition</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-reshape-a-layout-into-a-matrix">Example 1 – Reshape a layout into a matrix</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-reshape-a-layout-into-a-matrix">Example 2 – Reshape a layout into a matrix</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#by-mode-composition">By-mode Composition</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#composition-tilers">Composition Tilers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complement">Complement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#complement-examples">Complement Examples</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#division-tiling">Division (Tiling)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logical-divide-1-d-example">Logical Divide 1-D Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logical-divide-2-d-example">Logical Divide 2-D Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zipped-tiled-flat-divides">Zipped, Tiled, Flat Divides</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#product-tiling">Product (Tiling)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logical-product-1-d-example">Logical Product 1-D Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logical-product-2-d-example">Logical Product 2-D Example</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blocked-and-raked-products">Blocked and Raked Products</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zipped-and-tiled-products">Zipped and Tiled Products</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="cute-layout-algebra">
+<h1>CuTe Layout Algebra<a class="headerlink" href="#cute-layout-algebra" title="Link to this heading">#</a></h1>
+<p>CuTe provides an “algebra of <code class="docutils literal notranslate"><span class="pre">Layout</span></code>s” to support combining layouts in different ways.  This algebra includes operations such as</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Layout</span></code> functional composition,</p></li>
+<li><p>a notion of <code class="docutils literal notranslate"><span class="pre">Layout</span></code> “product” to reproduce one layout according to another, and</p></li>
+<li><p>a notion of <code class="docutils literal notranslate"><span class="pre">Layout</span></code> “divide” to split one layout according to another.</p></li>
+</ul>
+<p>Common utilities for building complicated layouts from simpler ones depend on the <code class="docutils literal notranslate"><span class="pre">Layout</span></code> product. Common utilities for partitioning layouts (of data, for example) across other layouts (of threads, for example) depend on the <code class="docutils literal notranslate"><span class="pre">Layout</span></code> divide. All of these utilities rely on the functional composition of <code class="docutils literal notranslate"><span class="pre">Layout</span></code>s.</p>
+<p>In this section, we’ll build up the tools of the <code class="docutils literal notranslate"><span class="pre">Layout</span></code> algebra and explain some of these core operations in detail.</p>
+<section id="coalesce">
+<h2>Coalesce<a class="headerlink" href="#coalesce" title="Link to this heading">#</a></h2>
+<p>In the previous section, we summarized <code class="docutils literal notranslate"><span class="pre">Layout</span></code>s with</p>
+<blockquote>
+<div><p>Layouts are functions from integers to integers.</p>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">coalesce</span></code> operation is a “simplify” on functions from integers to integers. If we only care about input integers, then we can manipulate the shape and number of modes of the <code class="docutils literal notranslate"><span class="pre">Layout</span></code> without changing it as a function. The only thing <code class="docutils literal notranslate"><span class="pre">coalesce</span></code> can’t change is the <code class="docutils literal notranslate"><span class="pre">Layout</span></code>’s <code class="docutils literal notranslate"><span class="pre">size</span></code>.</p>
+<p>More specifically, you can find the checked post-conditions in <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/test/unit/cute/core/coalesce.cpp">the <code class="docutils literal notranslate"><span class="pre">coalesce</span></code> unit test</a>, which we’ll reproduce here:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// @post size(@a result) == size(@a layout)</span>
+<span class="c1">// @post depth(@a result) &lt;= 1</span>
+<span class="c1">// @post for all i, 0 &lt;= i &lt; size(@a layout), @a result(i) == @a layout(i)</span>
+<span class="n">Layout</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">Layout</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">layout</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For example,</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_2</span><span class="p">,</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">_6</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+<span class="w">                     </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_6</span><span class="p">,</span><span class="n">_2</span><span class="o">&gt;&gt;&gt;</span><span class="p">{};</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">layout</span><span class="p">);</span><span class="w">    </span><span class="c1">// _12:_1</span>
+</pre></div>
+</div>
+<p>where we can see the result has fewer modes and is “simpler.” Indeed, this could save us a few operations in the coordinate mapping and index mapping (if those are performed dynamically).</p>
+<p>So, how do we get there?</p>
+<ul class="simple">
+<li><p>We’ve already seen that column-major <code class="docutils literal notranslate"><span class="pre">Layout</span></code>s like <code class="docutils literal notranslate"><span class="pre">(_2,_4):(_1,_2)</span></code> act identically to <code class="docutils literal notranslate"><span class="pre">_8:_1</span></code> for 1-D coordinates.</p></li>
+<li><p>Modes with size static-1 will always produce a natural coordinate of static-0. They can be ignored no matter the stride.</p></li>
+</ul>
+<p>Generalizing, consider a layout with just two integral modes, s0:d0 and s1:d1.  Denote the result of coalescing this layout as s0:d0 ++ s1:d1. Then, there are four cases:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">s0:d0</span>&#160; <span class="pre">++</span>&#160; <span class="pre">_1:d1</span>&#160; <span class="pre">=&gt;</span>&#160; <span class="pre">s0:d0</span></code>. Ignore modes with size static-1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_1:d0</span>&#160; <span class="pre">++</span>&#160; <span class="pre">s1:d1</span>&#160; <span class="pre">=&gt;</span>&#160; <span class="pre">s1:d1</span></code>. Ignore modes with size static-1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">s0:d0</span>&#160; <span class="pre">++</span>&#160; <span class="pre">s1:s0*d0</span>&#160; <span class="pre">=&gt;</span>&#160; <span class="pre">s0*s1:d0</span></code>. If the second mode’s stride is the product of the first mode’s size and stride, then they can be combined.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">s0:d0</span>&#160; <span class="pre">++</span>&#160; <span class="pre">s1:d1</span>&#160; <span class="pre">=&gt;</span>&#160; <span class="pre">(s0,s1):(d0,d1)</span></code>. Else, nothing can be done and they must be treated separately.</p></li>
+</ol>
+<p>That’s it! We can flatten any layout and apply the above binary operation to each pair of adjacent modes in order to “coalesce” the modes of the layout.</p>
+<section id="by-mode-coalesce">
+<h3>By-mode Coalesce<a class="headerlink" href="#by-mode-coalesce" title="Link to this heading">#</a></h3>
+<p>Obviously, sometimes we do care about the shape of our <code class="docutils literal notranslate"><span class="pre">Layout</span></code>, but would still like to coalesce. For example, I have a 2-D <code class="docutils literal notranslate"><span class="pre">Layout</span></code> and I would like the result to remain 2-D.</p>
+<p>For this reason, there’s an overload of <code class="docutils literal notranslate"><span class="pre">coalesce</span></code> that takes an additional parameter</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Apply coalesce at the terminals of trg_profile</span>
+<span class="n">Layout</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">Layout</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">layout</span><span class="p">,</span><span class="w"> </span><span class="n">IntTuple</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">trg_profile</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>which can be used as follows</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_2</span><span class="p">,</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">_6</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+<span class="w">                </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_6</span><span class="p">,</span><span class="n">_2</span><span class="o">&gt;&gt;&gt;</span><span class="p">{};</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">Step</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">   </span><span class="c1">// (_2,_6):(_1,_2)</span>
+<span class="c1">// Identical to</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">same_r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">coalesce</span><span class="p">(</span><span class="n">layout</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">a</span><span class="p">)),</span>
+<span class="w">                          </span><span class="n">coalesce</span><span class="p">(</span><span class="n">layout</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">a</span><span class="p">)));</span>
+</pre></div>
+</div>
+<p>This function is recursing into <code class="docutils literal notranslate"><span class="pre">Step&lt;_1,_1&gt;{}</span></code> and applying <code class="docutils literal notranslate"><span class="pre">coalesce</span></code> to the corresponding sublayout whenever it sees an integer (the values don’t matter, they’re just flags) rather than a tuple.</p>
+<blockquote>
+<div><p>This theme of defining an operation that treats a <code class="docutils literal notranslate"><span class="pre">Layout</span></code> as a “1-D” function from integers to integers and then generalizing to use it for an arbitrarily shaped layout will be a common one!</p>
+</div></blockquote>
+</section>
+</section>
+<section id="composition">
+<h2>Composition<a class="headerlink" href="#composition" title="Link to this heading">#</a></h2>
+<p>Functional composition of <code class="docutils literal notranslate"><span class="pre">Layout</span></code>s is the core of CuTe and is used in just about every higher-level operation.</p>
+<p>Starting again from the observation that <code class="docutils literal notranslate"><span class="pre">Layout</span></code>s are just functions from integers to integers, we can define functional composition that results in another <code class="docutils literal notranslate"><span class="pre">Layout</span></code>. First, an example.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Functional composition, R := A o B
+R(c) := (A o B)(c) := A(B(c))
+
+Example
+A = (6,2):(8,2)
+B = (4,3):(3,1)
+
+R( 0) = A(B( 0)) = A(B(0,0)) = A( 0) = A(0,0) =  0
+R( 1) = A(B( 1)) = A(B(1,0)) = A( 3) = A(3,0) = 24
+R( 2) = A(B( 2)) = A(B(2,0)) = A( 6) = A(0,1) =  2
+R( 3) = A(B( 3)) = A(B(3,0)) = A( 9) = A(3,1) = 26
+R( 4) = A(B( 4)) = A(B(0,1)) = A( 1) = A(1,0) =  8
+R( 5) = A(B( 5)) = A(B(1,1)) = A( 4) = A(4,0) = 32
+R( 6) = A(B( 6)) = A(B(2,1)) = A( 7) = A(1,1) = 10
+R( 7) = A(B( 7)) = A(B(3,1)) = A(10) = A(4,1) = 34
+R( 8) = A(B( 8)) = A(B(0,2)) = A( 2) = A(2,0) = 16
+R( 9) = A(B( 9)) = A(B(1,2)) = A( 5) = A(5,0) = 40
+R(10) = A(B(10)) = A(B(2,2)) = A( 8) = A(2,1) = 18
+R(11) = A(B(11)) = A(B(3,2)) = A(11) = A(5,1) = 42
+</pre></div>
+</div>
+<p>The absolutely amazing observation is that the function <code class="docutils literal notranslate"><span class="pre">R(c)</span> <span class="pre">=</span> <span class="pre">k</span></code> defined above can be written down as another <code class="docutils literal notranslate"><span class="pre">Layout</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="mi">3</span><span class="p">):((</span><span class="mi">24</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>AND</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">compatible</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>That is, every coordinate of <code class="docutils literal notranslate"><span class="pre">B</span></code> can also be used as a coordinate of <code class="docutils literal notranslate"><span class="pre">R</span></code>. This is an expected property of functional composition because <code class="docutils literal notranslate"><span class="pre">B</span></code> defines the <em>domain</em> of <code class="docutils literal notranslate"><span class="pre">R</span></code>.</p>
+<p>You can find many examples and checked post-conditions in <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/test/unit/cute/core/composition.cpp">the <code class="docutils literal notranslate"><span class="pre">composition</span></code> unit test</a>. The post-conditions are precisely as we just stated.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// @post compatible(@a layout_b, @a result)</span>
+<span class="c1">// @post for all i, 0 &lt;= i &lt; size(@a layout_b), @a result(i) == @a layout_a(@a layout_b(i)))</span>
+<span class="n">Layout</span><span class="w"> </span><span class="n">composition</span><span class="p">(</span><span class="n">LayoutA</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">layout_a</span><span class="p">,</span><span class="w"> </span><span class="n">LayoutB</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">layout_b</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="computing-composition">
+<h3>Computing Composition<a class="headerlink" href="#computing-composition" title="Link to this heading">#</a></h3>
+<p>First, a few observations:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">B</span> <span class="pre">=</span> <span class="pre">(B_0,</span> <span class="pre">B_1,</span> <span class="pre">...)</span></code>. A layout can be expressed as the concatenation of its sublayouts.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">o</span> <span class="pre">B</span> <span class="pre">=</span> <span class="pre">A</span> <span class="pre">o</span> <span class="pre">(B_0,</span> <span class="pre">B_1,</span> <span class="pre">...)</span> <span class="pre">=</span> <span class="pre">(A</span> <span class="pre">o</span> <span class="pre">B_0,</span> <span class="pre">A</span> <span class="pre">o</span> <span class="pre">B_1,</span> <span class="pre">...)</span></code>. When <code class="docutils literal notranslate"><span class="pre">B</span></code> is injective, composition is left-distributive with concatenation.</p></li>
+</ul>
+<p>With the above, we can assume without loss of generality that <code class="docutils literal notranslate"><span class="pre">B</span> <span class="pre">=</span> <span class="pre">s:d</span></code> is a layout with integral shape and stride. We can also assume that <code class="docutils literal notranslate"><span class="pre">A</span></code> is a flattened, coalesced layout.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">A</span></code> is integral, <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">=</span> <span class="pre">a:b</span></code>, the result is rather trivial: <code class="docutils literal notranslate"><span class="pre">R</span> <span class="pre">=</span> <span class="pre">A</span> <span class="pre">o</span> <span class="pre">B</span> <span class="pre">=</span> <span class="pre">a:b</span> <span class="pre">o</span> <span class="pre">s:d</span> <span class="pre">=</span> <span class="pre">s:(b*d)</span></code>. But when <code class="docutils literal notranslate"><span class="pre">A</span></code> is multimodal, we need to be more careful.</p>
+<p>Put into words, <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">o</span> <span class="pre">B</span> <span class="pre">=</span> <span class="pre">A</span> <span class="pre">o</span> <span class="pre">s:d</span></code>, for integral <code class="docutils literal notranslate"><span class="pre">s</span></code> and <code class="docutils literal notranslate"><span class="pre">d</span></code> means that we want (1) “remove” the first <code class="docutils literal notranslate"><span class="pre">d</span></code> elements from <code class="docutils literal notranslate"><span class="pre">A</span></code>, and then (2) “keep” the first <code class="docutils literal notranslate"><span class="pre">s</span></code> of those strided elements.</p>
+<ol class="arabic simple">
+<li><p>Removing the first <code class="docutils literal notranslate"><span class="pre">d</span></code> elements of <code class="docutils literal notranslate"><span class="pre">A</span></code> can be computed by progressively “dividing out” the first <code class="docutils literal notranslate"><span class="pre">d</span></code> elements from the shape of <code class="docutils literal notranslate"><span class="pre">A</span></code> starting from the left. For example,</p></li>
+</ol>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">(6,2)</span> <span class="pre">/</span>&#160; <span class="pre">2</span> <span class="pre">=&gt;</span> <span class="pre">(3,2)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(6,2)</span> <span class="pre">/</span>&#160; <span class="pre">3</span> <span class="pre">=&gt;</span> <span class="pre">(2,2)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(6,2)</span> <span class="pre">/</span>&#160; <span class="pre">6</span> <span class="pre">=&gt;</span> <span class="pre">(1,2)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(6,2)</span> <span class="pre">/</span> <span class="pre">12</span> <span class="pre">=&gt;</span> <span class="pre">(1,1)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(3,6,2,8)</span> <span class="pre">/</span>&#160; <span class="pre">3</span> <span class="pre">=&gt;</span> <span class="pre">(1,3,2,8)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(3,6,2,8)</span> <span class="pre">/</span>&#160; <span class="pre">6</span> <span class="pre">=&gt;</span> <span class="pre">(1,3,2,8)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(3,6,2,8)</span> <span class="pre">/</span>&#160; <span class="pre">9</span> <span class="pre">=&gt;</span> <span class="pre">(1,2,2,8)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(3,6,2,8)</span> <span class="pre">/</span> <span class="pre">72</span> <span class="pre">=&gt;</span> <span class="pre">(1,1,1,4)</span></code></p></li>
+</ul>
+<p>As you may have noticed, we can only divide shapes by certain values and get a sensible result. This is called the <strong>stride divisibility condition</strong> and is statically checked in CuTe when possible.</p>
+<ol class="arabic simple" start="2">
+<li><p>Keeping the first <code class="docutils literal notranslate"><span class="pre">s</span></code> elements of the strided <code class="docutils literal notranslate"><span class="pre">A</span></code> layout can be computed by “modding out” the first <code class="docutils literal notranslate"><span class="pre">s</span></code> elements from the shape of <code class="docutils literal notranslate"><span class="pre">A</span></code> starting from the left. For example,</p></li>
+</ol>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">(6,2)</span> <span class="pre">%</span>&#160; <span class="pre">2</span> <span class="pre">=&gt;</span> <span class="pre">(2,1)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(6,2)</span> <span class="pre">%</span>&#160; <span class="pre">3</span> <span class="pre">=&gt;</span> <span class="pre">(3,1)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(6,2)</span> <span class="pre">%</span>&#160; <span class="pre">6</span> <span class="pre">=&gt;</span> <span class="pre">(6,1)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(6,2)</span> <span class="pre">%</span> <span class="pre">12</span> <span class="pre">=&gt;</span> <span class="pre">(6,2)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(3,6,2,8)</span> <span class="pre">%</span>&#160; <span class="pre">6</span> <span class="pre">=&gt;</span> <span class="pre">(3,2,1,1)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(3,6,2,8)</span> <span class="pre">%</span>&#160; <span class="pre">9</span> <span class="pre">=&gt;</span> <span class="pre">(3,3,1,1)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(1,2,2,8)</span> <span class="pre">%</span>&#160; <span class="pre">2</span> <span class="pre">=&gt;</span> <span class="pre">(1,2,1,1)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(1,2,2,8)</span> <span class="pre">%</span> <span class="pre">16</span> <span class="pre">=&gt;</span> <span class="pre">(1,2,2,4)</span></code></p></li>
+</ul>
+<p>Again, this operation must satisfy a <strong>shape divisibility condition</strong> to yield a sensible result and is statically checked in CuTe when possible.</p>
+<p>From the above examples, we can construct the composition <code class="docutils literal notranslate"><span class="pre">(3,6,2,8):(w,x,y,z)</span> <span class="pre">o</span> <span class="pre">16:9</span> <span class="pre">=</span> <span class="pre">(1,2,2,4):(3*w,3*x,y,z)</span></code>.</p>
+<section id="example-1-reshape-a-layout-into-a-matrix">
+<h4>Example 1 – Reshape a layout into a matrix<a class="headerlink" href="#example-1-reshape-a-layout-into-a-matrix" title="Link to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">20:2</span>&#160; <span class="pre">o</span>&#160; <span class="pre">(5,4):(4,1)</span></code>. Composition formulation.</p>
+<p>This describes interpreting the layout <code class="docutils literal notranslate"><span class="pre">20:2</span></code>
+as a 5x4 matrix in a row-major order.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"> <span class="pre">=</span> <span class="pre">20:2</span> <span class="pre">o</span> <span class="pre">(5:4,4:1)</span></code>. Layout <code class="docutils literal notranslate"><span class="pre">(5,4):(4,1)</span></code> as concatenation of sublayouts.</p></li>
+<li><p><code class="docutils literal notranslate"> <span class="pre">=</span> <span class="pre">(20:2</span> <span class="pre">o</span> <span class="pre">5:4,</span> <span class="pre">20:2</span> <span class="pre">o</span> <span class="pre">4:1)</span></code>. Left distributivity.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">20:2</span> <span class="pre">o</span> <span class="pre">5:4</span>&#160; <span class="pre">=&gt;</span>&#160; <span class="pre">5:8</span></code>. Trivial case.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">20:2</span> <span class="pre">o</span> <span class="pre">4:1</span>&#160; <span class="pre">=&gt;</span>&#160; <span class="pre">4:2</span></code>. Trivial case.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"> <span class="pre">=</span> <span class="pre">(5:8,</span> <span class="pre">4:2)</span></code>. Composed Layout as concatenation of sublayouts.</p></li>
+<li><p><code class="docutils literal notranslate"> <span class="pre">=</span> <span class="pre">(5,4):(8,2)</span></code>. Final composed layout.</p></li>
+</ol>
+</section>
+<section id="example-2-reshape-a-layout-into-a-matrix">
+<h4>Example 2 – Reshape a layout into a matrix<a class="headerlink" href="#example-2-reshape-a-layout-into-a-matrix" title="Link to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">(10,2):(16,4)</span>&#160; <span class="pre">o</span>&#160; <span class="pre">(5,4):(1,5)</span></code></p>
+<p>This describes interpreting the layout <code class="docutils literal notranslate"><span class="pre">(10,2):(16,4)</span></code>
+as a 5x4 matrix in a column-major order.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"> <span class="pre">=</span> <span class="pre">(10,2):(16,4)</span> <span class="pre">o</span> <span class="pre">(5:1,4:5)</span></code>. Layout <code class="docutils literal notranslate"><span class="pre">(5,4):(1,5)</span></code> as concatenation of sublayouts.</p></li>
+<li><p><code class="docutils literal notranslate"> <span class="pre">=</span> <span class="pre">((10,2):(16,4)</span> <span class="pre">o</span> <span class="pre">5:1,</span> <span class="pre">(10,2):(16,4)</span> <span class="pre">o</span> <span class="pre">4:5)</span></code>. Left distributivity.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">(10,2):(16,4)</span> <span class="pre">o</span> <span class="pre">5:1</span> <span class="pre">=&gt;</span> <span class="pre">(5,1):(16,4)</span></code>. Mod out the shape <code class="docutils literal notranslate"><span class="pre">5</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(10,2):(16,4)</span> <span class="pre">o</span> <span class="pre">4:5</span> <span class="pre">=&gt;</span> <span class="pre">(2,2):(80,4)</span></code>. Div out the stride <code class="docutils literal notranslate"><span class="pre">5</span></code>.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"> <span class="pre">=</span> <span class="pre">((5,1):(16,4),</span> <span class="pre">(2,2):(80,4))</span></code>. Composed Layout as concatenation of sublayouts.</p></li>
+<li><p><code class="docutils literal notranslate"> <span class="pre">=</span> <span class="pre">(5:16,</span> <span class="pre">(2,2):(80,4))</span></code>. By-mode coalesce.</p></li>
+<li><p><code class="docutils literal notranslate"> <span class="pre">=</span> <span class="pre">(5,(2,2))):(16,(80,4))</span></code>. Final composed layout.</p></li>
+</ol>
+<p>We get exactly this result with CuTe
+if we use compile-time shapes and strides.
+The following C++ code prints <code class="docutils literal notranslate"><span class="pre">(_5,(_2,_2)):(_16,(_80,_4))</span></code>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Layout</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="w"> </span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">10</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">{}),</span>
+<span class="w">                       </span><span class="n">make_stride</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">16</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">4</span><span class="o">&gt;</span><span class="p">{}));</span>
+<span class="n">Layout</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="w"> </span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">4</span><span class="o">&gt;</span><span class="p">{}),</span>
+<span class="w">                       </span><span class="n">make_stride</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">5</span><span class="o">&gt;</span><span class="p">{}));</span>
+<span class="n">Layout</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">composition</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span>
+<span class="n">print</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>If we use dynamic integers, the following C++ code prints <code class="docutils literal notranslate"><span class="pre">((5,1),(2,2)):((16,4),(80,4))</span></code>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Layout</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="w"> </span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span>
+<span class="w">                       </span><span class="n">make_stride</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">));</span>
+<span class="n">Layout</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">),</span>
+<span class="w">                       </span><span class="n">make_stride</span><span class="p">(</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">));</span>
+<span class="n">Layout</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">composition</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span>
+<span class="n">print</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The results may <em>look</em> different but are the mathematically the same. The 1s in the shape don’t affect the layout as a mathematical function from 1-D coordinates to integers or as a function from 2-D coordinates to integers. In the dynamic case, CuTe can not coalesce the dynamic size-1 modes to “simplify” the layout due to the static rank and type of the tuples containing them.</p>
+</section>
+</section>
+<section id="by-mode-composition">
+<h3>By-mode Composition<a class="headerlink" href="#by-mode-composition" title="Link to this heading">#</a></h3>
+<p>Similar to by-mode <code class="docutils literal notranslate"><span class="pre">coalesce</span></code> and building up to a generic tiling operation, sometimes we do care about the shape of the <code class="docutils literal notranslate"><span class="pre">A</span></code> layout and would still like to apply <code class="docutils literal notranslate"><span class="pre">composition</span></code> to individual modes. For example, I have a 2-D <code class="docutils literal notranslate"><span class="pre">Layout</span></code> and would like some sublayout of the elements down the columns and another sublayout of elements across the rows.</p>
+<p>For this reason, <code class="docutils literal notranslate"><span class="pre">composition</span></code> also works when its second parameter – the <code class="docutils literal notranslate"><span class="pre">B</span></code> – is a <code class="docutils literal notranslate"><span class="pre">Tiler</span></code>. In general, a tiler is a layout or a tuple-of-layouts (note the generalization on <code class="docutils literal notranslate"><span class="pre">IntTuple</span></code>), which can be used as follows</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// (12,(4,8)):(59,(13,1))</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="w"> </span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="n">make_shape</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">)),</span>
+<span class="w">                     </span><span class="n">make_stride</span><span class="p">(</span><span class="mi">59</span><span class="p">,</span><span class="n">make_stride</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="mi">1</span><span class="p">)));</span>
+<span class="c1">// &lt;3:4, 8:2&gt;</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">tiler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tile</span><span class="p">(</span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">_3</span><span class="p">,</span><span class="n">_4</span><span class="o">&gt;</span><span class="p">{},</span><span class="w">  </span><span class="c1">// Apply 3:4 to mode-0</span>
+<span class="w">                       </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">_8</span><span class="p">,</span><span class="n">_2</span><span class="o">&gt;</span><span class="p">{});</span><span class="w"> </span><span class="c1">// Apply 8:2 to mode-1</span>
+
+<span class="c1">// (_3,(2,4)):(236,(26,1))</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">composition</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">tiler</span><span class="p">);</span>
+<span class="c1">// Identical to</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">same_r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">composition</span><span class="p">(</span><span class="n">layout</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="w"> </span><span class="n">get</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tiler</span><span class="p">)),</span>
+<span class="w">                          </span><span class="n">composition</span><span class="p">(</span><span class="n">layout</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="w"> </span><span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tiler</span><span class="p">)));</span>
+</pre></div>
+</div>
+<p>We often use the <code class="docutils literal notranslate"><span class="pre">&lt;LayoutA,</span> <span class="pre">LayoutB,</span> <span class="pre">...&gt;</span></code> notation to distinguish <code class="docutils literal notranslate"><span class="pre">Tiler</span></code>s from the concatenation-of-sublayouts notation <code class="docutils literal notranslate"><span class="pre">(LayoutA,</span> <span class="pre">LayoutB,</span> <span class="pre">...)</span></code> that we used previously.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">result</span></code> in the above code can be depicted as the 3x8 sublayout of the original layout highlighted in the figure below.</p>
+<p align="center">
+  <img src="../../../images/cute/composition1.png" alt="composition1.png" height="250"/>
+</p>
+<p>For convenience, CuTe also interprets <code class="docutils literal notranslate"><span class="pre">Shape</span></code>s as a tiler as well. A <code class="docutils literal notranslate"><span class="pre">Shape</span></code> is interpreted as tuple-of-layouts-with-stride-1:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// (12,(4,8)):(59,(13,1))</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="w"> </span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="n">make_shape</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">)),</span>
+<span class="w">                     </span><span class="n">make_stride</span><span class="p">(</span><span class="mi">59</span><span class="p">,</span><span class="n">make_stride</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="mi">1</span><span class="p">)));</span>
+<span class="c1">// (8, 3)</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">tiler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_shape</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">8</span><span class="o">&gt;</span><span class="p">{});</span>
+<span class="c1">// Equivalent to &lt;3:1, 8:1&gt;</span>
+<span class="c1">// auto tiler = make_tile(Layout&lt;_3,_1&gt;{},  // Apply 3:1 to mode-0</span>
+<span class="c1">//                        Layout&lt;_8,_1&gt;{}); // Apply 8:1 to mode-1</span>
+
+<span class="c1">// (_3,(4,2)):(59,(13,1))</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">composition</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">tiler</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">result</span></code> can be depicted as the 3x8 sublayout of the original layout highlighted in the figure below.</p>
+<p align="center">
+  <img src="../../../images/cute/composition2.png" alt="composition2.png" height="250"/>
+</p>
+</section>
+</section>
+<section id="composition-tilers">
+<h2>Composition Tilers<a class="headerlink" href="#composition-tilers" title="Link to this heading">#</a></h2>
+<p>In summary, a <code class="docutils literal notranslate"><span class="pre">Tiler</span></code> is one of the following objects.</p>
+<ol class="arabic simple">
+<li><p>A <code class="docutils literal notranslate"><span class="pre">Layout</span></code>.</p></li>
+<li><p>A tuple of <code class="docutils literal notranslate"><span class="pre">Tiler</span></code>s.</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">Shape</span></code>, which will be interpreted as a tiler of <code class="docutils literal notranslate"><span class="pre">Layout</span></code>s with stride-1.</p></li>
+</ol>
+<p>Any of the above can be used as the second argument in <code class="docutils literal notranslate"><span class="pre">composition</span></code>. With (1), we think of the <code class="docutils literal notranslate"><span class="pre">composition</span></code> as between two functions from integers to integers, no matter the ranks of the layouts. With (2) and (3), the <code class="docutils literal notranslate"><span class="pre">composition</span></code> is performed on each pair of corresponding modes of <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code>, until case (1) is found.</p>
+<p>This allows composition to be applied by-mode to retrieve arbitrary sublayouts of specified modes of a tensor (“Give me the 3x5x8 subblock of this MxNxL tensor”) but also allows entire tiles of data to be reshaped and reordered as if they were 1-D vectors (“Reorder this 8x16 block of data into a 32x4 block using this weird order of elements”). We will see the by-mode cases appear often when we are tiling for threadblocks in examples that follow. We will see 1-D reshaping and reordering when we want to apply arbitrary partitioning patterns for threads and values in MMAs in examples that follow.</p>
+</section>
+<section id="complement">
+<h2>Complement<a class="headerlink" href="#complement" title="Link to this heading">#</a></h2>
+<p>Before getting to “product” and “divide,” we need one more operation. We can think of <code class="docutils literal notranslate"><span class="pre">composition</span></code> as a layout <code class="docutils literal notranslate"><span class="pre">B</span></code> that is “selecting” certain coordinates from another layout <code class="docutils literal notranslate"><span class="pre">A</span></code>. But what about the coordinates that aren’t “selected”? To implement generic tiling, we want to be able to select arbitrary elements – the tile – and to describe the layout of those tiles – the leftovers, or the “rest.”</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">complement</span></code> of a layout attempts to find another layout that represents the “rest” – the elements that aren’t touched by the layout.</p>
+<p>You can find many examples and checked post-conditions in <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/test/unit/cute/core/complement.cpp">the <code class="docutils literal notranslate"><span class="pre">complement</span></code> unit test</a>. The post-conditions include</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// @post cosize(make_layout(@a layout_a, @a result))) &gt;= size(@a cotarget)</span>
+<span class="c1">// @post cosize(@a result) &gt;= round_up(size(@a cotarget), cosize(@a layout_a))</span>
+<span class="c1">// @post for all i, 1 &lt;= i &lt; size(@a result),</span>
+<span class="c1">//         @a result(i-1) &lt; @a result(i)</span>
+<span class="c1">// @post for all i, 1 &lt;= i &lt; size(@a result),</span>
+<span class="c1">//         for all j, 0 &lt;= j &lt; size(@a layout_a),</span>
+<span class="c1">//           @a result(i) != @a layout_a(j)</span>
+<span class="n">Layout</span><span class="w"> </span><span class="n">complement</span><span class="p">(</span><span class="n">LayoutA</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">layout_a</span><span class="p">,</span><span class="w"> </span><span class="n">Shape</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">cotarget</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>That is, the complement <code class="docutils literal notranslate"><span class="pre">R</span></code> of a layout <code class="docutils literal notranslate"><span class="pre">A</span></code> with respect to a Shape (IntTuple) <code class="docutils literal notranslate"><span class="pre">M</span></code> satisfies the following properties.</p>
+<ol class="arabic simple">
+<li><p>The size (and cosize) of <code class="docutils literal notranslate"><span class="pre">R</span></code> is <em>bounded</em> by <code class="docutils literal notranslate"><span class="pre">size(M)</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">R</span></code> is <em>ordered</em>.  That is, the strides of <code class="docutils literal notranslate"><span class="pre">R</span></code> are positive and increasing.  This means that <code class="docutils literal notranslate"><span class="pre">R</span></code> is unique.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">R</span></code> have <em>disjoint</em> codomains. <code class="docutils literal notranslate"><span class="pre">R</span></code> attempts to “complete” the codomain of <code class="docutils literal notranslate"><span class="pre">A</span></code>.</p></li>
+</ol>
+<p>The <code class="docutils literal notranslate"><span class="pre">cotarget</span></code> parameter above is most commonly an integer – you can see we only use <code class="docutils literal notranslate"><span class="pre">size(cotarget)</span></code> above. However, sometimes it is useful to specify an integer that has static properties. For example, <code class="docutils literal notranslate"><span class="pre">28</span></code> is a dynamic integer and <code class="docutils literal notranslate"><span class="pre">(_4,7)</span></code> is a shape with size <code class="docutils literal notranslate"><span class="pre">28</span></code> that is statically known to be divisible by <code class="docutils literal notranslate"><span class="pre">_4</span></code>. Both will produce the same <code class="docutils literal notranslate"><span class="pre">complement</span></code> mathematically, but the extra information can used by <code class="docutils literal notranslate"><span class="pre">complement</span></code> to preserve the staticness of the result as much as possible.</p>
+<section id="complement-examples">
+<h3>Complement Examples<a class="headerlink" href="#complement-examples" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">complement</span></code> is most effective on static shapes and strides, so consider all integers below to be static. Similar examples for dynamic shapes and strides as well as IntTuple <code class="docutils literal notranslate"><span class="pre">cotarget</span></code> can be found in <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/test/unit/cute/core/complement.cpp">the unit test</a>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">complement(4:1,</span> <span class="pre">24)</span></code> is <code class="docutils literal notranslate"><span class="pre">6:4</span></code>. Note that <code class="docutils literal notranslate"><span class="pre">(4,6):(1,4)</span></code> has cosize <code class="docutils literal notranslate"><span class="pre">24</span></code>. The layout <code class="docutils literal notranslate"><span class="pre">4:1</span></code> is effectively repeated 6 times with <code class="docutils literal notranslate"><span class="pre">6:4</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">complement(6:4,</span> <span class="pre">24)</span></code> is <code class="docutils literal notranslate"><span class="pre">4:1</span></code>. Note that <code class="docutils literal notranslate"><span class="pre">(6,4):(4,1)</span></code> has cosize <code class="docutils literal notranslate"><span class="pre">24</span></code>. The “hole” in <code class="docutils literal notranslate"><span class="pre">6:4</span></code> is filled with <code class="docutils literal notranslate"><span class="pre">4:1</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">complement((4,6):(1,4),</span> <span class="pre">24)</span></code> is <code class="docutils literal notranslate"><span class="pre">1:0</span></code>. Nothing needs to be appended.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">complement(4:2,</span> <span class="pre">24)</span></code> is <code class="docutils literal notranslate"><span class="pre">(2,3):(1,8)</span></code>. Note that <code class="docutils literal notranslate"><span class="pre">(4,(2,3)):(2,(1,8))</span></code> has cosize <code class="docutils literal notranslate"><span class="pre">24</span></code>. The “hole” in <code class="docutils literal notranslate"><span class="pre">4:2</span></code> is filled with <code class="docutils literal notranslate"><span class="pre">2:1</span></code> first, then everything is repeated 3 times with <code class="docutils literal notranslate"><span class="pre">3:8</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">complement((2,4):(1,6),</span> <span class="pre">24)</span></code> is <code class="docutils literal notranslate"><span class="pre">3:2</span></code>. Note that <code class="docutils literal notranslate"><span class="pre">((2,4),3):((1,6),2)</span></code> has cosize <code class="docutils literal notranslate"><span class="pre">24</span></code> and produces unique indices.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">complement((2,2):(1,6),</span> <span class="pre">24)</span></code> is <code class="docutils literal notranslate"><span class="pre">(3,2):(2,12)</span></code>. Note that <code class="docutils literal notranslate"><span class="pre">((2,2),(3,2)):((1,6),(2,12))</span></code> has cosize <code class="docutils literal notranslate"><span class="pre">24</span></code> and produces unique indices.</p></li>
+</ul>
+<p align="center">
+  <img src="../../../images/cute/complement1.png" alt="complement1.png" height="75"/>
+</p>
+As a visualization, the above figure depicts the codomain of the last example. The image of the original layout `(2,2):(1,6)` is colored in gray. The complement effectively "repeats" the original layout (displayed in the other colors) such that the codomain size of the result is `24`. The complement `(3,2):(2,12)` can be viewed as the "layout of the repetition."
+</section>
+</section>
+<section id="division-tiling">
+<h2>Division (Tiling)<a class="headerlink" href="#division-tiling" title="Link to this heading">#</a></h2>
+<p>Finally, we can define the division of a <code class="docutils literal notranslate"><span class="pre">Layout</span></code> by another <code class="docutils literal notranslate"><span class="pre">Layout</span></code>. Functions that divide a layout into components are useful as a basis for tiling and partitioning layouts.</p>
+<p>In this section, we’ll define <code class="docutils literal notranslate"><span class="pre">logical_divide(Layout,</span> <span class="pre">Layout)</span></code>, which again considers all <code class="docutils literal notranslate"><span class="pre">Layout</span></code>s as 1-D functions from integers to integers, and then use that definition to create multidimensional <code class="docutils literal notranslate"><span class="pre">Layout</span></code> divides.</p>
+<p>Informally, <code class="docutils literal notranslate"><span class="pre">logical_divide(A,</span> <span class="pre">B)</span></code> splits a layout <code class="docutils literal notranslate"><span class="pre">A</span></code> into two modes – in the first mode are all elements pointed to by <code class="docutils literal notranslate"><span class="pre">B</span></code> and in the second mode are all elements not pointed to by <code class="docutils literal notranslate"><span class="pre">B</span></code>.</p>
+<p>Formally, this can be written as</p>
+<p><span class="math notranslate nohighlight">\(A \oslash B := A \circ (B,B^*)\)</span></p>
+<p>and implemented as</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">LShape</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">LStride</span><span class="p">,</span>
+<span class="w">          </span><span class="k">class</span><span class="w"> </span><span class="nc">TShape</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">TStride</span><span class="o">&gt;</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">logical_divide</span><span class="p">(</span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">LShape</span><span class="p">,</span><span class="n">LStride</span><span class="o">&gt;</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">layout</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">TShape</span><span class="p">,</span><span class="n">TStride</span><span class="o">&gt;</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">tiler</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">composition</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">tiler</span><span class="p">,</span><span class="w"> </span><span class="n">complement</span><span class="p">(</span><span class="n">tiler</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">layout</span><span class="p">))));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that this is defined only in terms of concatenation, composition, and complement.</p>
+<p>So what is that?</p>
+<blockquote>
+<div><p>in the first mode are all elements pointed to by <code class="docutils literal notranslate"><span class="pre">B</span></code></p>
+</div></blockquote>
+<p>This is clearly composition, <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">o</span> <span class="pre">B</span></code>.</p>
+<blockquote>
+<div><p>in the second mode are all elements not pointed to by <code class="docutils literal notranslate"><span class="pre">B</span></code></p>
+</div></blockquote>
+<p>The elements NOT pointed to by <code class="docutils literal notranslate"><span class="pre">B</span></code> sounds like a complement, <code class="docutils literal notranslate"><span class="pre">B*</span></code>, up to the size of <code class="docutils literal notranslate"><span class="pre">A</span></code>. As we’ve seen above in the <code class="docutils literal notranslate"><span class="pre">complement</span></code> section, this can be described as the “layout of the repetition of <code class="docutils literal notranslate"><span class="pre">B</span></code>.” If <code class="docutils literal notranslate"><span class="pre">B</span></code> is the “tiler”, then <code class="docutils literal notranslate"><span class="pre">B*</span></code> is the layout of the tiles.</p>
+<section id="logical-divide-1-d-example">
+<h3>Logical Divide 1-D Example<a class="headerlink" href="#logical-divide-1-d-example" title="Link to this heading">#</a></h3>
+<p>Consider tiling the 1-D layout <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">=</span> <span class="pre">(4,2,3):(2,1,8)</span></code> with the tiler <code class="docutils literal notranslate"><span class="pre">B</span> <span class="pre">=</span> <span class="pre">4:2</span></code>. Informally, this means that we have a 1-D vector of 24 elements in some storage order defined by <code class="docutils literal notranslate"><span class="pre">A</span></code> and we want to extract tiles of 4 elements strided by 2.</p>
+<p>This is computed in the three steps described in the implementation above.</p>
+<ul class="simple">
+<li><p>Complement of <code class="docutils literal notranslate"><span class="pre">B</span> <span class="pre">=</span> <span class="pre">4:2</span></code> under <code class="docutils literal notranslate"><span class="pre">size(A)</span> <span class="pre">=</span> <span class="pre">24</span></code> is <code class="docutils literal notranslate"><span class="pre">B*</span> <span class="pre">=</span> <span class="pre">(2,3):(1,8)</span></code>.</p></li>
+<li><p>Concantenation of <code class="docutils literal notranslate"><span class="pre">(B,B*)</span> <span class="pre">=</span> <span class="pre">(4,(2,3)):(2,(1,8))</span></code>.</p></li>
+<li><p>Composition of <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">=</span> <span class="pre">(4,2,3):(2,1,8)</span></code> with <code class="docutils literal notranslate"><span class="pre">(B,B*)</span></code> is then <code class="docutils literal notranslate"><span class="pre">((2,2),(2,3)):((4,1),(2,8))</span></code>.</p></li>
+</ul>
+<p align="center">
+  <img src="../../../images/cute/divide1.png" alt="divide1.png" height="150"/>
+</p>
+<p>The above figure depicts <code class="docutils literal notranslate"><span class="pre">A</span></code> as a 1-D layout with the elements pointed to by <code class="docutils literal notranslate"><span class="pre">B</span></code> highlighted in gray. The layout <code class="docutils literal notranslate"><span class="pre">B</span></code> describes our “tile” of data, and there are six of those tiles in <code class="docutils literal notranslate"><span class="pre">A</span></code> shown by each of the colors. After the divide, the first mode of the result is the tile of data and the second mode of the result iterates over each tile.</p>
+</section>
+<section id="logical-divide-2-d-example">
+<h3>Logical Divide 2-D Example<a class="headerlink" href="#logical-divide-2-d-example" title="Link to this heading">#</a></h3>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">Tiler</span></code> concept defined above, this immediately generalizes to multidimensional tiling. The below example simply applies <code class="docutils literal notranslate"><span class="pre">layout_divide</span></code> by-mode to the cols and rows of a 2-D layout using a <code class="docutils literal notranslate"><span class="pre">Tiler</span></code>.</p>
+<p>Similar to the 2-D composition example above, consider a 2-D layout <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">=</span> <span class="pre">(9,(4,8)):(59,(13,1))</span></code> and want to apply <code class="docutils literal notranslate"><span class="pre">3:3</span></code> down the columns (mode-0) and <code class="docutils literal notranslate"><span class="pre">(2,4):(1,8)</span></code> across the rows (mode-1). This means the tiler can be written as <code class="docutils literal notranslate"><span class="pre">B</span> <span class="pre">=</span> <span class="pre">&lt;3:3,</span> <span class="pre">(2,4):(1,8)&gt;</span></code>.</p>
+<p align="center">
+  <img src="../../../images/cute/divide2.png" alt="divide2.png" height="450"/>
+</p>
+<p>The above figure depicts <code class="docutils literal notranslate"><span class="pre">A</span></code> as a 2-D layout with the elements pointed to by <code class="docutils literal notranslate"><span class="pre">B</span></code> highlighted in gray. The layout <code class="docutils literal notranslate"><span class="pre">B</span></code> describes our “tile” of data, and there are twelve of those tiles in <code class="docutils literal notranslate"><span class="pre">A</span></code> shown by each of the colors. After the divide, the first mode of each mode of the result is the tile of data and the second mode of each mode iterates over each tile. In that sense, this operation can be viewed as a kind of <code class="docutils literal notranslate"><span class="pre">gather</span></code> operation or as simply a permutation on the rows and cols.</p>
+<p>Note that the first mode of each mode of the result is the sublayout <code class="docutils literal notranslate"><span class="pre">(3,(2,4)):(177,(13,2))</span></code> and is precisely the result we would have received if we had applied <code class="docutils literal notranslate"><span class="pre">composition</span></code> instead of <code class="docutils literal notranslate"><span class="pre">logical_divide</span></code>.</p>
+</section>
+<section id="zipped-tiled-flat-divides">
+<h3>Zipped, Tiled, Flat Divides<a class="headerlink" href="#zipped-tiled-flat-divides" title="Link to this heading">#</a></h3>
+<p>It’s easy to see the tiles when they are highlighted in the images above, but working with them can still be awkward. How would you slice out the <code class="docutils literal notranslate"><span class="pre">3</span></code>rd tile or the <code class="docutils literal notranslate"><span class="pre">7</span></code>th tile or the <code class="docutils literal notranslate"><span class="pre">(1,2)</span></code>th tile so you could continue working on it?</p>
+<p>Enter the convenience flavors of <code class="docutils literal notranslate"><span class="pre">logical_divide</span></code>. Suppose we have a <code class="docutils literal notranslate"><span class="pre">Layout</span></code> and a <code class="docutils literal notranslate"><span class="pre">Tiler</span></code> of some shape, then each operation will apply <code class="docutils literal notranslate"><span class="pre">logical_divide</span></code>, but potentially rearrange the modes into more convenient forms.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Layout Shape : (M, N, L, ...)
+Tiler Shape  : &lt;TileM, TileN&gt;
+
+logical_divide : ((TileM,RestM), (TileN,RestN), L, ...)
+zipped_divide  : ((TileM,TileN), (RestM,RestN,L,...))
+tiled_divide   : ((TileM,TileN), RestM, RestN, L, ...)
+flat_divide    : (TileM, TileN, RestM, RestN, L, ...)
+</pre></div>
+</div>
+<p>For example, the <code class="docutils literal notranslate"><span class="pre">zipped_divide</span></code> function applies <code class="docutils literal notranslate"><span class="pre">logical_divide</span></code>, and then gathers the “subtiles” into a single mode and the “rest” into a single mode.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// A: shape is (9,32)</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">layout_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="w"> </span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="w"> </span><span class="mi">9</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">make_shape</span><span class="w"> </span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="w"> </span><span class="mi">4</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">8</span><span class="o">&gt;</span><span class="p">{})),</span>
+<span class="w">                            </span><span class="n">make_stride</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">59</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">make_stride</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">13</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{})));</span>
+<span class="c1">// B: shape is (3,8)</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">tiler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tile</span><span class="p">(</span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">_3</span><span class="p">,</span><span class="n">_3</span><span class="o">&gt;</span><span class="p">{},</span><span class="w">           </span><span class="c1">// Apply     3:3     to mode-0</span>
+<span class="w">                       </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_2</span><span class="p">,</span><span class="n">_4</span><span class="o">&gt;</span><span class="p">,</span><span class="w">      </span><span class="c1">// Apply (2,4):(1,8) to mode-1</span>
+<span class="w">                              </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">_8</span><span class="o">&gt;&gt;</span><span class="p">{});</span>
+
+<span class="c1">// ((TileM,RestM), (TileN,RestN)) with shape ((3,3), (8,4))</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">ld</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">logical_divide</span><span class="p">(</span><span class="n">layout_a</span><span class="p">,</span><span class="w"> </span><span class="n">tiler</span><span class="p">);</span>
+<span class="c1">// ((TileM,TileN), (RestM,RestN)) with shape ((3,8), (3,4))</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">zd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zipped_divide</span><span class="p">(</span><span class="n">layout_a</span><span class="p">,</span><span class="w"> </span><span class="n">tiler</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Then, the offset to the <code class="docutils literal notranslate"><span class="pre">3</span></code>rd tile is <code class="docutils literal notranslate"><span class="pre">zd(0,3)</span></code>. The offset to the <code class="docutils literal notranslate"><span class="pre">7</span></code>th tile is <code class="docutils literal notranslate"><span class="pre">zd(0,7)</span></code>. The offset to the <code class="docutils literal notranslate"><span class="pre">(1,2)</span></code>th tile is <code class="docutils literal notranslate"><span class="pre">zd(0,make_coord(1,2))</span></code>. The tile itself always has layout <code class="docutils literal notranslate"><span class="pre">layout&lt;0&gt;(zd)</span></code>. Indeed, it is always the case that</p>
+<p><code class="docutils literal notranslate"><span class="pre">layout&lt;0&gt;(zipped_divide(a,</span> <span class="pre">b))</span> <span class="pre">==</span> <span class="pre">composition(a,</span> <span class="pre">b)</span></code>.</p>
+<p>We note that <code class="docutils literal notranslate"><span class="pre">logical_divide</span></code> preserves the <em>semantics</em> of the modes while permuting the elements within those modes – the <code class="docutils literal notranslate"><span class="pre">M</span></code>-mode of layout <code class="docutils literal notranslate"><span class="pre">A</span></code> is still the <code class="docutils literal notranslate"><span class="pre">M</span></code>-mode of the result and the <code class="docutils literal notranslate"><span class="pre">N</span></code>-mode of layout <code class="docutils literal notranslate"><span class="pre">A</span></code> is still the <code class="docutils literal notranslate"><span class="pre">N</span></code>-mode of the result.</p>
+<p>This is not the case with <code class="docutils literal notranslate"><span class="pre">zipped_divide</span></code>. The mode-0 in the <code class="docutils literal notranslate"><span class="pre">zipped_divide</span></code> result is the <code class="docutils literal notranslate"><span class="pre">Tile</span></code> itself (of whatever rank the <code class="docutils literal notranslate"><span class="pre">Tiler</span></code> was) and mode-1 is the layout of those tiles. It doesn’t always make sense to plot these as 2-D layouts, because the <code class="docutils literal notranslate"><span class="pre">M</span></code>-mode is now more aptly the “tile-mode” and the <code class="docutils literal notranslate"><span class="pre">N</span></code>-mode is more aptly the “rest-mode”. Regardless, we still can plot the resulting layout as 2-D as shown below.</p>
+<p align="center">
+  <img src="../../../images/cute/divide3.png" alt="divide3.png" height="450"/>
+</p>
+<p>We’ve kept each tile as its color in the previous images for clarity. Clearly, iterating across tiles is now equivalent to iterating across a row of this layout and iterating over elements within a tile is equivalent to iterating down a column of this layout. As we’ll see in the <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> section, this can be used to great effect in partitioning within or across tiles of data.</p>
+</section>
+</section>
+<section id="product-tiling">
+<h2>Product (Tiling)<a class="headerlink" href="#product-tiling" title="Link to this heading">#</a></h2>
+<p>Finally, we can define the product of a Layout by another Layout. In this section, we’ll define <code class="docutils literal notranslate"><span class="pre">logical_product(Layout,</span> <span class="pre">Layout)</span></code>, which again considers all <code class="docutils literal notranslate"><span class="pre">Layout</span></code>s as 1-D functions from integers to integers, and then use that definition to create multidimensional <code class="docutils literal notranslate"><span class="pre">Layout</span></code> products.</p>
+<p>Informally, <code class="docutils literal notranslate"><span class="pre">logical_product(A,</span> <span class="pre">B)</span></code> results in a two mode layout where the first mode is the layout <code class="docutils literal notranslate"><span class="pre">A</span></code> and the second mode is the layout <code class="docutils literal notranslate"><span class="pre">B</span></code> but with each element replaced by a “unique replication” of layout <code class="docutils literal notranslate"><span class="pre">A</span></code>.</p>
+<p>Formally, this can be written as</p>
+<p><span class="math notranslate nohighlight">\(A \otimes B := (A, A^* \circ B)\)</span></p>
+<p>and implemented in CuTe as</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">LShape</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">LStride</span><span class="p">,</span>
+<span class="w">          </span><span class="k">class</span><span class="w"> </span><span class="nc">TShape</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">TStride</span><span class="o">&gt;</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">logical_product</span><span class="p">(</span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">LShape</span><span class="p">,</span><span class="n">LStride</span><span class="o">&gt;</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">layout</span><span class="p">,</span>
+<span class="w">                     </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">TShape</span><span class="p">,</span><span class="n">TStride</span><span class="o">&gt;</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">tiler</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span><span class="w"> </span><span class="n">composition</span><span class="p">(</span><span class="n">complement</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span><span class="o">*</span><span class="n">cosize</span><span class="p">(</span><span class="n">tiler</span><span class="p">)),</span><span class="w"> </span><span class="n">tiler</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that this is defined only in terms of concatenation, composition, and complement.</p>
+<p>So what is that?</p>
+<blockquote>
+<div><p>where the first mode is the layout <code class="docutils literal notranslate"><span class="pre">A</span></code></p>
+</div></blockquote>
+<p>This is clearly just a copy of <code class="docutils literal notranslate"><span class="pre">A</span></code>.</p>
+<blockquote>
+<div><p>the second mode is the layout <code class="docutils literal notranslate"><span class="pre">B</span></code> but with each element replaced by a “unique replication” of layout <code class="docutils literal notranslate"><span class="pre">A</span></code>.</p>
+</div></blockquote>
+<p>The “unique replication” of layout <code class="docutils literal notranslate"><span class="pre">A</span></code> sounds like complement, <code class="docutils literal notranslate"><span class="pre">A*</span></code>, up to the cosize of <code class="docutils literal notranslate"><span class="pre">B</span></code>. As we’ve seen in the <code class="docutils literal notranslate"><span class="pre">complement</span></code> section, this can be described as the “layout of the repetition of <code class="docutils literal notranslate"><span class="pre">A</span></code>”. If <code class="docutils literal notranslate"><span class="pre">A</span></code> is the “tile”, then <code class="docutils literal notranslate"><span class="pre">A*</span></code> is the layout of repetitions that are available for <code class="docutils literal notranslate"><span class="pre">B</span></code>.</p>
+<section id="logical-product-1-d-example">
+<h3>Logical Product 1-D Example<a class="headerlink" href="#logical-product-1-d-example" title="Link to this heading">#</a></h3>
+<p>Consider reproducing the 1-D layout <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">=</span> <span class="pre">(2,2):(4,1)</span></code> according to <code class="docutils literal notranslate"><span class="pre">B</span> <span class="pre">=</span> <span class="pre">6:1</span></code>. Informally, this means that we have a 1-D layout of 4 elements defined by <code class="docutils literal notranslate"><span class="pre">A</span></code> and we want to reproduce it 6 times.</p>
+<p>This is computed in the three steps described in the implementation above.</p>
+<ul class="simple">
+<li><p>Complement of <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">=</span> <span class="pre">(2,2):(4,1)</span></code> under <code class="docutils literal notranslate"><span class="pre">6*4</span> <span class="pre">=</span> <span class="pre">24</span></code> is <code class="docutils literal notranslate"><span class="pre">A*</span> <span class="pre">=</span> <span class="pre">(2,3):(2,8)</span></code>.</p></li>
+<li><p>Composition of <code class="docutils literal notranslate"><span class="pre">A*</span> <span class="pre">=</span> <span class="pre">(2,3):(2,8)</span></code> with <code class="docutils literal notranslate"><span class="pre">B</span> <span class="pre">=</span> <span class="pre">6:1</span></code> is then <code class="docutils literal notranslate"><span class="pre">(2,3):(2,8)</span></code>.</p></li>
+<li><p>Concatenation of <code class="docutils literal notranslate"><span class="pre">(A,A*</span> <span class="pre">o</span> <span class="pre">B)</span> <span class="pre">=</span> <span class="pre">((2,2),(2,3)):((4,1),(2,8))</span></code>.</p></li>
+</ul>
+<p align="center">
+  <img src="../../../images/cute/product1.png" alt="product1.png" height="175"/>
+</p>
+<p>The above figure depicts <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> as a 1-D layouts. The layout <code class="docutils literal notranslate"><span class="pre">B</span></code> describes the number and order of repetitions of <code class="docutils literal notranslate"><span class="pre">A</span></code> and they are colored for clarity. After the product, the first mode of the result is the tile of data and the second mode of the result iterates over each tile.</p>
+<p>Note that the result is identical to the result of the 1-D Logical Divide example.</p>
+<p>Of course, we can change the number and order of the tiles in the product by changing <code class="docutils literal notranslate"><span class="pre">B</span></code>.</p>
+<p align="center">
+  <img src="../../../images/cute/product2.png" alt="product2.png" height="175"/>
+</p>
+<p>For example, in the above image with <code class="docutils literal notranslate"><span class="pre">B</span> <span class="pre">=</span> <span class="pre">(4,2):(2,1)</span></code>, there are 8 repeated tiles instead of 6 and the tiles are in a different order.</p>
+</section>
+<section id="logical-product-2-d-example">
+<h3>Logical Product 2-D Example<a class="headerlink" href="#logical-product-2-d-example" title="Link to this heading">#</a></h3>
+<p>We can use the by-mode <code class="docutils literal notranslate"><span class="pre">tiler</span></code> strategies previously developed to write multidimensional products as well.</p>
+<p align="center">
+  <img src="../../../images/cute/product2d.png" alt="product2d.png" height="250"/>
+</p>
+<p>The above image demonstates the use of a <code class="docutils literal notranslate"><span class="pre">tiler</span></code> to apply <code class="docutils literal notranslate"><span class="pre">logical_product</span></code> by-mode. Despite this <strong>not being the recommended approach</strong>, the result is a rank-2 layout consisting of 2x5 row-major block that is tiled across a 3x4 column-major arrangement.</p>
+<p>The reason <strong>this is not the recommended approach</strong> is that the <code class="docutils literal notranslate"><span class="pre">tiler</span> <span class="pre">B</span></code> in the above expression is highly unintuitive. In fact, it requires perfect knowledge of the shape and strides of <code class="docutils literal notranslate"><span class="pre">A</span></code> in order to construct. We would like to express “Tile Layout <code class="docutils literal notranslate"><span class="pre">A</span></code> according to Layout <code class="docutils literal notranslate"><span class="pre">B</span></code>” in a way that makes <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> independent and is much more intuitive.</p>
+<section id="blocked-and-raked-products">
+<h4>Blocked and Raked Products<a class="headerlink" href="#blocked-and-raked-products" title="Link to this heading">#</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">blocked_product(LayoutA,</span> <span class="pre">LayoutB)</span></code> and <code class="docutils literal notranslate"><span class="pre">raked_product(LayoutA,</span> <span class="pre">LayoutB)</span></code> are rank-sensitive transformations on top of 1-D <code class="docutils literal notranslate"><span class="pre">logical_product</span></code> that let us express the more intuitive <code class="docutils literal notranslate"><span class="pre">Layout</span></code> products that we most often want to express.</p>
+<p>A key observation in the implementation of these functions are the compatibility post-conditions of <code class="docutils literal notranslate"><span class="pre">logical_product</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="nd">@post</span> <span class="n">rank</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+<span class="o">//</span> <span class="nd">@post</span> <span class="n">compatible</span><span class="p">(</span><span class="n">layout_a</span><span class="p">,</span> <span class="n">layout</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+<span class="o">//</span> <span class="nd">@post</span> <span class="n">compatible</span><span class="p">(</span><span class="n">layout_b</span><span class="p">,</span> <span class="n">layout</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Because <code class="docutils literal notranslate"><span class="pre">A</span></code> is always compatible with mode-0 of the result and <code class="docutils literal notranslate"><span class="pre">B</span></code> is always compatible with mode-1 of the result, if we made <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> the same rank then we could “reassociate” like-modes after the product. That is, the “column” mode in <code class="docutils literal notranslate"><span class="pre">A</span></code> could be combined with the “column” mode in <code class="docutils literal notranslate"><span class="pre">B</span></code> and the “row” mode in <code class="docutils literal notranslate"><span class="pre">A</span></code> could be combined with the “row” mode in <code class="docutils literal notranslate"><span class="pre">B</span></code>, etc.</p>
+<p>This is exactly what <code class="docutils literal notranslate"><span class="pre">blocked_product</span></code> and <code class="docutils literal notranslate"><span class="pre">raked_product</span></code> do and it is why they are called rank-sensitive. Unlike other CuTe functions that take <code class="docutils literal notranslate"><span class="pre">Layout</span></code> arguments, these care about the top-level rank of the arguments so that each mode can be reassociated after the <code class="docutils literal notranslate"><span class="pre">logical_product</span></code>.</p>
+<p align="center">
+  <img src="../../../images/cute/productblocked2d.png" alt="productblocked2d.png" height="250"/>
+</p>
+<p>The above image shows the same result as the <code class="docutils literal notranslate"><span class="pre">tiler</span></code> approach, but with much more intuitive arguments. A 2x5 row-major layout is arranged as a tile in a 3x4 column-major arrangement. Also note that <code class="docutils literal notranslate"><span class="pre">blocked_product</span></code> went ahead and <code class="docutils literal notranslate"><span class="pre">coalesced</span></code> mode-0 for us.</p>
+<p>Similarly, <code class="docutils literal notranslate"><span class="pre">raked_product</span></code> combines the modes slightly differently. Instead of the resulting “column” mode being constructed from the <code class="docutils literal notranslate"><span class="pre">A</span></code> “column” mode then the <code class="docutils literal notranslate"><span class="pre">B</span></code> “column” mode, the resulting “column” mode is constructed from the <code class="docutils literal notranslate"><span class="pre">B</span></code> “column” mode then the <code class="docutils literal notranslate"><span class="pre">A</span></code> “column” mode.</p>
+<p align="center">
+  <img src="../../../images/cute/productraked2d.png" alt="productraked2d.png" height="250"/>
+</p>
+<p>This results in the “tile” <code class="docutils literal notranslate"><span class="pre">A</span></code> now being interleaved or “raked” with the “layout-of-tiles” <code class="docutils literal notranslate"><span class="pre">B</span></code> instead of appearing as blocks. Other references call this a “cyclic distribution.”</p>
+</section>
+</section>
+<section id="zipped-and-tiled-products">
+<h3>Zipped and Tiled Products<a class="headerlink" href="#zipped-and-tiled-products" title="Link to this heading">#</a></h3>
+<p>Similar to <code class="docutils literal notranslate"><span class="pre">zipped_divide</span></code> and <code class="docutils literal notranslate"><span class="pre">tiled_divide</span></code>, the <code class="docutils literal notranslate"><span class="pre">zipped_product</span></code> and <code class="docutils literal notranslate"><span class="pre">tiled_product</span></code> simply rearrange the modes that result from a by-mode <code class="docutils literal notranslate"><span class="pre">logical_product</span></code>.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Layout Shape : (M, N, L, ...)
+Tiler Shape  : &lt;TileM, TileN&gt;
+
+logical_product : ((M,TileM), (N,TileN), L, ...)
+zipped_product  : ((M,N), (TileM,TileN,L,...))
+tiled_product   : ((M,N), TileM, TileN, L, ...)
+flat_product    : (M, N, TileM, TileN, L, ...)
+</pre></div>
+</div>
+</section>
+</section>
+<section id="copyright">
+<h2>Copyright<a class="headerlink" href="#copyright" title="Link to this heading">#</a></h2>
+<p>Copyright (c) 2017 - 2025 NVIDIA CORPORATION &amp; AFFILIATES. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">Redistribution</span> <span class="ow">and</span> <span class="n">use</span> <span class="ow">in</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">binary</span> <span class="n">forms</span><span class="p">,</span> <span class="k">with</span> <span class="ow">or</span> <span class="n">without</span>
+  <span class="n">modification</span><span class="p">,</span> <span class="n">are</span> <span class="n">permitted</span> <span class="n">provided</span> <span class="n">that</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span> <span class="n">are</span> <span class="n">met</span><span class="p">:</span>
+
+  <span class="mf">1.</span> <span class="n">Redistributions</span> <span class="n">of</span> <span class="n">source</span> <span class="n">code</span> <span class="n">must</span> <span class="n">retain</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span> <span class="n">this</span>
+  <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span><span class="o">.</span>
+
+  <span class="mf">2.</span> <span class="n">Redistributions</span> <span class="ow">in</span> <span class="n">binary</span> <span class="n">form</span> <span class="n">must</span> <span class="n">reproduce</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span>
+  <span class="n">this</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">documentation</span>
+  <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">other</span> <span class="n">materials</span> <span class="n">provided</span> <span class="k">with</span> <span class="n">the</span> <span class="n">distribution</span><span class="o">.</span>
+
+  <span class="mf">3.</span> <span class="n">Neither</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">holder</span> <span class="n">nor</span> <span class="n">the</span> <span class="n">names</span> <span class="n">of</span> <span class="n">its</span>
+  <span class="n">contributors</span> <span class="n">may</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">endorse</span> <span class="ow">or</span> <span class="n">promote</span> <span class="n">products</span> <span class="n">derived</span> <span class="kn">from</span>
+<span class="w">  </span><span class="nn">this</span> <span class="n">software</span> <span class="n">without</span> <span class="n">specific</span> <span class="n">prior</span> <span class="n">written</span> <span class="n">permission</span><span class="o">.</span>
+
+  <span class="n">THIS</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">PROVIDED</span> <span class="n">BY</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span> <span class="n">AND</span> <span class="n">CONTRIBUTORS</span> <span class="s2">&quot;AS IS&quot;</span>
+  <span class="n">AND</span> <span class="n">ANY</span> <span class="n">EXPRESS</span> <span class="n">OR</span> <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span><span class="p">,</span> <span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">THE</span>
+  <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span> <span class="n">AND</span> <span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span> <span class="n">ARE</span>
+  <span class="n">DISCLAIMED</span><span class="o">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">SHALL</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDER</span> <span class="n">OR</span> <span class="n">CONTRIBUTORS</span> <span class="n">BE</span> <span class="n">LIABLE</span>
+  <span class="n">FOR</span> <span class="n">ANY</span> <span class="n">DIRECT</span><span class="p">,</span> <span class="n">INDIRECT</span><span class="p">,</span> <span class="n">INCIDENTAL</span><span class="p">,</span> <span class="n">SPECIAL</span><span class="p">,</span> <span class="n">EXEMPLARY</span><span class="p">,</span> <span class="n">OR</span> <span class="n">CONSEQUENTIAL</span>
+  <span class="n">DAMAGES</span> <span class="p">(</span><span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">PROCUREMENT</span> <span class="n">OF</span> <span class="n">SUBSTITUTE</span> <span class="n">GOODS</span> <span class="n">OR</span>
+  <span class="n">SERVICES</span><span class="p">;</span> <span class="n">LOSS</span> <span class="n">OF</span> <span class="n">USE</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">OR</span> <span class="n">PROFITS</span><span class="p">;</span> <span class="n">OR</span> <span class="n">BUSINESS</span> <span class="n">INTERRUPTION</span><span class="p">)</span> <span class="n">HOWEVER</span>
+  <span class="n">CAUSED</span> <span class="n">AND</span> <span class="n">ON</span> <span class="n">ANY</span> <span class="n">THEORY</span> <span class="n">OF</span> <span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">STRICT</span> <span class="n">LIABILITY</span><span class="p">,</span>
+  <span class="n">OR</span> <span class="n">TORT</span> <span class="p">(</span><span class="n">INCLUDING</span> <span class="n">NEGLIGENCE</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">)</span> <span class="n">ARISING</span> <span class="n">IN</span> <span class="n">ANY</span> <span class="n">WAY</span> <span class="n">OUT</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">USE</span>
+  <span class="n">OF</span> <span class="n">THIS</span> <span class="n">SOFTWARE</span><span class="p">,</span> <span class="n">EVEN</span> <span class="n">IF</span> <span class="n">ADVISED</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">POSSIBILITY</span> <span class="n">OF</span> <span class="n">SUCH</span> <span class="n">DAMAGE</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cute"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01_layout.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">CuTe Layouts</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_tensor.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">CuTe Tensors</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coalesce">Coalesce</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#by-mode-coalesce">By-mode Coalesce</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#composition">Composition</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-composition">Computing Composition</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-reshape-a-layout-into-a-matrix">Example 1 – Reshape a layout into a matrix</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-reshape-a-layout-into-a-matrix">Example 2 – Reshape a layout into a matrix</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#by-mode-composition">By-mode Composition</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#composition-tilers">Composition Tilers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complement">Complement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#complement-examples">Complement Examples</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#division-tiling">Division (Tiling)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logical-divide-1-d-example">Logical Divide 1-D Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logical-divide-2-d-example">Logical Divide 2-D Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zipped-tiled-flat-divides">Zipped, Tiled, Flat Divides</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#product-tiling">Product (Tiling)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logical-product-1-d-example">Logical Product 1-D Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logical-product-2-d-example">Logical Product 2-D Example</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blocked-and-raked-products">Blocked and Raked Products</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zipped-and-tiled-products">Zipped and Tiled Products</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

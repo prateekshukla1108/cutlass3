@@ -1,0 +1,72 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+# _toc.yml - Table of Contents for Jupyter Book
+
+format: jb-book
+root: overview # Sets overview.md as the landing page
+
+parts:
+  - caption: Getting Started
+    chapters:
+      - file: quickstart
+      - file: terminology
+      - file: ide_setup
+      - file: functionality # General functionality overview? Place early.
+
+  - caption: Core Concepts
+    chapters:
+      - file: fundamental_types
+      - file: layout # General layout concept
+      - file: tile_iterator_concept
+      - file: pipeline
+      - file: code_organization
+      - file: programming_guidelines
+      - file: utilities
+
+  - caption: Key Operations & APIs
+    chapters:
+      - file: gemm_api # Assumed general/older GEMM API
+      - file: gemm_api_3x # Specific 3.x GEMM API
+      - file: efficient_gemm
+      - file: implicit_gemm_convolution
+
+  - caption: CUTLASS 3.x Specifics
+    chapters:
+      - file: cutlass_3x_design
+      - file: cutlass_3x_backwards_compatibility
+
+  - caption: CUTE - Compositional Universal Tile Engine
+    chapters:
+      - file: cute/00_quickstart
+      - file: cute/01_layout # CUTE specific layout
+      - file: cute/02_layout_algebra
+      - file: cute/03_tensor
+      - file: cute/04_algorithms
+      - file: cute/0t_mma_atom
+      - file: cute/0x_gemm_tutorial
+      - file: cute/0y_predication
+      - file: cute/0z_tma_tensors
+      # Note: cute/index.rst is not included here.
+      # Jupyter Book might handle RST, but mixing formats can sometimes be tricky.
+      # You might need to convert it to MD or see if the links within CUTE docs suffice.
+
+  - caption: Advanced Features & Platform Specifics
+    chapters:
+      - file: dependent_kernel_launch
+      - file: grouped_scheduler
+      - file: blackwell_functionality # Blackwell specific
+      - file: blackwell_cluster_launch_control # Blackwell specific
+      - file: profiler
+
+  - caption: Building CUTLASS
+    chapters:
+      - file: build/building_in_windows_with_visual_studio
+      - file: build/building_with_clang_as_host_compiler
+
+# Notes:
+# - Files are specified without the .md extension.
+# - The file `doxygen_mainpage.md` has been omitted as it's typically for Doxygen generation, not direct reading.
+# - The file `cute/index.rst` has been omitted. You may need to convert it or link to it appropriately from within the CUTE markdown files if its content is essential.
+# - This structure is a suggestion; feel free to reorder files and captions based on your preferred narrative flow.
+# - Ensure this _toc.yml file is placed in the root directory alongside your source files (or one level up if your content is in a subfolder specified in _config.yml).

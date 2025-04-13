@@ -1,0 +1,1158 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CuTe’s support for Matrix Multiply-Accumulate instructions &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cute/0t_mma_atom';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CuTe dense matrix-matrix multiply tutorial" href="0x_gemm_tutorial.html" />
+    <link rel="prev" title="CuTe Tensor algorithms" href="04_algorithms.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../overview.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../overview.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../terminology.html">CUTLASS Terminology</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../ide_setup.html">IDE Setup for CUTLASS Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../functionality.html">Functionality</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../fundamental_types.html">Fundamental Types</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../layout.html">Layouts and Tensors</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../tile_iterator_concept.html">Tile Iterator Concepts</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../pipeline.html">Synchronization primitives</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../code_organization.html">CUTLASS Code Organization</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../programming_guidelines.html">Programming Guidelines</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">CUTLASS Utilities</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Key Operations &amp; APIs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../gemm_api.html">CUTLASS GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../gemm_api_3x.html">CUTLASS 3.0 GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../efficient_gemm.html">Efficient GEMM in CUDA</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../implicit_gemm_convolution.html">CUTLASS Convolution</a></li>
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTLASS 3.x Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../cutlass_3x_design.html">CUTLASS 3.0 Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cutlass_3x_backwards_compatibility.html">CUTLASS 3.0 GEMM Backwards Compatibility</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTE - Compositional Universal Tile Engine</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_quickstart.html">Getting Started With CuTe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_layout.html">CuTe Layouts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_layout_algebra.html">CuTe Layout Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_tensor.html">CuTe Tensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_algorithms.html">CuTe Tensor algorithms</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">CuTe’s support for Matrix Multiply-Accumulate instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0x_gemm_tutorial.html">CuTe dense matrix-matrix multiply tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0y_predication.html">Predication: What to do when tiling isn’t perfect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0z_tma_tensors.html">CuTe TMA Tensors</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Features &amp; Platform Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../dependent_kernel_launch.html">Dependent kernel launches</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../grouped_scheduler.html">CUTLASS Grouped Kernel Schedulers</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../blackwell_functionality.html">Blackwell SM100 GEMMs</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../blackwell_cluster_launch_control.html">Blackwell Cluster Launch Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../profiler.html">CUTLASS Profiler</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Building CUTLASS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../build/building_in_windows_with_visual_studio.html">Building on Windows with Visual Studio</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../build/building_with_clang_as_host_compiler.html">Building with Clang as host compiler</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fcute/0t_mma_atom.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/cute/0t_mma_atom.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>CuTe’s support for Matrix Multiply-Accumulate instructions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cute-mma-atoms">CuTe MMA Atoms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operation-structs">Operation structs</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#location-of-files">Location of files</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#operation-struct-s-name">Operation struct’s name</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#contents">Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#type-aliases">Type aliases</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#fma-static-member-device-function"><code class="docutils literal notranslate"><span class="pre">fma</span></code> static member device function</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#traits">Traits</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Location of files</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Contents</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#volta">Volta</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#types">Types</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shape">Shape</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#thread-id">Thread ID</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accumulator-mapping">Accumulator Mapping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-and-b-layout-mapping">A and B Layout Mapping</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hopper">Hopper</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Thread ID</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Accumulator Mapping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">A and B Layout Mapping</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tiledmmas"><code class="docutils literal notranslate"><span class="pre">TiledMMA</span></code>s</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="cute-s-support-for-matrix-multiply-accumulate-instructions">
+<h1>CuTe’s support for Matrix Multiply-Accumulate instructions<a class="headerlink" href="#cute-s-support-for-matrix-multiply-accumulate-instructions" title="Link to this heading">#</a></h1>
+<p>In this file, we explain in detail how we support our GPUs’
+Matrix Multiply-Accumulate (MMA) hardware instructions in CuTe.</p>
+<p>MMAs are architecture-specific.
+Different generations of GPU architectures
+introduce different sets of MMA instructions.
+However, CuTe features such as <code class="docutils literal notranslate"><span class="pre">Layout</span></code>
+makes it possible to expose MMAs for use in generic CUDA C++ code.
+We accomplish this in multiple steps.</p>
+<ol class="arabic simple">
+<li><p>We wrap each MMA’s PTX instruction in an “Operation” struct.</p></li>
+<li><p>For each Operation struct, we define a “Traits” struct
+that defines all of the meta-information needed to use the Operation.</p></li>
+<li><p>Combining the above, an “Atom” is the combination of the PTX Operation struct with the
+meta-information Traits struct and provides methods to construct
+<code class="docutils literal notranslate"><span class="pre">cute::Tensor</span></code> “fragments” for that Operation and to use that Operation
+on existing <code class="docutils literal notranslate"><span class="pre">cute::Tensor</span></code>s.</p></li>
+<li><p>Combining potentially multiple Atoms, a “TiledMMA” provides utilities for building
+more complex partitioning patterns by creating layouts and interleavings of Atoms.</p></li>
+</ol>
+<section id="cute-mma-atoms">
+<h2>CuTe MMA Atoms<a class="headerlink" href="#cute-mma-atoms" title="Link to this heading">#</a></h2>
+<p>CuTe exposes each MMA to generic CUDA C++ code as a pair of structs:
+an “Operation” struct,
+and an <code class="docutils literal notranslate"><span class="pre">MMA_Traits</span></code> struct templated on the Operation struct type.</p>
+<p>An “Operation” struct exposes the PTX instruction
+for that specific operation.
+It defines the arguments and interface it expects.
+Operation structs have minimal software dependencies –
+they do not use layouts, tensors, or non-standard numeric data types – and
+describe only the physical inputs and outputs to the instruction.
+Different structs have different names
+that describe what the MMA instruction does.
+We will explain the naming scheme below.</p>
+<p>A corresponding <code class="docutils literal notranslate"><span class="pre">MMA_Traits</span></code> struct specialization
+defines meta-information about the Operation,
+such as the logical compute types, the logical shape of the operation,
+and the <code class="docutils literal notranslate"><span class="pre">Layout</span></code>s of threads and values within the operation.
+The <code class="docutils literal notranslate"><span class="pre">MMA_Traits</span></code> struct takes the Operation as a template parameter.
+CuTe specializes <code class="docutils literal notranslate"><span class="pre">MMA_Traits</span></code> for each Operation type that it supports.</p>
+<p>Together, these two types comprise an “Atom” that decouples the complexity of thread and data layouts from the call site of the PTX instruction.  The Atom’s Traits struct exposes information that is relevant to a single MMA operation, no matter the granularity at which it operates.</p>
+<p>CuTe MMA atoms expose the semantics of a single MMA operation.
+This is true regardless of the hardware level at which the MMA operates.
+CuTe supports MMA atoms that operate at a variety of hardware levels,
+including</p>
+<ul class="simple">
+<li><p>a single thread (e.g., fused multiply-add (FMA) instruction);</p></li>
+<li><p>a quadpair (Volta);</p></li>
+<li><p>a single warp (Ampere); and</p></li>
+<li><p>a warpgroup (Hopper).</p></li>
+</ul>
+<section id="operation-structs">
+<h3>Operation structs<a class="headerlink" href="#operation-structs" title="Link to this heading">#</a></h3>
+<section id="location-of-files">
+<h4>Location of files<a class="headerlink" href="#location-of-files" title="Link to this heading">#</a></h4>
+<p>CuTe provides its Operations structs in the
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/arch"><code class="docutils literal notranslate"><span class="pre">include/cute/arch</span></code></a>
+directory, in header files starting with <code class="docutils literal notranslate"><span class="pre">mma</span></code>.</p>
+</section>
+<section id="operation-struct-s-name">
+<h4>Operation struct’s name<a class="headerlink" href="#operation-struct-s-name" title="Link to this heading">#</a></h4>
+<p>A CuTe Operation struct’s name principally encodes the PTX instruction it wraps.
+These often include</p>
+<ul class="simple">
+<li><p>its first supported architecture,</p></li>
+<li><p>the M, N, and K dimensions that it accepts,</p></li>
+<li><p>the types that it takes, and</p></li>
+<li><p>the arrangement of the A and B inputs.</p></li>
+</ul>
+<p>For example, the Volta section below will refer to the
+<code class="docutils literal notranslate"><span class="pre">SM70_8x8x4_F32F16F16F32_NT</span></code> Operation struct defined in
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/arch/mma_sm70.hpp"><code class="docutils literal notranslate"><span class="pre">include/cute/arch/mma_sm70.hpp</span></code></a>.</p>
+<ul class="simple">
+<li><p>“SM70” refers to Volta.</p></li>
+<li><p>“8x8x4” refers to M = 8, N = 8, and K = 4,
+the dimensions of the MMA operation that the quadpair performs
+(see below). This is reflected in the PTX as <code class="docutils literal notranslate"><span class="pre">.m8n8k4.</span></code>.</p></li>
+<li><p>“F32F16F16F32” refers to the element types
+of the four matrix operands A, B, C, and D.
+An MMA computes D = C + A * B,
+so we read the types from left to right:
+D is F32 (<code class="docutils literal notranslate"><span class="pre">float</span></code>), A is F16 (half),
+B is F16 (half), and C is F32 (<code class="docutils literal notranslate"><span class="pre">float</span></code>). This is reflected in the PTX instruction name as <code class="docutils literal notranslate"><span class="pre">.f32.f16.f16.f32</span></code>.</p></li>
+<li><p>“NT” means that the PTX instruction is designed for inputs A as M-major (not transposed, column-major)
+and inputs B as N-major (transposed, row-major). This is reflected in the PTX instruction name as <code class="docutils literal notranslate"><span class="pre">.col.row.</span></code>.</p></li>
+</ul>
+</section>
+<section id="contents">
+<h4>Contents<a class="headerlink" href="#contents" title="Link to this heading">#</a></h4>
+<p>An Operation struct has the following members.</p>
+<section id="type-aliases">
+<h5>Type aliases<a class="headerlink" href="#type-aliases" title="Link to this heading">#</a></h5>
+<p>An Operation struct has four public type aliases:
+<code class="docutils literal notranslate"><span class="pre">DRegisters</span></code>, <code class="docutils literal notranslate"><span class="pre">ARegisters</span></code>, <code class="docutils literal notranslate"><span class="pre">BRegisters</span></code>, and <code class="docutils literal notranslate"><span class="pre">CRegisters</span></code>.
+For example, the <code class="docutils literal notranslate"><span class="pre">SM70_8x8x4_F32F16F16F32_NT</span></code> Operation struct defined in
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/arch/mma_sm70.hpp"><code class="docutils literal notranslate"><span class="pre">include/cute/arch/mma_sm70.hpp</span></code></a>
+defines these as follows.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">DRegisters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">float</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span>
+<span class="k">using</span><span class="w"> </span><span class="n">ARegisters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">uint32_t</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="k">using</span><span class="w"> </span><span class="n">BRegisters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">uint32_t</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="k">using</span><span class="w"> </span><span class="n">CRegisters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">float</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span>
+</pre></div>
+</div>
+<p>This shows how many values each thread will pass into the PTX instruction
+for each of the matrices A, B, C, and D.  For this Operation,
+each thread passes 8 F32 values each for C and D (hence <code class="docutils literal notranslate"><span class="pre">float[8]</span></code>),
+and 4 F16 values each for A and B (hence <code class="docutils literal notranslate"><span class="pre">uint32_t[2]</span></code>;
+the instruction packs two 16-bit F16 values
+in each of the two 32-bit <code class="docutils literal notranslate"><span class="pre">uint32_t</span></code> values).</p>
+</section>
+<section id="fma-static-member-device-function">
+<h5><code class="docutils literal notranslate"><span class="pre">fma</span></code> static member device function<a class="headerlink" href="#fma-static-member-device-function" title="Link to this heading">#</a></h5>
+<p>An operation struct defines a public <code class="docutils literal notranslate"><span class="pre">static</span> <span class="pre">void</span> <span class="pre">fma</span></code> function.
+It is marked with the <code class="docutils literal notranslate"><span class="pre">CUTE_HOST_DEVICE</span></code> macro,
+which adds the <code class="docutils literal notranslate"><span class="pre">__host__</span> <span class="pre">__device__</span></code> annotations.
+Different Operations define <code class="docutils literal notranslate"><span class="pre">fma</span></code> to take different numbers of arguments,
+depending on the PTX MMA instruction.
+The implementation protects use of the PTX instruction with a macro,
+and raises an <code class="docutils literal notranslate"><span class="pre">assert</span></code> if <code class="docutils literal notranslate"><span class="pre">fma</span></code> is called when the macro is not defined.
+This ensures that tests and examples that use this Operation in an Atom
+can still compile, even if the PTX instruction is not available.</p>
+</section>
+</section>
+</section>
+<section id="traits">
+<h3>Traits<a class="headerlink" href="#traits" title="Link to this heading">#</a></h3>
+<section id="id1">
+<h4>Location of files<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
+<p>CuTe provides its Traits structs in the
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/atom"><code class="docutils literal notranslate"><span class="pre">include/cute/atom</span></code></a>
+directory, in header files starting with <code class="docutils literal notranslate"><span class="pre">mma_traits</span></code>.</p>
+</section>
+<section id="id2">
+<h4>Contents<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<p>An <code class="docutils literal notranslate"><span class="pre">MMA_Traits</span></code> specialization defines the following public type aliases.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ValTypeD</span></code>: Logical compute type of the D matrix</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ValTypeA</span></code>: Logical compute type of the A matrix</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ValTypeB</span></code>: Logical compute type of the B matrix</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ValTypeC</span></code>: Logical compute type of the C matrix</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Shape_MNK</span></code>: Logical MxNxK shape of the MMA operation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ThrID</span></code>: Logical thread mapping within the single MMA operation
+(specifying the thread, quadpair, warp, or warpgroup view)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ALayout</span></code>: Mapping of (thread,value) pairs to coordinates in the MxK A matrix</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BLayout</span></code>: Mapping of (thread,value) pairs to coordinates in the NxK B matrix</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CLayout</span></code>: Mapping of (thread,value) pairs to coordinates in the MxN C matrix</p></li>
+</ul>
+</section>
+<section id="example">
+<h4>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h4>
+<p>The specialization of MMA_Traits for the
+<code class="docutils literal notranslate"><span class="pre">SM70_8x8x4_F32F16F16F32_NT</span></code> Operation lives in the header file
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/atom/mma_traits_sm70.hpp"><code class="docutils literal notranslate"><span class="pre">include/cute/atom/mma_traits_sm70.hpp</span></code></a>.
+It looks like this.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="w"> </span><span class="o">&lt;&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">MMA_Traits</span><span class="o">&lt;</span><span class="n">SM70_8x8x4_F32F16F16F32_NT</span><span class="o">&gt;</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">ValTypeD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">float</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">ValTypeA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">half_t</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">ValTypeB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">half_t</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">ValTypeC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">float</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">Shape_MNK</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Shape</span><span class="o">&lt;</span><span class="n">_8</span><span class="p">,</span><span class="n">_8</span><span class="p">,</span><span class="n">_4</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">ThrID</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">SM70_QuadPair</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">ALayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SM70_8x4_Col</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">BLayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SM70_8x4_Col</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">CLayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SM70_8x8_32b</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The next section will explain these type aliases in detail.</p>
+</section>
+</section>
+</section>
+<section id="volta">
+<h2>Volta<a class="headerlink" href="#volta" title="Link to this heading">#</a></h2>
+<p>This and the following sections show examples of how to construct MMA atoms.
+We don’t try to explain this for all GPU architectures and MMAs.
+Instead, we use selected examples to illustrate the process
+of developing new atoms.</p>
+<p>Volta architecture implements an HMMA instruction where a group of 8 threads called a quadpair (QP) collaborate to share data and perform an 8x8x4 (fp32 or fp16) matrix multiply-accumulate. (since a warp is 32 threads wide, it would perform an MMA across 4 QPs for a tile size of 16x16x4).</p>
+<p>We first take a look at how we would take the ISA semantics of thread and data partitioning for the HMMA instruction, and encode it in a Traits struct. The HMMA NT instruction has the thread-data layout:</p>
+<p align="center">
+  <img src="../../../images/cute/HMMA.8x8x4.NT.png" alt="HMMA.8x8x4.NT.png" height="400"/>
+</p>
+<section id="types">
+<h3>Types<a class="headerlink" href="#types" title="Link to this heading">#</a></h3>
+<p>The HMMA NT above uses types:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">ValTypeD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">float</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">ValTypeA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">half_t</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">ValTypeB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">half_t</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">ValTypeC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">float</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The rest of the <code class="docutils literal notranslate"><span class="pre">MMA_Traits</span></code> will be described in units of these types.</p>
+</section>
+<section id="shape">
+<h3>Shape<a class="headerlink" href="#shape" title="Link to this heading">#</a></h3>
+<p>The HMMA NT above has shape 8x8x4:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Logical shape of the MMA</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">Shape_MNK</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_8</span><span class="p">,</span><span class="n">_8</span><span class="p">,</span><span class="n">_4</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="thread-id">
+<h3>Thread ID<a class="headerlink" href="#thread-id" title="Link to this heading">#</a></h3>
+<p>If the 32 threads in a warp are logically indexed by [0 … 31], then the above image contains threads [0,1,2,3]U[16,17,18,19]. These threads make up the 0th quadpair. We can write a thread mapping that maps eight logical thread ids [0,1,2,3,4,5,6,7] of the MMA to a quadpair thread index [0,1,2,3]U[16,17,18,19] of a warp. The layout function has 4 elements with a stride of 1 and 2 of those with a stride of 16. With this, we write a layout that represents a quadpair:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Mapping from (logical thread id) -&gt; (thread idx)</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">ThrID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_4</span><span class="p">,</span><span class="w"> </span><span class="n">_2</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">_16</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Again, this layout function maps the logical thread id [0,8) of the MMA operation onto the quadpair thread index [0,4)U[16,20) of a warp.</p>
+</section>
+<section id="accumulator-mapping">
+<h3>Accumulator Mapping<a class="headerlink" href="#accumulator-mapping" title="Link to this heading">#</a></h3>
+<p>Let us look at exactly how the 8 threads within a QP are mapped to the A, B and C matrices. For the C and D matrices, the above image is broken down a bit more below. On the left is shown the whole QP level view, and on the right is shown the values owned by just thread 0.</p>
+<p align="center">
+  <img src="../../../images/cute/HMMA.8x8x4.quadpair.C.png" alt="HMMA.8x8x4.quadpair.C.png" height="400"/>
+</p>
+<p>The metainformation of this single instruction level view is what we want to encode in CuTe. Specifically, the QP level view in this diagram corresponds to the four MMA traits for <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/arch/mma_sm70.hpp">SM70_F32F16F16F32</a>. These structs contain the <code class="docutils literal notranslate"><span class="pre">Element</span></code> types, the <code class="docutils literal notranslate"><span class="pre">Shape_MNK</span></code>, and the <code class="docutils literal notranslate"><span class="pre">ThrID</span></code> mapping we constructed above. Now, let us take a look at the definition of <code class="docutils literal notranslate"><span class="pre">CLayout</span></code>, the thread-data layout of accumulators. The job of <code class="docutils literal notranslate"><span class="pre">CLayout</span></code> is to construct a mapping between the <code class="docutils literal notranslate"><span class="pre">(logical_thr_id,</span> <span class="pre">logical_val_id)</span></code> and <code class="docutils literal notranslate"><span class="pre">(m,</span> <span class="pre">n)</span></code> coordinate in the C matrix which can then be used to build up more complicated layouts and operations like the 16x16x4 WMMA.</p>
+<p>We can start constructing a <code class="docutils literal notranslate"><span class="pre">CLayout</span></code> from the picture above. As with any CuTe layout, it is a pair of <code class="docutils literal notranslate"><span class="pre">Shape</span></code> and corresponding <code class="docutils literal notranslate"><span class="pre">Stride</span></code>. Let us just look at the shape for now. We know that the HMMA uses 8 threads each of which own 8 values. Therefore, the shape of our mapping must have a size of 8 along two modes. With this, we have</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// (T8,V8) -&gt; (m,n)</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">CLayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_8</span><span class="p">,</span><span class="w"> </span><span class="n">_8</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                         </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_</span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="o">?&gt;</span><span class="p">;</span><span class="w">  </span><span class="c1">// Stride to be filled in below</span>
+</pre></div>
+</div>
+<p>This is not to be confused with the logical 8x8 shape of the C matrix. This is 8-threads by 8-values. We now want to map those to (m,n) coordinates. Since CuTe layouts return indices rather than coordinates, we choose a column-major encoding of the (m,n) coordinates:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">logical_thr_id</span><span class="p">,</span> <span class="n">logical_val_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span> <span class="o">*</span> <span class="n">M</span>
+</pre></div>
+</div>
+<p>With this in place, we can start thinking about how to construct the strides in <code class="docutils literal notranslate"><span class="pre">CLayout</span></code>. Let’s begin by looking at the strides between threads. Note that</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">(T0,V0)</span></code> is located at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(0,0)</span> <span class="pre">=</span> <span class="pre">0</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(T1,V0)</span></code> is located at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(1,0)</span> <span class="pre">=</span> <span class="pre">1</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(T2,V0)</span></code> is located at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(0,2)</span> <span class="pre">=</span> <span class="pre">16</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(T3,V0)</span></code> is located at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(1,2)</span> <span class="pre">=</span> <span class="pre">17</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(T4,V0)</span></code> is located at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(4,0)</span> <span class="pre">=</span> <span class="pre">4</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(T5,V0)</span></code> is located at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(5,0)</span> <span class="pre">=</span> <span class="pre">5</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(T6,V0)</span></code> is located at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(4,2)</span> <span class="pre">=</span> <span class="pre">20</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(T7,V0)</span></code> is located at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(5,2)</span> <span class="pre">=</span> <span class="pre">21</span></code></p></li>
+</ul>
+<p>where <code class="docutils literal notranslate"><span class="pre">T4</span></code>,<code class="docutils literal notranslate"><span class="pre">T5</span></code>,<code class="docutils literal notranslate"><span class="pre">T6</span></code>,<code class="docutils literal notranslate"><span class="pre">T7</span></code> are the 4th,5th,6th,7th logical thread id of the MMA corresponding to thread indices of 16,17,18,19 of the warp (recorded in the <code class="docutils literal notranslate"><span class="pre">ThrID</span></code> mapping!).</p>
+<p>We note that the pattern can be transcribed to a layout. We can find the position of the 8 threads via</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">CLayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_2</span><span class="p">,</span><span class="w">  </span><span class="n">_2</span><span class="p">,</span><span class="w"> </span><span class="n">_2</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">_8</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                         </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="w"> </span><span class="n">_16</span><span class="p">,</span><span class="w"> </span><span class="n">_4</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="o">?&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>With the exact same approach, we can construct the stride along the <code class="docutils literal notranslate"><span class="pre">logical</span> <span class="pre">value</span> <span class="pre">id</span></code> mode.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">(T0,V0)</span></code> is located at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(0,0)</span> <span class="pre">=</span> <span class="pre">0</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(T0,V1)</span></code> is located at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(0,1)</span> <span class="pre">=</span> <span class="pre">8</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(T0,V2)</span></code> is located at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(2,0)</span> <span class="pre">=</span> <span class="pre">2</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(T0,V3)</span></code> is located at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(2,1)</span> <span class="pre">=</span> <span class="pre">10</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(T0,V4)</span></code> is located at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(0,4)</span> <span class="pre">=</span> <span class="pre">32</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(T0,V5)</span></code> is located at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(0,5)</span> <span class="pre">=</span> <span class="pre">40</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(T0,V6)</span></code> is located at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(2,4)</span> <span class="pre">=</span> <span class="pre">34</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(T0,V7)</span></code> is located at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(2,5)</span> <span class="pre">=</span> <span class="pre">42</span></code></p></li>
+</ul>
+<p>We note that this pattern can also be transcribed to a layout. We can find the position of the 8 values via</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// (T8,V8) -&gt; (m,n)</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">CLayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_2</span><span class="p">,</span><span class="w"> </span><span class="n">_2</span><span class="p">,</span><span class="n">_2</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_2</span><span class="p">,</span><span class="n">_2</span><span class="p">,</span><span class="w"> </span><span class="n">_2</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+<span class="w">                         </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">_16</span><span class="p">,</span><span class="n">_4</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_8</span><span class="p">,</span><span class="n">_2</span><span class="p">,</span><span class="n">_32</span><span class="o">&gt;&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>And that’s all! We can verify that each <code class="docutils literal notranslate"><span class="pre">(tid,vid)</span></code> coordinate in this layout is reliably mapped to the correct (encoded) <code class="docutils literal notranslate"><span class="pre">(m,n)</span></code> coordinate.</p>
+<p>In the case of F16 accumulators, the layout is way less complex. Each row of accumulators <code class="docutils literal notranslate"><span class="pre">(m,</span> <span class="pre">:)</span></code> is held by a single thread, which makes the layout:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">CLayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_8</span><span class="p">,</span><span class="n">_8</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                         </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">_8</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="a-and-b-layout-mapping">
+<h3>A and B Layout Mapping<a class="headerlink" href="#a-and-b-layout-mapping" title="Link to this heading">#</a></h3>
+<p>A and B matrix layouts depend on whether the sources are transposed or not. The diagram below shows the thread ID to data ownership map for A and B matrices in the case of NT and TN transposes.</p>
+<p align="center">
+  <img src="../../../images/cute/HMMA.8x8x4.quadpair.AB.png" alt="HMMA.8x8x4.quadpair.AB.png" height="400"/>
+</p>
+<p>Let’s look at the TN layout for A matrix first (right side in the diagram). Again, there are the same 8 logical threads, but each threads owns only 4 elements this time. The shape of <code class="docutils literal notranslate"><span class="pre">ALayout</span></code> will then be <code class="docutils literal notranslate"><span class="pre">Shape&lt;_8,</span> <span class="pre">_4&gt;</span></code>. As for the strides, we again need a similar mapping between <code class="docutils literal notranslate"><span class="pre">(m,</span> <span class="pre">k)</span> <span class="pre">==</span> <span class="pre">m</span> <span class="pre">+</span> <span class="pre">k</span> <span class="pre">*</span> <span class="pre">M</span></code>. Looking down the <code class="docutils literal notranslate"><span class="pre">M</span></code> mode, we go from <code class="docutils literal notranslate"><span class="pre">(T0,</span> <span class="pre">V0)</span></code> to <code class="docutils literal notranslate"><span class="pre">(T1,</span> <span class="pre">V0)</span></code> which is a stride of 1 for all 8 threads. For the <code class="docutils literal notranslate"><span class="pre">K</span></code> mode, as we go across, we go from <code class="docutils literal notranslate"><span class="pre">(T0,</span> <span class="pre">V0)</span></code> to <code class="docutils literal notranslate"><span class="pre">(T0,</span> <span class="pre">V1)</span></code>, which makes a stride of 8 for all 4 values. Therefore, the A layout is:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// (T8,V4) -&gt; (m,k)</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">ALayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_8</span><span class="p">,</span><span class="n">_4</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                         </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">_8</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Source B layout is constructed similarly for the TN HMMA, except that we want write it as <code class="docutils literal notranslate"><span class="pre">(N,K)</span></code> rather than <code class="docutils literal notranslate"><span class="pre">(K,N)</span></code> for convenience. For the strides, as we go across the <code class="docutils literal notranslate"><span class="pre">N</span></code> mode, we go from <code class="docutils literal notranslate"><span class="pre">(T0,</span> <span class="pre">V0)</span></code> to <code class="docutils literal notranslate"><span class="pre">(T1,</span> <span class="pre">V0)</span></code>, making this a stride of 1 for all 8 threads. As we go down the <code class="docutils literal notranslate"><span class="pre">K</span></code> mode, <code class="docutils literal notranslate"><span class="pre">(T0,</span> <span class="pre">V0)</span></code> to <code class="docutils literal notranslate"><span class="pre">(T0,</span> <span class="pre">V1)</span></code> which is a stride of 8 for all 4 values. So the B layout is the same as A:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// (T8,V4) -&gt; (n,k)</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">BLayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_8</span><span class="p">,</span><span class="n">_4</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                         </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">_8</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The layouts in the case of NT are a bit more complicated (left side of the diagram). Going down the <code class="docutils literal notranslate"><span class="pre">M</span></code> mode of <code class="docutils literal notranslate"><span class="pre">A</span></code>, we see the four values of <code class="docutils literal notranslate"><span class="pre">T0</span></code> first and then we see the four values of <code class="docutils literal notranslate"><span class="pre">T4</span></code>. This means we first have a stride of 1 for 4 values, followed by a stride of 4 from <code class="docutils literal notranslate"><span class="pre">T0</span></code> to <code class="docutils literal notranslate"><span class="pre">T4</span></code>. So we have two sub-strides along the <code class="docutils literal notranslate"><span class="pre">M</span></code> mode. For the <code class="docutils literal notranslate"><span class="pre">K</span></code> mode, as we go across, we simply increment the <code class="docutils literal notranslate"><span class="pre">thr_id</span></code>, keeping <code class="docutils literal notranslate"><span class="pre">val_id</span></code> the same, making the stride 8 for 4 threads. This makes the A layout:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// (T8,V4) -&gt; (m,k)</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">ALayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_4</span><span class="p">,</span><span class="n">_2</span><span class="o">&gt;</span><span class="p">,</span><span class="n">_4</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                         </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_8</span><span class="p">,</span><span class="n">_4</span><span class="o">&gt;</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>With the <code class="docutils literal notranslate"><span class="pre">(N,K)</span></code> ordering for B, the layout is the same.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// (T8,V4) -&gt; (n,k)</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">BLayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_4</span><span class="p">,</span><span class="n">_2</span><span class="o">&gt;</span><span class="p">,</span><span class="n">_4</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                         </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_8</span><span class="p">,</span><span class="n">_4</span><span class="o">&gt;</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>For the NN and TT transposes, they are simply combinations of the two layouts we have seen for A and B so far.</p>
+</section>
+</section>
+<section id="hopper">
+<h2>Hopper<a class="headerlink" href="#hopper" title="Link to this heading">#</a></h2>
+<p>Now, we are ready to take a look at the much larger GMMA operation (Group MMA) first introduced with Hopper architecture. These MMA instructions operate at the granularity of 128 threads (4 warps), which are collectively referred to as a warpgroup.</p>
+<section id="id3">
+<h3>Thread ID<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>In the case of Hopper GMMAs, the thread IDs are assigned based on the simple 1D contiguous layout, which makes <code class="docutils literal notranslate"><span class="pre">thrID</span></code> trivial:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">ThrID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">_128</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>Accumulator Mapping<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>Accumulators are mapped hierarchically in GMMA, starting from the concept of a core matrix and building up to a layout for the whole C matrix tile. Let’s look at this core matrix first. We only consider fp16 accumulators here, but extensions of fp32 accumulators as trivial as we will see later.</p>
+<p>Each core matrix has the layout as shown in the diagram below.</p>
+<p align="center">
+  <img src="../../../images/cute/gmma_coremat_cd_fp16.png" alt="gmma_coremat_cd_fp16.png" height="600"/>
+</p>
+<p>As in the Volta examples, the thread IDs are logical only, and which of the four warps they belong to in the warpgroup is not important.</p>
+<p>Then GMMA tiles this core matrix first vertically along the M mode, and then repeats that column of core matrices along the N mode to construct the full MxN tile. This tiling is shown in the image below.</p>
+<p align="center">
+  <img src="../../../images/cute/gmma_wg_n_slice.png" alt="gmma_wg_n_slice.png" height="600"/>
+</p>
+<p>With this image, we are again ready to start building the <code class="docutils literal notranslate"><span class="pre">CLayout</span></code> for <code class="docutils literal notranslate"><span class="pre">SM90_64x128x16_F16F16F16F16_TN</span></code> atom. Same as before, we are constructing a mapping between the <code class="docutils literal notranslate"><span class="pre">(logical_thr_id,</span> <span class="pre">logical_val_id)</span> <span class="pre">-&gt;</span> <span class="pre">(m,</span> <span class="pre">n)</span></code> coordinate spaces.</p>
+<p>To begin, let’s follow the first few threads and values. We immediately see that they are arranged along the <code class="docutils literal notranslate"><span class="pre">N</span></code>-mode with pairs of values and four threads. This gives us</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// (T128,V4) -&gt; (M64,N8)</span>
+<span class="k">using</span><span class="w"> </span><span class="n">CLayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="w">  </span><span class="n">_4</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">_2</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_128</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_64</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>To complete the first 8x8 core matrix, the four threads repeat eight times down the <code class="docutils literal notranslate"><span class="pre">M</span></code>-mode:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// (T128,V4) -&gt; (M64,N8)</span>
+<span class="k">using</span><span class="w"> </span><span class="n">CLayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="w">  </span><span class="n">_4</span><span class="p">,</span><span class="w"> </span><span class="n">_8</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">_2</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_128</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_64</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Then, as we go to the next core matrix, we wrap back again to <code class="docutils literal notranslate"><span class="pre">T0</span></code>, but this time to <code class="docutils literal notranslate"><span class="pre">(T0,</span> <span class="pre">V2)</span></code>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// (T128,V4) -&gt; (M64,N8)</span>
+<span class="k">using</span><span class="w"> </span><span class="n">CLayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="w">  </span><span class="n">_4</span><span class="p">,</span><span class="w"> </span><span class="n">_8</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">_2</span><span class="p">,</span><span class="w"> </span><span class="n">_2</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_128</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_64</span><span class="p">,</span><span class="w"> </span><span class="n">_8</span><span class="o">&gt;&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Finally, we get this entire pattern repeating four times, once for each warp, down the <code class="docutils literal notranslate"><span class="pre">M</span></code>-mode starting at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(16,0)</span> <span class="pre">=</span> <span class="pre">16</span></code>. where two core matrices that belong to the same warp are stacked on top of each other. This makes the size of the final sub-mode of M 4. As for the stride, this time we go to <code class="docutils literal notranslate"><span class="pre">(T32,</span> <span class="pre">V0)</span></code>, which makes it a stride of 32.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// (T128,V4) -&gt; (M64,N8)</span>
+<span class="k">using</span><span class="w"> </span><span class="n">CLayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="w">  </span><span class="n">_4</span><span class="p">,</span><span class="w"> </span><span class="n">_8</span><span class="p">,</span><span class="w">  </span><span class="n">_4</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">_2</span><span class="p">,</span><span class="w"> </span><span class="n">_2</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_128</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">,</span><span class="w"> </span><span class="n">_16</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_64</span><span class="p">,</span><span class="w"> </span><span class="n">_8</span><span class="o">&gt;&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>This is the full <code class="docutils literal notranslate"><span class="pre">CLayout</span></code> for 64x8 accumulators. The GMMA instructions include 64xN variants with <code class="docutils literal notranslate"><span class="pre">N</span> <span class="pre">=</span> <span class="pre">[16,32,64,128,256]</span></code> where this 64x8 pattern is repeated giving each thread additional values. As this starts at <code class="docutils literal notranslate"><span class="pre">(m,n)</span> <span class="pre">=</span> <span class="pre">(0,8)</span> <span class="pre">=</span> <span class="pre">512</span></code>, this is easy to account for in our <code class="docutils literal notranslate"><span class="pre">CLayout</span></code>. For example, the 64x128 <code class="docutils literal notranslate"><span class="pre">CLayout</span></code> is</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// (T128,V64) -&gt; (M64,N128)</span>
+<span class="k">using</span><span class="w"> </span><span class="n">CLayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="w">  </span><span class="n">_4</span><span class="p">,</span><span class="w"> </span><span class="n">_8</span><span class="p">,</span><span class="w">  </span><span class="n">_4</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">_2</span><span class="p">,</span><span class="w"> </span><span class="n">_2</span><span class="p">,</span><span class="w">  </span><span class="n">_16</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_128</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">,</span><span class="w"> </span><span class="n">_16</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_64</span><span class="p">,</span><span class="w"> </span><span class="n">_8</span><span class="p">,</span><span class="w"> </span><span class="n">_512</span><span class="o">&gt;&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>where we see 16 copies of the 64x8 tile.</p>
+</section>
+<section id="id5">
+<h3>A and B Layout Mapping<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>GMMA atoms that consume A and B sources directly from shared memory are a bit interesting. The GMMA Descriptor is constructed on an entire tile of A and/or B data in shared memory rather than being partitioned by threads. That is, every thread sees the entire tile of data and the tile is not reordered so that the descriptor can be constructed on it. In <code class="docutils literal notranslate"><span class="pre">ALayout</span></code> form, this can be expressed</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// (T128,V64x8) -&gt; (M64,K16)</span>
+<span class="k">using</span><span class="w"> </span><span class="n">ALayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_128</span><span class="p">,</span><span class="w"> </span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_64</span><span class="p">,</span><span class="n">_16</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">Stride</span><span class="o">&lt;</span><span class="w">  </span><span class="n">_0</span><span class="p">,</span><span class="w"> </span><span class="n">Stride</span><span class="o">&lt;</span><span class="w"> </span><span class="n">_1</span><span class="p">,</span><span class="n">_64</span><span class="o">&gt;&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>That is, all threads are mapped the to <code class="docutils literal notranslate"><span class="pre">(m,k)</span> <span class="pre">=</span> <span class="pre">(0,0)</span> <span class="pre">=</span> <span class="pre">0</span></code> element and the values (and shape of the values) remains unchanged. The GMMA Descriptor Constructor can then inspect the <code class="docutils literal notranslate"><span class="pre">(M,K)</span></code> layout of this data and create an appropriate GMMA Descriptor or produce an error message saying the data is in an invalid layout for GMMA.</p>
+</section>
+</section>
+<section id="tiledmmas">
+<h2><code class="docutils literal notranslate"><span class="pre">TiledMMA</span></code>s<a class="headerlink" href="#tiledmmas" title="Link to this heading">#</a></h2>
+<p>We can make more complex patterns by combining and interleaving multiple atoms.</p>
+<p>Let’s start with <code class="docutils literal notranslate"><span class="pre">SM70_8x8x4_F32F16F16F32_NT</span></code>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">MMA_Atom</span><span class="w"> </span><span class="n">mma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MMA_Atom</span><span class="o">&lt;</span><span class="n">SM70_8x8x4_F32F16F16F32_NT</span><span class="o">&gt;</span><span class="p">{};</span>
+<span class="n">print_latex</span><span class="p">(</span><span class="n">mma</span><span class="p">);</span>
+</pre></div>
+</div>
+<p align="center">
+  <img src="../../../images/cute/HMMA.8x8x4.NT_Atom.png" alt="HMMA.8x8x4.NT_Atom.png" height="400"/>
+</p>
+<p>The above is equivalent to</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="n">TiledMMA</span><span class="w"> </span><span class="n">mma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tiled_mma</span><span class="p">(</span><span class="n">SM70_8x8x4_F32F16F16F32_NT</span><span class="p">{},</span>
+<span class="w">                                  </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">_1</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;&gt;</span><span class="p">{},</span><span class="w">   </span><span class="c1">// Layout of Atoms</span>
+<span class="w">                                  </span><span class="n">Tile</span><span class="o">&lt;</span><span class="n">_8</span><span class="p">,</span><span class="n">_8</span><span class="p">,</span><span class="n">_4</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">           </span><span class="c1">// Tiler</span>
+<span class="w">    </span><span class="n">print_latex</span><span class="p">(</span><span class="n">mma</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>as it is a single atom and has a natural tile size of 8x8x4.</p>
+<p>We can create an object akin to a WMMA by using four of these quadpair MMAs:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="n">TiledMMA</span><span class="w"> </span><span class="n">mma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tiled_mma</span><span class="p">(</span><span class="n">SM70_8x8x4_F32F16F16F32_NT</span><span class="p">{},</span>
+<span class="w">                                  </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_2</span><span class="p">,</span><span class="n">_2</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                                         </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_2</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;&gt;</span><span class="p">{});</span><span class="w">   </span><span class="c1">// 2x2 n-major layout of Atoms</span>
+<span class="w">    </span><span class="n">print_latex</span><span class="p">(</span><span class="n">mma</span><span class="p">);</span>
+</pre></div>
+</div>
+<p align="center">
+  <img src="../../../images/cute/HMMA.8x8x4.NT_2x2.png" alt="HMMA.8x8x4.NT_2x2.png" height="400"/>
+</p>
+This `TiledMMA` replicates the `MMA_Atom` across threads as we can see the `T4` and `T8` and `T12` threads in the `C`-matrix that were not used before. Each quadrant of the `C`-matrix is a replica of the atom's partitioning pattern for a new quadpair and this replication follows a `(2,2):(2,1)` layout.
+<p>The above represents a 16x16x4 MMA now, but we can immediately expand this “tile size” up to 32x32x4 instead:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="n">TiledMMA</span><span class="w"> </span><span class="n">mma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tiled_mma</span><span class="p">(</span><span class="n">SM70_8x8x4_F32F16F16F32_NT</span><span class="p">{},</span>
+<span class="w">                                  </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_2</span><span class="p">,</span><span class="n">_2</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                                         </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_2</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;&gt;</span><span class="p">{},</span><span class="w">  </span><span class="c1">// 2x2 n-major layout of Atoms</span>
+<span class="w">                                  </span><span class="n">Tile</span><span class="o">&lt;</span><span class="n">_32</span><span class="p">,</span><span class="n">_32</span><span class="p">,</span><span class="n">_4</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">      </span><span class="c1">// 32x32x4 tiler</span>
+<span class="w">    </span><span class="n">print_latex</span><span class="p">(</span><span class="n">mma</span><span class="p">);</span>
+</pre></div>
+</div>
+<p align="center">
+  <img src="../../../images/cute/HMMA.8x8x4.NT_2x2_32x32x4.png" alt="HMMA.8x8x4.NT_2x2_32x32x4.png" height="400"/>
+</p>
+This `TiledMMA` replicates the previous `TiledMMA` across values instead of threads. We can see the `T0V8` and `T16V8` and `T8V8` values in the `C`-matrix that were not used before. Each quadrant of the `C`-matrix is a replica of the previous `TiledMMA`'s partitioning pattern for a new set of values.
+<p>Continuing, we see that there are eight values that <code class="docutils literal notranslate"><span class="pre">T0</span></code> receives from the <code class="docutils literal notranslate"><span class="pre">A</span></code>-matrix. Those reads occur at coordinates</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">T0V0</span> <span class="o">=&gt;</span> <span class="p">(</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">T0V1</span> <span class="o">=&gt;</span> <span class="p">(</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">T0V2</span> <span class="o">=&gt;</span> <span class="p">(</span> <span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">T0V3</span> <span class="o">=&gt;</span> <span class="p">(</span> <span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">T0V4</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">T0V5</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">T0V6</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">T0V7</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="mi">19</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>which are separate, but we might prefer them to be next to each other. That is we would like to permute the <code class="docutils literal notranslate"><span class="pre">M</span></code>-mode to create another valid <code class="docutils literal notranslate"><span class="pre">TiledMMA</span></code>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="n">TiledMMA</span><span class="w"> </span><span class="n">mma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tiled_mma</span><span class="p">(</span><span class="n">SM70_8x8x4_F32F16F16F32_NT</span><span class="p">{},</span>
+<span class="w">                                  </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_2</span><span class="p">,</span><span class="n">_2</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                                         </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_2</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;&gt;</span><span class="p">{},</span><span class="w">       </span><span class="c1">// 2x2 n-major layout of Atoms</span>
+<span class="w">                                  </span><span class="n">Tile</span><span class="o">&lt;</span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="w"> </span><span class="o">&lt;</span><span class="n">_4</span><span class="p">,</span><span class="n">_4</span><span class="p">,</span><span class="n">_2</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                                              </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">_8</span><span class="p">,</span><span class="n">_4</span><span class="o">&gt;&gt;</span><span class="p">,</span><span class="w"> </span><span class="c1">// Permutation on M, size 32</span>
+<span class="w">                                       </span><span class="n">_32</span><span class="p">,</span><span class="w">                      </span><span class="c1">// Permutation on N, size 32 identity</span>
+<span class="w">                                       </span><span class="n">_4</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">                   </span><span class="c1">// Permutation on K, size 4 identity</span>
+<span class="w">    </span><span class="n">print_latex</span><span class="p">(</span><span class="n">mma</span><span class="p">);</span>
+</pre></div>
+</div>
+<p align="center">
+  <img src="../../../images/cute/HMMA.8x8x4.NT_2x2_32Mx32x4.png" alt="HMMA.8x8x4.NT_2x2_32Mx32x4.png" height="400"/>
+</p>
+<p>That layout <code class="docutils literal notranslate"><span class="pre">(4,4,2):(1,8,4)</span></code> is read like a scatter permutation, telling the m-coords of the original image where to go in the new image.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">old</span> <span class="n">m</span><span class="o">-</span><span class="n">coord</span><span class="p">:</span>  <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">2</span>  <span class="mi">3</span>  <span class="mi">4</span>  <span class="mi">5</span>  <span class="mi">6</span>  <span class="mi">7</span>  <span class="mi">8</span>  <span class="mi">9</span> <span class="mi">10</span> <span class="mi">11</span> <span class="mi">12</span> <span class="mi">13</span> <span class="mi">14</span> <span class="mi">15</span> <span class="mi">16</span> <span class="mi">17</span> <span class="mi">18</span> <span class="mi">19</span> <span class="mi">20</span> <span class="mi">21</span> <span class="mi">22</span> <span class="mi">23</span> <span class="mi">24</span> <span class="mi">25</span> <span class="mi">26</span> <span class="mi">27</span> <span class="mi">28</span> <span class="mi">29</span> <span class="mi">30</span> <span class="mi">31</span>
+<span class="n">new</span> <span class="n">m</span><span class="o">-</span><span class="n">coord</span><span class="p">:</span>  <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">2</span>  <span class="mi">3</span>  <span class="mi">8</span>  <span class="mi">9</span> <span class="mi">10</span> <span class="mi">11</span> <span class="mi">16</span> <span class="mi">17</span> <span class="mi">18</span> <span class="mi">19</span> <span class="mi">24</span> <span class="mi">25</span> <span class="mi">26</span> <span class="mi">27</span>  <span class="mi">4</span>  <span class="mi">5</span>  <span class="mi">6</span>  <span class="mi">7</span> <span class="mi">12</span> <span class="mi">13</span> <span class="mi">14</span> <span class="mi">15</span> <span class="mi">20</span> <span class="mi">21</span> <span class="mi">22</span> <span class="mi">23</span> <span class="mi">28</span> <span class="mi">29</span> <span class="mi">30</span> <span class="mi">31</span>
+</pre></div>
+</div>
+<p>This permutes only the M-mode (in <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">C</span></code> accordingly) and brings the access of all threads to be contiguous in m-coordinates in the <code class="docutils literal notranslate"><span class="pre">A</span></code>-matrix. This is convenient when designing layouts for shared memory or registers, for example. The MMA instructions contained within the image above are now effectively interleaved in the logical m-coordinates. Of course, permutations in the N-mode and K-mode are also valid.</p>
+<p>To see how these <code class="docutils literal notranslate"><span class="pre">TiledMMA</span></code>s are used to partition data tensors, see the <a class="reference internal" href="0x_gemm_tutorial.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">0x_gemm_tutorial.md</span></code></span></a>.</p>
+</section>
+<section id="copyright">
+<h2>Copyright<a class="headerlink" href="#copyright" title="Link to this heading">#</a></h2>
+<p>Copyright (c) 2017 - 2025 NVIDIA CORPORATION &amp; AFFILIATES. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">Redistribution</span> <span class="ow">and</span> <span class="n">use</span> <span class="ow">in</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">binary</span> <span class="n">forms</span><span class="p">,</span> <span class="k">with</span> <span class="ow">or</span> <span class="n">without</span>
+  <span class="n">modification</span><span class="p">,</span> <span class="n">are</span> <span class="n">permitted</span> <span class="n">provided</span> <span class="n">that</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span> <span class="n">are</span> <span class="n">met</span><span class="p">:</span>
+
+  <span class="mf">1.</span> <span class="n">Redistributions</span> <span class="n">of</span> <span class="n">source</span> <span class="n">code</span> <span class="n">must</span> <span class="n">retain</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span> <span class="n">this</span>
+  <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span><span class="o">.</span>
+
+  <span class="mf">2.</span> <span class="n">Redistributions</span> <span class="ow">in</span> <span class="n">binary</span> <span class="n">form</span> <span class="n">must</span> <span class="n">reproduce</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span>
+  <span class="n">this</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">documentation</span>
+  <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">other</span> <span class="n">materials</span> <span class="n">provided</span> <span class="k">with</span> <span class="n">the</span> <span class="n">distribution</span><span class="o">.</span>
+
+  <span class="mf">3.</span> <span class="n">Neither</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">holder</span> <span class="n">nor</span> <span class="n">the</span> <span class="n">names</span> <span class="n">of</span> <span class="n">its</span>
+  <span class="n">contributors</span> <span class="n">may</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">endorse</span> <span class="ow">or</span> <span class="n">promote</span> <span class="n">products</span> <span class="n">derived</span> <span class="kn">from</span>
+<span class="w">  </span><span class="nn">this</span> <span class="n">software</span> <span class="n">without</span> <span class="n">specific</span> <span class="n">prior</span> <span class="n">written</span> <span class="n">permission</span><span class="o">.</span>
+
+  <span class="n">THIS</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">PROVIDED</span> <span class="n">BY</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span> <span class="n">AND</span> <span class="n">CONTRIBUTORS</span> <span class="s2">&quot;AS IS&quot;</span>
+  <span class="n">AND</span> <span class="n">ANY</span> <span class="n">EXPRESS</span> <span class="n">OR</span> <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span><span class="p">,</span> <span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">THE</span>
+  <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span> <span class="n">AND</span> <span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span> <span class="n">ARE</span>
+  <span class="n">DISCLAIMED</span><span class="o">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">SHALL</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDER</span> <span class="n">OR</span> <span class="n">CONTRIBUTORS</span> <span class="n">BE</span> <span class="n">LIABLE</span>
+  <span class="n">FOR</span> <span class="n">ANY</span> <span class="n">DIRECT</span><span class="p">,</span> <span class="n">INDIRECT</span><span class="p">,</span> <span class="n">INCIDENTAL</span><span class="p">,</span> <span class="n">SPECIAL</span><span class="p">,</span> <span class="n">EXEMPLARY</span><span class="p">,</span> <span class="n">OR</span> <span class="n">CONSEQUENTIAL</span>
+  <span class="n">DAMAGES</span> <span class="p">(</span><span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">PROCUREMENT</span> <span class="n">OF</span> <span class="n">SUBSTITUTE</span> <span class="n">GOODS</span> <span class="n">OR</span>
+  <span class="n">SERVICES</span><span class="p">;</span> <span class="n">LOSS</span> <span class="n">OF</span> <span class="n">USE</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">OR</span> <span class="n">PROFITS</span><span class="p">;</span> <span class="n">OR</span> <span class="n">BUSINESS</span> <span class="n">INTERRUPTION</span><span class="p">)</span> <span class="n">HOWEVER</span>
+  <span class="n">CAUSED</span> <span class="n">AND</span> <span class="n">ON</span> <span class="n">ANY</span> <span class="n">THEORY</span> <span class="n">OF</span> <span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">STRICT</span> <span class="n">LIABILITY</span><span class="p">,</span>
+  <span class="n">OR</span> <span class="n">TORT</span> <span class="p">(</span><span class="n">INCLUDING</span> <span class="n">NEGLIGENCE</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">)</span> <span class="n">ARISING</span> <span class="n">IN</span> <span class="n">ANY</span> <span class="n">WAY</span> <span class="n">OUT</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">USE</span>
+  <span class="n">OF</span> <span class="n">THIS</span> <span class="n">SOFTWARE</span><span class="p">,</span> <span class="n">EVEN</span> <span class="n">IF</span> <span class="n">ADVISED</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">POSSIBILITY</span> <span class="n">OF</span> <span class="n">SUCH</span> <span class="n">DAMAGE</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cute"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04_algorithms.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">CuTe Tensor algorithms</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="0x_gemm_tutorial.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">CuTe dense matrix-matrix multiply tutorial</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cute-mma-atoms">CuTe MMA Atoms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operation-structs">Operation structs</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#location-of-files">Location of files</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#operation-struct-s-name">Operation struct’s name</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#contents">Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#type-aliases">Type aliases</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#fma-static-member-device-function"><code class="docutils literal notranslate"><span class="pre">fma</span></code> static member device function</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#traits">Traits</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Location of files</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Contents</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#volta">Volta</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#types">Types</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shape">Shape</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#thread-id">Thread ID</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accumulator-mapping">Accumulator Mapping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-and-b-layout-mapping">A and B Layout Mapping</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hopper">Hopper</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Thread ID</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Accumulator Mapping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">A and B Layout Mapping</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tiledmmas"><code class="docutils literal notranslate"><span class="pre">TiledMMA</span></code>s</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

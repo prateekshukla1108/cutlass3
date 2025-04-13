@@ -1,0 +1,1215 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CuTe dense matrix-matrix multiply tutorial &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cute/0x_gemm_tutorial';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Predication: What to do when tiling isn’t perfect" href="0y_predication.html" />
+    <link rel="prev" title="CuTe’s support for Matrix Multiply-Accumulate instructions" href="0t_mma_atom.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../overview.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../overview.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../terminology.html">CUTLASS Terminology</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../ide_setup.html">IDE Setup for CUTLASS Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../functionality.html">Functionality</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../fundamental_types.html">Fundamental Types</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../layout.html">Layouts and Tensors</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../tile_iterator_concept.html">Tile Iterator Concepts</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../pipeline.html">Synchronization primitives</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../code_organization.html">CUTLASS Code Organization</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../programming_guidelines.html">Programming Guidelines</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">CUTLASS Utilities</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Key Operations &amp; APIs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../gemm_api.html">CUTLASS GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../gemm_api_3x.html">CUTLASS 3.0 GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../efficient_gemm.html">Efficient GEMM in CUDA</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../implicit_gemm_convolution.html">CUTLASS Convolution</a></li>
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTLASS 3.x Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../cutlass_3x_design.html">CUTLASS 3.0 Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cutlass_3x_backwards_compatibility.html">CUTLASS 3.0 GEMM Backwards Compatibility</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTE - Compositional Universal Tile Engine</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_quickstart.html">Getting Started With CuTe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_layout.html">CuTe Layouts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_layout_algebra.html">CuTe Layout Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_tensor.html">CuTe Tensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_algorithms.html">CuTe Tensor algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0t_mma_atom.html">CuTe’s support for Matrix Multiply-Accumulate instructions</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">CuTe dense matrix-matrix multiply tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0y_predication.html">Predication: What to do when tiling isn’t perfect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0z_tma_tensors.html">CuTe TMA Tensors</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Features &amp; Platform Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../dependent_kernel_launch.html">Dependent kernel launches</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../grouped_scheduler.html">CUTLASS Grouped Kernel Schedulers</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../blackwell_functionality.html">Blackwell SM100 GEMMs</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../blackwell_cluster_launch_control.html">Blackwell Cluster Launch Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../profiler.html">CUTLASS Profiler</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Building CUTLASS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../build/building_in_windows_with_visual_studio.html">Building on Windows with Visual Studio</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../build/building_with_clang_as_host_compiler.html">Building with Clang as host compiler</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fcute/0x_gemm_tutorial.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/cute/0x_gemm_tutorial.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>CuTe dense matrix-matrix multiply tutorial</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sgemm-1-cu"><code class="docutils literal notranslate"><span class="pre">sgemm_1.cu</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#high-level-interface">High-level interface</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-full-tensors-shapes-strides-and-data">The Full Tensors: Shapes, Strides, and Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#aside-m-major-n-major-k-major">Aside: M-major, N-major, K-major</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cta-partitioning">CTA Partitioning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#smem-tensors">SMEM tensors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-partitioning">Copy partitioning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#math-partitioning">Math partitioning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mainloop">Mainloop</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sgemm-2-cu"><code class="docutils literal notranslate"><span class="pre">sgemm_2.cu</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tiledcopy">TiledCopy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tiledmma">TiledMMA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-changes">Other changes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sgemm-sm70-cu"><code class="docutils literal notranslate"><span class="pre">sgemm_sm70.cu</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sgemm-sm80-cu"><code class="docutils literal notranslate"><span class="pre">sgemm_sm80.cu</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gett-as-gemm">GETT as GEMM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="cute-dense-matrix-matrix-multiply-tutorial">
+<h1>CuTe dense matrix-matrix multiply tutorial<a class="headerlink" href="#cute-dense-matrix-matrix-multiply-tutorial" title="Link to this heading">#</a></h1>
+<p>In this section, we review
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/examples/cute/tutorial/">these examples</a>,
+which demonstrate a few self-contained, single-file dense matrix-matrix multiply implementations using only CuTe.</p>
+<section id="sgemm-1-cu">
+<h2><code class="docutils literal notranslate"><span class="pre">sgemm_1.cu</span></code><a class="headerlink" href="#sgemm-1-cu" title="Link to this heading">#</a></h2>
+<p>The simplest of the tutorial examples covers the basics of partitioning the global memory into tiles across the CTAs (also called threadblocks in CUDA), partitioning the data tiles across the threads of each CTA, and writing a mainloop using <code class="docutils literal notranslate"><span class="pre">cute::copy</span></code> and <code class="docutils literal notranslate"><span class="pre">cute::gemm</span></code>.</p>
+<section id="high-level-interface">
+<h3>High-level interface<a class="headerlink" href="#high-level-interface" title="Link to this heading">#</a></h3>
+<p>We’ll start with the kernel entry point <code class="docutils literal notranslate"><span class="pre">gemm_device</span></code> at the top of the file.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">ProblemShape</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">CtaTiler</span><span class="p">,</span>
+<span class="w">          </span><span class="k">class</span><span class="w"> </span><span class="nc">TA</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">AStride</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ASmemLayout</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">AThreadLayout</span><span class="p">,</span>
+<span class="w">          </span><span class="k">class</span><span class="w"> </span><span class="nc">TB</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">BStride</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">BSmemLayout</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">BThreadLayout</span><span class="p">,</span>
+<span class="w">          </span><span class="k">class</span><span class="w"> </span><span class="nc">TC</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">CStride</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">CSmemLayout</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">CThreadLayout</span><span class="p">,</span>
+<span class="w">          </span><span class="k">class</span><span class="w"> </span><span class="nc">Alpha</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Beta</span><span class="o">&gt;</span>
+<span class="n">__global__</span><span class="w"> </span><span class="k">static</span>
+<span class="n">__launch_bounds__</span><span class="p">(</span><span class="k">decltype</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">CThreadLayout</span><span class="p">{}))</span><span class="o">::</span><span class="n">value</span><span class="p">)</span>
+<span class="kt">void</span>
+<span class="n">gemm_device</span><span class="p">(</span><span class="n">ProblemShape</span><span class="w"> </span><span class="n">shape_MNK</span><span class="p">,</span><span class="w"> </span><span class="n">CtaTiler</span><span class="w"> </span><span class="n">cta_tiler</span><span class="p">,</span>
+<span class="w">            </span><span class="n">TA</span><span class="w"> </span><span class="k">const</span><span class="o">*</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">AStride</span><span class="w"> </span><span class="n">dA</span><span class="p">,</span><span class="w"> </span><span class="n">ASmemLayout</span><span class="w"> </span><span class="n">sA_layout</span><span class="p">,</span><span class="w"> </span><span class="n">AThreadLayout</span><span class="w"> </span><span class="n">tA</span><span class="p">,</span>
+<span class="w">            </span><span class="n">TB</span><span class="w"> </span><span class="k">const</span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">BStride</span><span class="w"> </span><span class="n">dB</span><span class="p">,</span><span class="w"> </span><span class="n">BSmemLayout</span><span class="w"> </span><span class="n">sB_layout</span><span class="p">,</span><span class="w"> </span><span class="n">BThreadLayout</span><span class="w"> </span><span class="n">tB</span><span class="p">,</span>
+<span class="w">            </span><span class="n">TC</span><span class="w">      </span><span class="o">*</span><span class="w"> </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">CStride</span><span class="w"> </span><span class="n">dC</span><span class="p">,</span><span class="w"> </span><span class="n">CSmemLayout</span><span class="w">          </span><span class="p">,</span><span class="w"> </span><span class="n">CThreadLayout</span><span class="w"> </span><span class="n">tC</span><span class="p">,</span>
+<span class="w">            </span><span class="n">Alpha</span><span class="w"> </span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="n">Beta</span><span class="w"> </span><span class="n">beta</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There are many template parameters, let’s quickly review them and then go into more depth on their uses.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ProblemShape</span></code>. The MxNxK problem shape of this matrix multiply.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CtaTiler</span></code>. A CuTe <a class="reference internal" href="02_layout_algebra.html#composition-tilers"><span class="std std-ref">tiler concept</span></a> that determines how to extract a tile of data from the problem shape.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TA</span> <span class="pre">const*</span> <span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">TB</span> <span class="pre">const*</span> <span class="pre">B</span></code>, <code class="docutils literal notranslate"><span class="pre">TC*</span> <span class="pre">C</span></code>. The types and pointers to the A, B, and C data, respectively.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AStride</span></code>, <code class="docutils literal notranslate"><span class="pre">BStride</span></code>, <code class="docutils literal notranslate"><span class="pre">CStride</span></code>. The layout strides corresponding to the <code class="docutils literal notranslate"><span class="pre">ProblemShape</span></code> for each A, B, and C.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ASmemLayout</span></code>, <code class="docutils literal notranslate"><span class="pre">BSmemLayout</span></code>, <code class="docutils literal notranslate"><span class="pre">CSmemLayout</span></code>. The layouts, if needed, of shared memory to use for staging A-data, B-data, and C-data within each CTA.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AThreadLayout</span></code>, <code class="docutils literal notranslate"><span class="pre">BThreadLayout</span></code>, <code class="docutils literal notranslate"><span class="pre">CThreadLayout</span></code>. The layouts of threads to be used in partitioning each stage.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Alpha</span> <span class="pre">alpha</span></code>, <code class="docutils literal notranslate"><span class="pre">Beta</span> <span class="pre">beta</span></code>. The types and values of the scalar constants to compute GEMM: <code class="docutils literal notranslate"><span class="pre">C</span> <span class="pre">=</span> <span class="pre">alpha</span> <span class="pre">*</span> <span class="pre">A</span> <span class="pre">*</span> <span class="pre">B</span> <span class="pre">+</span> <span class="pre">beta</span> <span class="pre">*</span> <span class="pre">C</span></code>.</p></li>
+</ul>
+</section>
+<section id="the-full-tensors-shapes-strides-and-data">
+<h3>The Full Tensors: Shapes, Strides, and Data<a class="headerlink" href="#the-full-tensors-shapes-strides-and-data" title="Link to this heading">#</a></h3>
+<p>Most GEMM interfaces list the matrices’ dimensions
+in the order M, N, K. CuTe also uses this convention, but packages them
+into a single <code class="docutils literal notranslate"><span class="pre">IntTuple</span></code>. In this example, they are dynamic values
+defined at the top of the <code class="docutils literal notranslate"><span class="pre">gemm_nt</span></code> and <code class="docutils literal notranslate"><span class="pre">gemm_tn</span></code> host functions
+that invoke the device kernel.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Define shapes (dynamic)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">int</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">int</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">int</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">prob_shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_shape</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">K</span><span class="p">);</span><span class="w">    </span><span class="c1">// (M, N, K)</span>
+</pre></div>
+</div>
+<p>Inside the kernel, the problem shape is checked against the preconditions and then used to construct each of the full matrices.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Preconditions</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">rank</span><span class="p">(</span><span class="n">shape_MNK</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">                      </span><span class="c1">// (M, N, K)</span>
+
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">congruent</span><span class="p">(</span><span class="n">select</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shape_MNK</span><span class="p">),</span><span class="w"> </span><span class="n">dA</span><span class="p">));</span><span class="w">            </span><span class="c1">// dA strides for shape MK</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">congruent</span><span class="p">(</span><span class="n">select</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shape_MNK</span><span class="p">),</span><span class="w"> </span><span class="n">dB</span><span class="p">));</span><span class="w">            </span><span class="c1">// dB strides for shape NK</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">congruent</span><span class="p">(</span><span class="n">select</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shape_MNK</span><span class="p">),</span><span class="w"> </span><span class="n">dC</span><span class="p">));</span><span class="w">            </span><span class="c1">// dC strides for shape MN</span>
+
+<span class="w">  </span><span class="c1">// Represent the full tensors</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">mA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tensor</span><span class="p">(</span><span class="n">make_gmem_ptr</span><span class="p">(</span><span class="n">A</span><span class="p">),</span><span class="w"> </span><span class="n">select</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shape_MNK</span><span class="p">),</span><span class="w"> </span><span class="n">dA</span><span class="p">);</span><span class="w">  </span><span class="c1">// (M,K)</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">mB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tensor</span><span class="p">(</span><span class="n">make_gmem_ptr</span><span class="p">(</span><span class="n">B</span><span class="p">),</span><span class="w"> </span><span class="n">select</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shape_MNK</span><span class="p">),</span><span class="w"> </span><span class="n">dB</span><span class="p">);</span><span class="w">  </span><span class="c1">// (N,K)</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">mC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tensor</span><span class="p">(</span><span class="n">make_gmem_ptr</span><span class="p">(</span><span class="n">C</span><span class="p">),</span><span class="w"> </span><span class="n">select</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shape_MNK</span><span class="p">),</span><span class="w"> </span><span class="n">dC</span><span class="p">);</span><span class="w">  </span><span class="c1">// (M,N)</span>
+</pre></div>
+</div>
+<p>The appropriate modes of the <code class="docutils literal notranslate"><span class="pre">Shape</span></code> are selected to construct each of the tensors. The preconditions make sure that for every integer in the <code class="docutils literal notranslate"><span class="pre">Shape</span></code> there is a corresponding integer in the associated <code class="docutils literal notranslate"><span class="pre">Stride</span></code>.</p>
+<p>Note that the comment after B says <code class="docutils literal notranslate"><span class="pre">(N,K)</span></code> rather than <code class="docutils literal notranslate"><span class="pre">(K,N)</span></code>.
+This means that B is treated as an NxK matrix instead of a KxN matrix as is typical within BLAS and most other matrix-matrix multiplications.
+CuTe follows the convention that the semantics of matrix modes is
+<code class="docutils literal notranslate"><span class="pre">(M,K)</span></code> for <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">(N,K)</span></code> for <code class="docutils literal notranslate"><span class="pre">B</span></code>, and <code class="docutils literal notranslate"><span class="pre">(M,N)</span></code> for <code class="docutils literal notranslate"><span class="pre">C</span></code>, which we try to record in comments everywhere.</p>
+<p>For each of the <code class="docutils literal notranslate"><span class="pre">(M,K)</span></code>, <code class="docutils literal notranslate"><span class="pre">(N,K)</span></code>, and <code class="docutils literal notranslate"><span class="pre">(M,N)</span></code> tensors, the <code class="docutils literal notranslate"><span class="pre">gemm_nt</span></code> and <code class="docutils literal notranslate"><span class="pre">gemm_tn</span></code> construct the strides those tensors will use. In <code class="docutils literal notranslate"><span class="pre">gemm_nt</span></code> the strides are defined as</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Define NT strides (mixed)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">dA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_stride</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">ldA</span><span class="p">);</span><span class="w">    </span><span class="c1">// (dM, dK)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">dB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_stride</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">ldB</span><span class="p">);</span><span class="w">    </span><span class="c1">// (dN, dK)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">dC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_stride</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">ldC</span><span class="p">);</span><span class="w">    </span><span class="c1">// (dM, dN)</span>
+</pre></div>
+</div>
+<p>and in <code class="docutils literal notranslate"><span class="pre">gemm_tn</span></code> the strides are defined as</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Define TN strides (mixed)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">dA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_stride</span><span class="p">(</span><span class="n">ldA</span><span class="p">,</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">    </span><span class="c1">// (dM, dK)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">dB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_stride</span><span class="p">(</span><span class="n">ldB</span><span class="p">,</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">    </span><span class="c1">// (dN, dK)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">dC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_stride</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">ldC</span><span class="p">);</span><span class="w">    </span><span class="c1">// (dM, dN)</span>
+</pre></div>
+</div>
+<section id="aside-m-major-n-major-k-major">
+<h4>Aside: M-major, N-major, K-major<a class="headerlink" href="#aside-m-major-n-major-k-major" title="Link to this heading">#</a></h4>
+<p>We’ve found that the BLAS convention of using “non-transposed” (N) and “transposed” (T) flags in conjunction with the mode conventions of <code class="docutils literal notranslate"><span class="pre">MxK</span> <span class="pre">*</span> <span class="pre">KxN</span></code> to confuse the core issue of “what layout does this matrix use” and “in which mode does my matrix have a stride-1?”. Indeed, the answer to those questions can always be found by inspecting the CuTe <code class="docutils literal notranslate"><span class="pre">Layout</span></code>.</p>
+<p>Instead of row-major or column-major (or Transposed
+and Not-Transposed), we have found it much more convenient to say that a matrix is “M-major” if it is stride-1 in the M-mode, “N-major” if it is stride-1 in the N-mode, or “K-major” if it is stride-1 in the K-mode. Furthermore, knowing that matrix multiply always performs a reduction in the K-mode, it is very convenient from a software perspective to always have the K-mode in the same place and adopt the mode convention <code class="docutils literal notranslate"><span class="pre">MxK</span> <span class="pre">*</span> <span class="pre">NxK</span></code>. Implementations will always reduce over the second mode (the K mode) of both input matrices and leads to cases where implementations can treat both input matrices the same way.</p>
+<p>How do we translate this into the BLAS user’s experience?</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>BLAS</p></th>
+<th class="head"><p>A Majorness</p></th>
+<th class="head"><p>A Layout</p></th>
+<th class="head"><p>B Majorness</p></th>
+<th class="head"><p>B Layout</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>NT</p></td>
+<td><p>M-major</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(M,K):(1,ldA)</span></code></p></td>
+<td><p>N-major</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(N,K):(1,ldB)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>TN</p></td>
+<td><p>K-major</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(M,K):(ldA,1)</span></code></p></td>
+<td><p>K-major</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(N,K):(ldB,1)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>NN</p></td>
+<td><p>M-major</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(M,K):(1,ldA)</span></code></p></td>
+<td><p>K-major</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(N,K):(ldB,1)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>TT</p></td>
+<td><p>K-major</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(M,K):(ldA,1)</span></code></p></td>
+<td><p>N-major</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(N,K):(1,ldB)</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Regardless, we’ll still use the BLAS “NT” and “TN” notations for high-level descriptions of kernels when it’s appropriate.</p>
+</section>
+</section>
+<section id="cta-partitioning">
+<h3>CTA Partitioning<a class="headerlink" href="#cta-partitioning" title="Link to this heading">#</a></h3>
+<p>Now that we have the representations of the full matrices, it’s time to tile them and split up the work!</p>
+<p>At the highest level, the work is distributed across CTAs. In principle, each CTA’s tile could come from the input tensors in many different ways. Many <a class="reference internal" href="02_layout_algebra.html#composition-tilers"><span class="std std-ref">CuTe <code class="docutils literal notranslate"><span class="pre">Tiler</span></code>s</span></a> could be used to tile the data, but for these cases it is sufficient to simply use the shape of the desired CTA tile.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Define CTA tile sizes (static)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">bM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">128</span><span class="o">&gt;</span><span class="p">{};</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">bN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">128</span><span class="o">&gt;</span><span class="p">{};</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">bK</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="w">  </span><span class="mi">8</span><span class="o">&gt;</span><span class="p">{};</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">cta_tiler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_shape</span><span class="p">(</span><span class="n">bM</span><span class="p">,</span><span class="w"> </span><span class="n">bN</span><span class="p">,</span><span class="w"> </span><span class="n">bK</span><span class="p">);</span><span class="w">  </span><span class="c1">// (BLK_M, BLK_N, BLK_K)</span>
+</pre></div>
+</div>
+<p>Once the tiler has been defined, we can use it to tile and partition the tensors across the CTAs.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Get the appropriate blocks for this threadblock</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">cta_coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_coord</span><span class="p">(</span><span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">blockIdx</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="p">);</span><span class="w">              </span><span class="c1">// (m,n,k)</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">gA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_tile</span><span class="p">(</span><span class="n">mA</span><span class="p">,</span><span class="w"> </span><span class="n">cta_tiler</span><span class="p">,</span><span class="w"> </span><span class="n">cta_coord</span><span class="p">,</span><span class="w"> </span><span class="n">Step</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">  </span><span class="c1">// (BLK_M,BLK_K,k)</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">gB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_tile</span><span class="p">(</span><span class="n">mB</span><span class="p">,</span><span class="w"> </span><span class="n">cta_tiler</span><span class="p">,</span><span class="w"> </span><span class="n">cta_coord</span><span class="p">,</span><span class="w"> </span><span class="n">Step</span><span class="o">&lt;</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="n">_1</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">  </span><span class="c1">// (BLK_N,BLK_K,k)</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">gC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_tile</span><span class="p">(</span><span class="n">mC</span><span class="p">,</span><span class="w"> </span><span class="n">cta_tiler</span><span class="p">,</span><span class="w"> </span><span class="n">cta_coord</span><span class="p">,</span><span class="w"> </span><span class="n">Step</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">_1</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">  </span><span class="c1">// (BLK_M,BLK_N)</span>
+</pre></div>
+</div>
+<p>First, the CTA coordinate is created.</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">m</span></code>-coordinate of this tile is given by <code class="docutils literal notranslate"><span class="pre">blockIdx.x</span></code>.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">n</span></code>-coordinate of this tile is given by <code class="docutils literal notranslate"><span class="pre">blockIdx.y</span></code>.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">k</span></code>-coordinate of this tile is unspecified – we want all of the tiles in <code class="docutils literal notranslate"><span class="pre">K</span></code> so the coordinate is <code class="docutils literal notranslate"><span class="pre">_</span></code>, the <code class="docutils literal notranslate"><span class="pre">Underscore</span></code> value, to keep that mode.</p></li>
+</ul>
+<p>Then, <code class="docutils literal notranslate"><span class="pre">local_tile</span></code> is used to remove the modes of the tiler and coord corresponding to the <code class="docutils literal notranslate"><span class="pre">X</span></code>s. That is, the <code class="docutils literal notranslate"><span class="pre">Step&lt;_1,</span> <span class="pre">X,_1&gt;</span></code> is just shorthand for</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Use select&lt;0,2&gt; to use only the M- and K-modes of the tiler and coord</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">gA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_tile</span><span class="p">(</span><span class="n">mA</span><span class="p">,</span><span class="w"> </span><span class="n">select</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cta_tiler</span><span class="p">),</span><span class="w"> </span><span class="n">select</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cta_coord</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>This <code class="docutils literal notranslate"><span class="pre">local_tile</span></code> is simply shorthand for</p>
+<ol class="arabic simple">
+<li><p>apply the tiler via <a class="reference internal" href="02_layout_algebra.html#zipped-tiled-flat-divides"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">zipped_divide</span></code></span></a></p></li>
+</ol>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// ((BLK_M,BLK_K),(m,k))</span>
+<span class="n">Tensor</span><span class="w"> </span><span class="n">gA_mk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zipped_divide</span><span class="p">(</span><span class="n">mA</span><span class="p">,</span><span class="w"> </span><span class="n">select</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cta_tiler</span><span class="p">));</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>apply the coord to the second mode, the “Rest” mode, to extract out the correct tiles for this CTA.</p></li>
+</ol>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// (BLK_M,BLK_K,k)</span>
+<span class="n">Tensor</span><span class="w"> </span><span class="n">gA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gA_mk</span><span class="p">(</span><span class="n">make_coord</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">),</span><span class="w"> </span><span class="n">select</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cta_coord</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Because the projections of the tiler and coord are symmetric and the two steps (apply a tiler and then slice into the rest-mode to produce a partition) are so common, they are wrapped together into the projective <code class="docutils literal notranslate"><span class="pre">local_tile</span></code> interface.</p>
+<p>For tensor <code class="docutils literal notranslate"><span class="pre">A</span></code>, we are left with a rank-3 tensor of shape <code class="docutils literal notranslate"><span class="pre">(BLK_M,BLK_K,k)</span></code>. The first two modes are precisely the modes of the CTA tile and the last mode indexes over all of the tiles that will be reduced by this CTA. In the mainloop section below, this mode is iterated over via the <code class="docutils literal notranslate"><span class="pre">k_tile</span></code> loop.</p>
+</section>
+<section id="smem-tensors">
+<h3>SMEM tensors<a class="headerlink" href="#smem-tensors" title="Link to this heading">#</a></h3>
+<p>The shared memory layouts that are used to hold the tiles of data for A and B are also passed in as the parameters <code class="docutils literal notranslate"><span class="pre">ASmemLayout</span> <span class="pre">sA_layout</span></code> and <code class="docutils literal notranslate"><span class="pre">BSmemLayout</span> <span class="pre">sB_layout</span></code>.</p>
+<p>These are defined in <code class="docutils literal notranslate"><span class="pre">gemm_nt</span></code> as</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Define the smem layouts (static)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">sA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="p">(</span><span class="n">bM</span><span class="p">,</span><span class="w"> </span><span class="n">bK</span><span class="p">));</span><span class="w">   </span><span class="c1">// (m,k) -&gt; smem_idx; m-major</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">sB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="p">(</span><span class="n">bN</span><span class="p">,</span><span class="w"> </span><span class="n">bK</span><span class="p">));</span><span class="w">   </span><span class="c1">// (n,k) -&gt; smem_idx; n-major</span>
+</pre></div>
+</div>
+<p>which produces simple M-major and N-major layouts. In <code class="docutils literal notranslate"><span class="pre">gemm_tn</span></code> these are</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Define the smem layouts (static)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">sA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="p">(</span><span class="n">bM</span><span class="p">,</span><span class="n">bK</span><span class="p">),</span><span class="w"> </span><span class="n">LayoutRight</span><span class="p">{});</span><span class="w">   </span><span class="c1">// (m,k) -&gt; smem_idx; k-major</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">sB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="p">(</span><span class="n">bN</span><span class="p">,</span><span class="n">bK</span><span class="p">),</span><span class="w"> </span><span class="n">LayoutRight</span><span class="p">{});</span><span class="w">   </span><span class="c1">// (n,k) -&gt; smem_idx; k-major</span>
+</pre></div>
+</div>
+<p>which produces simple K-major layouts.</p>
+<p>As is evident, these smem layouts can be almost anything. Inside the kernel, they are checked for only two properties: the shared memory layouts are static and they are the same top-level shape as the <code class="docutils literal notranslate"><span class="pre">CtaTiler</span></code>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Preconditions</span>
+<span class="w">  </span><span class="k">static_assert</span><span class="p">(</span><span class="n">is_static</span><span class="o">&lt;</span><span class="n">ASmemLayout</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">);</span>
+<span class="w">  </span><span class="k">static_assert</span><span class="p">(</span><span class="n">is_static</span><span class="o">&lt;</span><span class="n">BSmemLayout</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">);</span>
+<span class="w">  </span><span class="k">static_assert</span><span class="p">(</span><span class="n">is_static</span><span class="o">&lt;</span><span class="n">CSmemLayout</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ASmemLayout</span><span class="p">{})</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cta_tiler</span><span class="p">));</span><span class="w">  </span><span class="c1">// BLK_M</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">CSmemLayout</span><span class="p">{})</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cta_tiler</span><span class="p">));</span><span class="w">  </span><span class="c1">// BLK_M</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">BSmemLayout</span><span class="p">{})</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cta_tiler</span><span class="p">));</span><span class="w">  </span><span class="c1">// BLK_N</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">CSmemLayout</span><span class="p">{})</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cta_tiler</span><span class="p">));</span><span class="w">  </span><span class="c1">// BLK_N</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ASmemLayout</span><span class="p">{})</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cta_tiler</span><span class="p">));</span><span class="w">  </span><span class="c1">// BLK_K</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">BSmemLayout</span><span class="p">{})</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cta_tiler</span><span class="p">));</span><span class="w">  </span><span class="c1">// BLK_K</span>
+</pre></div>
+</div>
+<p>Use of static layouts has a few advantages.</p>
+<ul class="simple">
+<li><p>Static layouts let us statically allocate shared memory as shown below.</p></li>
+<li><p>Static layouts are often more efficient and allow CuTe to dispatch to optimized implementations.</p></li>
+<li><p>Static layouts makes it easier to prove correctness of the algorithm and provide checks like the above – the smem layout sizes are the same as the CTA tile sizes.</p></li>
+</ul>
+<p>As stated, the shared memory layouts can be anything that satisfy those conditions. Optimizing kernels like these is often performed by finding a good shared memory layout that provides good access patterns for both the writes to and the reads from shared memory. This includes the ability to vectorize reads and writes as well as avoid shared memory bank conflicts.</p>
+<p>With the static smem layouts, the <code class="docutils literal notranslate"><span class="pre">gemm_device</span></code> kernel can allocate the required shared memory and create the smem <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>s.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Shared memory buffers</span>
+<span class="w">  </span><span class="n">__shared__</span><span class="w"> </span><span class="n">TA</span><span class="w"> </span><span class="n">smemA</span><span class="p">[</span><span class="n">cosize_v</span><span class="o">&lt;</span><span class="n">ABlockLayout</span><span class="o">&gt;</span><span class="p">];</span>
+<span class="w">  </span><span class="n">__shared__</span><span class="w"> </span><span class="n">TB</span><span class="w"> </span><span class="n">smemB</span><span class="p">[</span><span class="n">cosize_v</span><span class="o">&lt;</span><span class="n">BBlockLayout</span><span class="o">&gt;</span><span class="p">];</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">sA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tensor</span><span class="p">(</span><span class="n">make_smem_ptr</span><span class="p">(</span><span class="n">smemA</span><span class="p">),</span><span class="w"> </span><span class="n">sA_layout</span><span class="p">);</span><span class="w">  </span><span class="c1">// (BLK_M,BLK_K)</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">sB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tensor</span><span class="p">(</span><span class="n">make_smem_ptr</span><span class="p">(</span><span class="n">smemB</span><span class="p">),</span><span class="w"> </span><span class="n">sB_layout</span><span class="p">);</span><span class="w">  </span><span class="c1">// (BLK_N,BLK_K)</span>
+</pre></div>
+</div>
+<p>Note how the shared memory allocation depends only on the data type and the layout. What’s a <code class="docutils literal notranslate"><span class="pre">cosize</span></code>? Because a <code class="docutils literal notranslate"><span class="pre">Layout</span></code> is a function, we can speak of its domain and codomain. The <code class="docutils literal notranslate"><span class="pre">size</span></code> of a layout is the size of its domain and the <code class="docutils literal notranslate"><span class="pre">cosize</span></code> of a layout is the size of its codomain. If we want to allocate an array for which all the offsets produced by a layout are valid, then we can use the <code class="docutils literal notranslate"><span class="pre">cosize</span></code> of the layout as the length of the array (in units of elements).</p>
+</section>
+<section id="copy-partitioning">
+<h3>Copy partitioning<a class="headerlink" href="#copy-partitioning" title="Link to this heading">#</a></h3>
+<p>The kernel now has tiles of global memory by applying the <code class="docutils literal notranslate"><span class="pre">CtaTiler</span></code> to the full tensors and it also has tiles of shared memory by allocating appropriately. We now want to create an efficient way to copy one tile of global memory to our tile of shared memory. A trivial way to do this would be to use a single thread and copy each element.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">thread0</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">gA0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gA</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w">  </span><span class="c1">// (BLK_M,BLK_K), the 0th tile</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">sA</span><span class="p">);</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sA</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gA0</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This would work, but we have lots of threads to use inside this CTA, so let’s use them!</p>
+<p>If we partition the two tiles of data across the threads in the CTA, then each thread can copy its own subtensor of data. There are lots of ways this partitioning could occur, however.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">gemm_nt</span></code> function defines two layouts of <em>threads</em> as</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Define thread layouts (static)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">tA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">32</span><span class="o">&gt;</span><span class="p">{},</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">8</span><span class="o">&gt;</span><span class="p">{}));</span><span class="w">   </span><span class="c1">// (m,k) -&gt; thr_idx</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">tB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">32</span><span class="o">&gt;</span><span class="p">{},</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">8</span><span class="o">&gt;</span><span class="p">{}));</span><span class="w">   </span><span class="c1">// (n,k) -&gt; thr_idx</span>
+</pre></div>
+</div>
+<p>and the <code class="docutils literal notranslate"><span class="pre">gemm_tn</span></code> functions defines two layouts of <em>threads</em> as</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Define thread layouts (static)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">tA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">32</span><span class="o">&gt;</span><span class="p">{},</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">8</span><span class="o">&gt;</span><span class="p">{}),</span><span class="w"> </span><span class="n">LayoutRight</span><span class="p">{});</span><span class="w">  </span><span class="c1">// (m,k) -&gt; thr_idx; k-major</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">tB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">32</span><span class="o">&gt;</span><span class="p">{},</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">8</span><span class="o">&gt;</span><span class="p">{}),</span><span class="w"> </span><span class="n">LayoutRight</span><span class="p">{});</span><span class="w">  </span><span class="c1">// (n,k) -&gt; thr_idx; k-major</span>
+</pre></div>
+</div>
+<p>Both cases happen to use 32x8 threads, which will be used to partition a 128x8 tile of gmem and smem data into a 4x1 subtensor for each thread. The only difference here is that <code class="docutils literal notranslate"><span class="pre">gemm_nt</span></code> uses M-major and N-major threads to match the order of data in global memory and <code class="docutils literal notranslate"><span class="pre">gemm_tn</span></code> uses K-major threads to match the order of data in global memory.</p>
+<p>Again, the conditions on the thread layouts are checked inside the kernel.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="k">static_assert</span><span class="p">(</span><span class="n">is_static</span><span class="o">&lt;</span><span class="n">AThreadLayout</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">);</span>
+<span class="w">  </span><span class="k">static_assert</span><span class="p">(</span><span class="n">is_static</span><span class="o">&lt;</span><span class="n">BThreadLayout</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">tA</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">tB</span><span class="p">));</span><span class="w">                          </span><span class="c1">// NumThreads</span>
+
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cta_tiler</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tA</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">  </span><span class="c1">// BLK_M / THR_M</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cta_tiler</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tA</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">  </span><span class="c1">// BLK_K / THR_K</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cta_tiler</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tB</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">  </span><span class="c1">// BLK_N / THR_N</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cta_tiler</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tB</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">  </span><span class="c1">// BLK_K / THR_K</span>
+</pre></div>
+</div>
+<p>These thread layouts are then used to partition the global memory tensors data and shared memory tensors</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">tAgA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_partition</span><span class="p">(</span><span class="n">gA</span><span class="p">,</span><span class="w"> </span><span class="n">tA</span><span class="p">,</span><span class="w"> </span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">);</span><span class="w">    </span><span class="c1">// (THR_M,THR_K,k)</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">tAsA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_partition</span><span class="p">(</span><span class="n">sA</span><span class="p">,</span><span class="w"> </span><span class="n">tA</span><span class="p">,</span><span class="w"> </span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">);</span><span class="w">    </span><span class="c1">// (THR_M,THR_K)</span>
+
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">tBgB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_partition</span><span class="p">(</span><span class="n">gB</span><span class="p">,</span><span class="w"> </span><span class="n">tB</span><span class="p">,</span><span class="w"> </span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">);</span><span class="w">    </span><span class="c1">// (THR_N,THR_K,k)</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">tBsB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_partition</span><span class="p">(</span><span class="n">sB</span><span class="p">,</span><span class="w"> </span><span class="n">tB</span><span class="p">,</span><span class="w"> </span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">);</span><span class="w">    </span><span class="c1">// (THR_N,THR_K)</span>
+
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tAgA</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tAsA</span><span class="p">));</span><span class="w">  </span><span class="c1">// THR_M</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tAgA</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tAsA</span><span class="p">));</span><span class="w">  </span><span class="c1">// THR_K</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tBgB</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tBsB</span><span class="p">));</span><span class="w">  </span><span class="c1">// THR_N</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tBgB</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tBsB</span><span class="p">));</span><span class="w">  </span><span class="c1">// THR_K</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">local_partition</span></code> is a lot like <code class="docutils literal notranslate"><span class="pre">local_tile</span></code>, except the coordinate slices into the tile-mode (the first mode) of the <code class="docutils literal notranslate"><span class="pre">zipped_divide</span></code> rather than the rest-mode (the second mode). That is, each thread gets one element of data assigned to it per thread tile and that thread tile is repeated to cover the entire data tile.</p>
+<p>The naming convention <code class="docutils literal notranslate"><span class="pre">tAsA</span></code> is pretty typical across CuTe and CUTLASS. This is read as “Partitioning pattern <code class="docutils literal notranslate"><span class="pre">tA</span></code> applied to tensor <code class="docutils literal notranslate"><span class="pre">sA</span></code>”. In the next section, we’ll see a different partitioner applied to <code class="docutils literal notranslate"><span class="pre">sA</span></code> to produce <code class="docutils literal notranslate"><span class="pre">tCsA</span></code>. By applying the same partitioning pattern, <code class="docutils literal notranslate"><span class="pre">tA</span></code>, to tensors <code class="docutils literal notranslate"><span class="pre">sA</span></code> and <code class="docutils literal notranslate"><span class="pre">gA</span></code>, we preserve the <em>logical consistency</em> of those tensors (checked by the assertions above) where logical elements between the two tensors correspond despite any differences in their data layouts. When used in <code class="docutils literal notranslate"><span class="pre">cute::copy</span></code>, for example, this naming convention let’s us lexically verify that the two tensors are using the same partitioning pattern.</p>
+<p>With the data partitioned across the threads, <em>every thread</em> can now participate in the copy by writing</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">copy</span><span class="p">(</span><span class="n">tAgA</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">tAsA</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>because every thread owns a different subtensor of the tile that will be copied.</p>
+</section>
+<section id="math-partitioning">
+<h3>Math partitioning<a class="headerlink" href="#math-partitioning" title="Link to this heading">#</a></h3>
+<p>The kernel now has tiles of shared memory copied in from global memory. We now want to create an efficient way to compute and accumulate the matrix product on that tile of shared memory. A trivial way to do this would be to use a single thread and compute directly.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">thread0</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">gC</span><span class="p">);</span><span class="w"> </span><span class="o">++</span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">gC</span><span class="p">);</span><span class="w"> </span><span class="o">++</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">sA</span><span class="p">);</span><span class="w"> </span><span class="o">++</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">gC</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">sA</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sB</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">);</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This would work, but we have lots of threads to use inside this CTA, so let’s use them!</p>
+<p>If we partition the output tile <code class="docutils literal notranslate"><span class="pre">gC</span></code> across the threads in the CTA, then each thread can compute its own subtensor. There are lots of ways this partitioning could occur, however.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">gemm_nt</span></code> and <code class="docutils literal notranslate"><span class="pre">gemm_tn</span></code> functions define one more layout of <em>threads</em>:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Define thread layouts (static)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">tC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">16</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">16</span><span class="o">&gt;</span><span class="p">{}));</span><span class="w">   </span><span class="c1">// (m,n) -&gt; thr_idx; m-major</span>
+</pre></div>
+</div>
+<p>This is a m-major 16x16 layout of threads which will be used to partition a 128x128 tile of <code class="docutils literal notranslate"><span class="pre">C</span></code>-data, resulting in each thread computing its own 8x8 subtensor of <code class="docutils literal notranslate"><span class="pre">gC</span></code>.</p>
+<p>Again, the conditions on the thread layouts are checked inside the kernel.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="k">static_assert</span><span class="p">(</span><span class="n">is_static</span><span class="o">&lt;</span><span class="n">CThreadLayout</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">tC</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">tA</span><span class="p">));</span><span class="w">                          </span><span class="c1">// NumThreads</span>
+
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cta_tiler</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tC</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">  </span><span class="c1">// BLK_M / THR_M</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cta_tiler</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tC</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">  </span><span class="c1">// BLK_N / THR_N</span>
+</pre></div>
+</div>
+<p>These thread layouts are then used to partition the tiles of data in global memory and shared memory</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Partition sA (M,K) by the rows of tC</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">tCsA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_partition</span><span class="p">(</span><span class="n">sA</span><span class="p">,</span><span class="w"> </span><span class="n">tC</span><span class="p">,</span><span class="w"> </span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">Step</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">   </span><span class="c1">// (THR_M,BLK_K)</span>
+<span class="w">  </span><span class="c1">// Partition sB (N,K) by the cols of tC</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">tCsB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_partition</span><span class="p">(</span><span class="n">sB</span><span class="p">,</span><span class="w"> </span><span class="n">tC</span><span class="p">,</span><span class="w"> </span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">Step</span><span class="o">&lt;</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">   </span><span class="c1">// (THR_N,BLK_K)</span>
+<span class="w">  </span><span class="c1">// Partition gC (M,N) by the tile of tC</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">tCgC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_partition</span><span class="p">(</span><span class="n">gC</span><span class="p">,</span><span class="w"> </span><span class="n">tC</span><span class="p">,</span><span class="w"> </span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">Step</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;</span><span class="p">{});</span><span class="w">   </span><span class="c1">// (THR_M,THR_N)</span>
+
+<span class="w">  </span><span class="c1">// Allocate the accumulators -- same shape/layout as the partitioned data</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">tCrC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tensor_like</span><span class="p">(</span><span class="n">tCgC</span><span class="p">);</span><span class="w">                                </span><span class="c1">// (THR_M,THR_N)</span>
+
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tCrC</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tCgC</span><span class="p">));</span><span class="w">                </span><span class="c1">// THR_M</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tCrC</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tCsA</span><span class="p">));</span><span class="w">                </span><span class="c1">// THR_M</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tCrC</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tCgC</span><span class="p">));</span><span class="w">                </span><span class="c1">// THR_N</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tCrC</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tCsB</span><span class="p">));</span><span class="w">                </span><span class="c1">// THR_N</span>
+<span class="w">  </span><span class="n">CUTE_STATIC_ASSERT_V</span><span class="p">(</span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tCsA</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tCsB</span><span class="p">));</span><span class="w">                </span><span class="c1">// BLK_K</span>
+</pre></div>
+</div>
+<p>where we’ve used the same projection-style interface to avoid applying the <code class="docutils literal notranslate"><span class="pre">N</span></code>-mode of <code class="docutils literal notranslate"><span class="pre">tC</span></code> to the <code class="docutils literal notranslate"><span class="pre">(BLK_M,BLK_K)</span></code> shape of <code class="docutils literal notranslate"><span class="pre">sA</span></code> and avoid applying the <code class="docutils literal notranslate"><span class="pre">M</span></code>-mode of <code class="docutils literal notranslate"><span class="pre">tC</span></code> to the <code class="docutils literal notranslate"><span class="pre">(BLK_N,BLK_K)</span></code> shape of <code class="docutils literal notranslate"><span class="pre">sB</span></code>.</p>
+<p align="center">
+  <img src="../../../images/cute/tC_partitioning.png" alt="tC_partitioning.png" height="300"/>
+</p>
+This diagram shows a `tC` layout, highlights two threads in green and blue, shows the projections of the `tC` layout, and finally highlights the subtensors within `sA`, `sB`, and `gC` that `tCsA`, `tCsB`, and `tCgC` represent.
+<p>With the data partitioned across the threads, <em>every thread</em> can now participate in the compute step by writing</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">gemm</span><span class="p">(</span><span class="n">tCsA</span><span class="p">,</span><span class="w"> </span><span class="n">tCsB</span><span class="p">,</span><span class="w"> </span><span class="n">tCrC</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>because every thread owns different subtensors of the data to be computed.</p>
+</section>
+<section id="mainloop">
+<h3>Mainloop<a class="headerlink" href="#mainloop" title="Link to this heading">#</a></h3>
+<p>The mainloop iterates over tiles of global memory, reads those tiles into shared memory, and then performs the matrix-multiply and accumulates into the accumulators.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// TUTORIAL: Example of a very simple compute mainloop</span>
+<span class="c1">//   copy(.) operates on the global and shared memory via the tA|tB partitioning</span>
+<span class="c1">//   gemm(.) operates on the shared and register memory via the tC partitioning</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">K_TILE_MAX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tAgA</span><span class="p">);</span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">k_tile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">k_tile</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">K_TILE_MAX</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">k_tile</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="c1">// Copy gmem to smem with tA|tB thread-partitioned tensors</span>
+<span class="w">  </span><span class="n">copy</span><span class="p">(</span><span class="n">tAgA</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">k_tile</span><span class="p">),</span><span class="w"> </span><span class="n">tAsA</span><span class="p">);</span><span class="w">      </span><span class="c1">// A   (THR_M,THR_K) -&gt; (THR_M,THR_K)</span>
+<span class="w">  </span><span class="n">copy</span><span class="p">(</span><span class="n">tBgB</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">k_tile</span><span class="p">),</span><span class="w"> </span><span class="n">tBsB</span><span class="p">);</span><span class="w">      </span><span class="c1">// B   (THR_N,THR_K) -&gt; (THR_N,THR_K)</span>
+
+<span class="w">  </span><span class="n">cp_async_fence</span><span class="p">();</span><span class="w">        </span><span class="c1">// Label the end of (potential) cp.async instructions</span>
+<span class="w">  </span><span class="n">cp_async_wait</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">();</span><span class="w">      </span><span class="c1">// Sync on all (potential) cp.async instructions</span>
+<span class="w">  </span><span class="n">__syncthreads</span><span class="p">();</span><span class="w">         </span><span class="c1">// Wait for all threads to write to smem</span>
+
+<span class="w">  </span><span class="c1">// Compute gemm on tC thread-partitioned smem</span>
+<span class="w">  </span><span class="n">gemm</span><span class="p">(</span><span class="n">tCsA</span><span class="p">,</span><span class="w"> </span><span class="n">tCsB</span><span class="p">,</span><span class="w"> </span><span class="n">tCrC</span><span class="p">);</span><span class="w">            </span><span class="c1">// (THR_M,THR_N) += (THR_M,BLK_K) * (THR_N,BLK_K)</span>
+<span class="w">  </span><span class="n">__syncthreads</span><span class="p">();</span><span class="w">         </span><span class="c1">// Wait for all threads to read from smem</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We can see that <code class="docutils literal notranslate"><span class="pre">k_tile</span></code> iterates over each tile of data, the <code class="docutils literal notranslate"><span class="pre">cute::copy</span></code> is performed for the current <code class="docutils literal notranslate"><span class="pre">k_tile</span></code> using the <code class="docutils literal notranslate"><span class="pre">tA</span></code> and <code class="docutils literal notranslate"><span class="pre">tB</span></code> thread-partitioned tensors, and the <code class="docutils literal notranslate"><span class="pre">cute::gemm</span></code> is computed for that current <code class="docutils literal notranslate"><span class="pre">k_tile</span></code> using the <code class="docutils literal notranslate"><span class="pre">tC</span></code> thread-partitioned tensors. Synchronization is provided so that this kernel works on any architecture.</p>
+</section>
+</section>
+<section id="sgemm-2-cu">
+<h2><code class="docutils literal notranslate"><span class="pre">sgemm_2.cu</span></code><a class="headerlink" href="#sgemm-2-cu" title="Link to this heading">#</a></h2>
+<p>An example that uses more complex <code class="docutils literal notranslate"><span class="pre">TiledMMA</span></code> and <code class="docutils literal notranslate"><span class="pre">TiledCopy</span></code> to perform partitioning in place of the <code class="docutils literal notranslate"><span class="pre">tA</span></code>, <code class="docutils literal notranslate"><span class="pre">tB</span></code>, and <code class="docutils literal notranslate"><span class="pre">tC</span></code> thread layouts. With this example, we try to emphasize that the shared memory layouts, the partitioning patterns, and the PTX instruction to use in each stage can be specified independently.</p>
+<section id="tiledcopy">
+<h3>TiledCopy<a class="headerlink" href="#tiledcopy" title="Link to this heading">#</a></h3>
+<p>First, we can replace the <code class="docutils literal notranslate"><span class="pre">tA</span></code> partitioning and <code class="docutils literal notranslate"><span class="pre">tB</span></code> partitioning with <code class="docutils literal notranslate"><span class="pre">TiledCopy</span></code> partitioning, which provides for more complex partitioning patterns and checked dispatch to specific copy instructions.</p>
+<p>As a first example, lets look at the <code class="docutils literal notranslate"><span class="pre">TiledCopy</span></code> that <code class="docutils literal notranslate"><span class="pre">gemm_nt</span></code> generates.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="n">TiledCopy</span><span class="w"> </span><span class="n">copyA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tiled_copy</span><span class="p">(</span><span class="n">Copy_Atom</span><span class="o">&lt;</span><span class="n">UniversalCopy</span><span class="o">&lt;</span><span class="n">uint128_t</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">TA</span><span class="o">&gt;</span><span class="p">{},</span><span class="w">  </span><span class="c1">// Atom: Copy TAs as if they were uint128_t</span>
+<span class="w">                                    </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="o">&lt;</span><span class="n">_32</span><span class="p">,</span><span class="n">_8</span><span class="o">&gt;&gt;</span><span class="p">{},</span><span class="w">                    </span><span class="c1">// Thr layout 32x8 m-major</span>
+<span class="w">                                    </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="o">&lt;</span><span class="w"> </span><span class="n">_4</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;&gt;</span><span class="p">{});</span><span class="w">                   </span><span class="c1">// Val layout  4x1 m-major</span>
+<span class="w">  </span><span class="n">print_latex</span><span class="p">(</span><span class="n">copyA</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The easiest way to see what this <code class="docutils literal notranslate"><span class="pre">TiledCopy</span></code> does is to look at the partition pattern in LaTeX.</p>
+<p align="center">
+  <img src="../../../images/cute/TiledCopyA.png" alt="TiledCopyA.png" height="300"/>
+</p>
+On the left is the source-tensor partitioning and on the right is the destination-tensor partitioning. The partition patterns are the same for this case, but there exist PTX instructions which require different patterns in the source and destination. The diagram shows that each thread reads 4x1 `TA` elements and there are 32x8 threads. The `UniversalCopy<uint128_t>` forces the instruction to use a 128-bit copy instruction. If the partition (of `sA` or `gA` in this case) does not result in 4 `TA` elements that cannot be vectorized to a 128-bit load/store, then CuTe will statically fail with an error message to that effect.
+<p>To use the <code class="docutils literal notranslate"><span class="pre">TiledCopy</span></code>, the kernel writes</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="n">ThrCopy</span><span class="w"> </span><span class="n">thr_copy_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copy_a</span><span class="p">.</span><span class="n">get_slice</span><span class="p">(</span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">tAgA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">thr_copy_a</span><span class="p">.</span><span class="n">partition_S</span><span class="p">(</span><span class="n">gA</span><span class="p">);</span><span class="w">            </span><span class="c1">// (CPY,CPY_M,CPY_K,k)</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">tAsA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">thr_copy_a</span><span class="p">.</span><span class="n">partition_D</span><span class="p">(</span><span class="n">sA</span><span class="p">);</span><span class="w">            </span><span class="c1">// (CPY,CPY_M,CPY_K)</span>
+<span class="w">  </span><span class="c1">// Allocate registers same shape/layout as partitioned data</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">tArA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_fragment_like</span><span class="p">(</span><span class="n">tAsA</span><span class="p">);</span><span class="w">              </span><span class="c1">// (CPY,CPY_M,CPY_K)</span>
+</pre></div>
+</div>
+<p>which applies the source-tensor partitioning to <code class="docutils literal notranslate"><span class="pre">gA</span></code> via <code class="docutils literal notranslate"><span class="pre">partition_S</span></code> and applies the destination-tensor partitioning to <code class="docutils literal notranslate"><span class="pre">sA</span></code> via <code class="docutils literal notranslate"><span class="pre">partition_D</span></code>. The first mode, <code class="docutils literal notranslate"><span class="pre">CPY</span></code>, of the result tensors hold all of the elements that a single instruction will consume. In this case, that mode should have size-4 since there are four <code class="docutils literal notranslate"><span class="pre">TA=float</span></code> elements in a single 128-bit <code class="docutils literal notranslate"><span class="pre">uint128_t</span></code>.</p>
+<p>Once the partition has been performed, we can execute the <code class="docutils literal notranslate"><span class="pre">copy</span></code> on the thread-partitioned tensors using the provided instruction in <code class="docutils literal notranslate"><span class="pre">copy_a</span></code>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cute</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">copy_a</span><span class="p">,</span><span class="w"> </span><span class="n">tAgA</span><span class="p">,</span><span class="w"> </span><span class="n">tArA</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="tiledmma">
+<h3>TiledMMA<a class="headerlink" href="#tiledmma" title="Link to this heading">#</a></h3>
+<p>Next, we can replace the <code class="docutils literal notranslate"><span class="pre">tC</span></code> partitioning with <code class="docutils literal notranslate"><span class="pre">TiledMMA</span></code> partitioning, which provides for more complex partitioning patterns and checked dispatch to specific MMA instructions.</p>
+<p>As a first example, lets look at the <code class="docutils literal notranslate"><span class="pre">TiledMMA</span></code> that <code class="docutils literal notranslate"><span class="pre">gemm_nt</span></code> generates.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="n">TiledMMA</span><span class="w"> </span><span class="n">mmaC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tiled_mma</span><span class="p">(</span><span class="n">UniversalFMA</span><span class="o">&lt;</span><span class="n">TC</span><span class="p">,</span><span class="n">TA</span><span class="p">,</span><span class="n">TB</span><span class="o">&gt;</span><span class="p">{},</span>
+<span class="w">                                 </span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="o">&lt;</span><span class="n">_16</span><span class="p">,</span><span class="n">_16</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;&gt;</span><span class="p">{});</span><span class="w">  </span><span class="c1">// 16x16x1 UniversalFMA</span>
+<span class="w">  </span><span class="n">print_latex</span><span class="p">(</span><span class="n">mmaC</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The easiest way to see what this <code class="docutils literal notranslate"><span class="pre">TiledMMA</span></code> does is to look at the partition pattern in LaTeX.</p>
+<p align="center">
+  <img src="../../../images/cute/TiledMmaC.png" alt="TiledMmaC.png" height="300"/>
+</p>
+On the left is the A-tensor partitioning, on the top is the B-tensor partitioning, and in the middle is the C-tensor partitioning.Because the `UniversalFMA` is a 1x1x1 MMA instruction, a 16x16x1 tiling of them results in a 16x16x1 `TiledMMA`. Other MMA instructions will have different threads involved and have different instruction sizes. In this case, all threads will read a single element from `A`, `B`, and `C` each.
+<p>To use the <code class="docutils literal notranslate"><span class="pre">TiledMMA</span></code>, the kernel writes</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="n">ThrMMA</span><span class="w"> </span><span class="n">thr_mma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mma</span><span class="p">.</span><span class="n">get_slice</span><span class="p">(</span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">tCsA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">thr_mma</span><span class="p">.</span><span class="n">partition_A</span><span class="p">(</span><span class="n">sA</span><span class="p">);</span><span class="w">        </span><span class="c1">// (MMA,MMA_M,MMA_K)</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">tCsB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">thr_mma</span><span class="p">.</span><span class="n">partition_B</span><span class="p">(</span><span class="n">sB</span><span class="p">);</span><span class="w">        </span><span class="c1">// (MMA,MMA_N,MMA_K)</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">tCgC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">thr_mma</span><span class="p">.</span><span class="n">partition_C</span><span class="p">(</span><span class="n">gC</span><span class="p">);</span><span class="w">        </span><span class="c1">// (MMA,MMA_M,MMA_N)</span>
+<span class="w">  </span><span class="c1">// Allocate the accumulators -- same size as the projected data</span>
+<span class="w">  </span><span class="n">Tensor</span><span class="w"> </span><span class="n">tCrC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">thr_mma</span><span class="p">.</span><span class="n">make_fragment_C</span><span class="p">(</span><span class="n">tCgC</span><span class="p">);</span><span class="w">  </span><span class="c1">// (MMA,MMA_M,MMA_N)</span>
+</pre></div>
+</div>
+<p>which applies the A-tensor partitioning to <code class="docutils literal notranslate"><span class="pre">sA</span></code> via <code class="docutils literal notranslate"><span class="pre">partition_A</span></code>, applies the B-tensor partitioning to <code class="docutils literal notranslate"><span class="pre">sB</span></code> via <code class="docutils literal notranslate"><span class="pre">partition_B</span></code>, and applies the C-tensor partitioning to <code class="docutils literal notranslate"><span class="pre">gC</span></code> via <code class="docutils literal notranslate"><span class="pre">partition_C</span></code>. The first mode, <code class="docutils literal notranslate"><span class="pre">MMA</span></code>, of the result tensors hold all of the elements that a single instruction will consume. In this case, that mode should have size-1 since <code class="docutils literal notranslate"><span class="pre">UniversalFMA</span></code> is a 1x1x1 MMA, but in general the size of the first mode can vary and not even be the same across <code class="docutils literal notranslate"><span class="pre">tCsA</span></code>, <code class="docutils literal notranslate"><span class="pre">tCsB</span></code>, and <code class="docutils literal notranslate"><span class="pre">tCgC</span></code> depending on the MMA.</p>
+<p>Once the partition has been performed, we can execute the <code class="docutils literal notranslate"><span class="pre">gemm</span></code> on the thread-partitioned tensors using the provided instruction in <code class="docutils literal notranslate"><span class="pre">mma</span></code>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cute</span><span class="o">::</span><span class="n">gemm</span><span class="p">(</span><span class="n">mma</span><span class="p">,</span><span class="w"> </span><span class="n">tCsA</span><span class="p">,</span><span class="w"> </span><span class="n">tCsB</span><span class="p">,</span><span class="w"> </span><span class="n">tCrC</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="other-changes">
+<h3>Other changes<a class="headerlink" href="#other-changes" title="Link to this heading">#</a></h3>
+<p>In this version, we have also updated the shared memory layouts for <code class="docutils literal notranslate"><span class="pre">gemm_tn</span></code> from K-major to</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Define the smem layouts (static)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">sA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="w"> </span><span class="p">(</span><span class="w">      </span><span class="n">bM</span><span class="p">,</span><span class="w">          </span><span class="n">bK</span><span class="p">),</span>
+<span class="w">                        </span><span class="n">make_stride</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">bM</span><span class="o">+</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{}));</span><span class="w">  </span><span class="c1">// (m,k) -&gt; smem_idx; padded m-major</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">sB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="w"> </span><span class="p">(</span><span class="w">      </span><span class="n">bN</span><span class="p">,</span><span class="w">          </span><span class="n">bK</span><span class="p">),</span>
+<span class="w">                        </span><span class="n">make_stride</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">bN</span><span class="o">+</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{}));</span><span class="w">  </span><span class="c1">// (n,k) -&gt; smem_idx; padded n-major</span>
+</pre></div>
+</div>
+<p>which produces M-major and N-major layouts, but they are padded to avoid shared memory bank conflicts. This simply improves the access pattern to and from shared memory and no other changes in the kernel are required.</p>
+</section>
+</section>
+<section id="sgemm-sm70-cu">
+<h2><code class="docutils literal notranslate"><span class="pre">sgemm_sm70.cu</span></code><a class="headerlink" href="#sgemm-sm70-cu" title="Link to this heading">#</a></h2>
+<p>An example that uses an optimized mainloop for Volta SM70 architectures that pipelines shared memory and register memory.</p>
+</section>
+<section id="sgemm-sm80-cu">
+<h2><code class="docutils literal notranslate"><span class="pre">sgemm_sm80.cu</span></code><a class="headerlink" href="#sgemm-sm80-cu" title="Link to this heading">#</a></h2>
+<p>An example that uses an optimized mainloop for Ampere SM80 architectures that explicitly pipelines shared memory using asynchronous reads from global memory.</p>
+</section>
+<section id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<p>All of the above examples assume that the CTA tile size divides the problem size so that global memory loads do no need to be predicated. The
+<a class="reference internal" href="0y_predication.html"><span class="std std-doc">predication section of the tutorial</span></a>
+explains what to do if a matrix tiling
+doesn’t perfectly divide the matrix.</p>
+</section>
+<section id="gett-as-gemm">
+<h2>GETT as GEMM<a class="headerlink" href="#gett-as-gemm" title="Link to this heading">#</a></h2>
+<p>“GETT” here stands for “general(ized) tensor times tensor,” a tensor contraction.</p>
+<p>CuTe permits matrices to have nested <code class="docutils literal notranslate"><span class="pre">Layout</span></code>s.
+This means that we can fold a <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> into a “matrix” by grouping modes according to their categories.</p>
+<p>As a result, we can implement GETT by using
+our existing GEMM implementation. Included below is a launcher like <code class="docutils literal notranslate"><span class="pre">gemm_nt</span></code> that uses the same device kernel contained in <code class="docutils literal notranslate"><span class="pre">sgemm_1.cu</span></code> to compute a GETT with two m-modes.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Setup params for a GETT with two m-modes.</span>
+<span class="c1">// The A and C tensors are assumed to be m0-major.</span>
+<span class="c1">//   Calls sgemm_1.cu&#39;s gemm_device&lt;&lt;&lt;&gt;&gt;&gt; without modification.</span>
+<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">TA</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">TB</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">TC</span><span class="p">,</span>
+<span class="w">          </span><span class="k">class</span><span class="w"> </span><span class="nc">Alpha</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Beta</span><span class="o">&gt;</span>
+<span class="kt">void</span>
+<span class="n">gett</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">m0</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">m1</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="p">,</span>
+<span class="w">     </span><span class="n">Alpha</span><span class="w"> </span><span class="n">alpha</span><span class="p">,</span>
+<span class="w">     </span><span class="n">TA</span><span class="w"> </span><span class="k">const</span><span class="o">*</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">ldAm1</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">ldAk</span><span class="p">,</span><span class="w">  </span><span class="c1">// m0-major</span>
+<span class="w">     </span><span class="n">TB</span><span class="w"> </span><span class="k">const</span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">ldBk</span><span class="p">,</span>
+<span class="w">     </span><span class="n">Beta</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span>
+<span class="w">     </span><span class="n">TC</span><span class="w">      </span><span class="o">*</span><span class="w"> </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">ldCm1</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">ldCn</span><span class="p">,</span><span class="w">  </span><span class="c1">// m0-major</span>
+<span class="w">     </span><span class="n">cudaStream_t</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">cute</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Define shapes (dynamic)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_shape</span><span class="p">(</span><span class="n">m0</span><span class="p">,</span><span class="w"> </span><span class="n">m1</span><span class="p">);</span><span class="w">                               </span><span class="c1">// (m0,m1)-multimode M</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">int</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">int</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">prob_shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_shape</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">K</span><span class="p">);</span><span class="w">                     </span><span class="c1">// (M, N, K)</span>
+
+<span class="w">  </span><span class="c1">// Define NT strides (mixed)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">dA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_stride</span><span class="p">(</span><span class="n">make_stride</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">ldAm1</span><span class="p">),</span><span class="w"> </span><span class="n">ldAk</span><span class="p">);</span><span class="w"> </span><span class="c1">// (dM, dK)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">dB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_stride</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">ldB</span><span class="p">);</span><span class="w">                      </span><span class="c1">// (dN, dK)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">dC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_stride</span><span class="p">(</span><span class="n">make_stride</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">ldCm1</span><span class="p">),</span><span class="w"> </span><span class="n">ldCn</span><span class="p">);</span><span class="w"> </span><span class="c1">// (dM, dN)</span>
+
+<span class="w">  </span><span class="c1">// Define CTA tile sizes (static)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">bM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Shape</span><span class="o">&lt;</span><span class="n">_64</span><span class="p">,</span><span class="w"> </span><span class="n">_2</span><span class="o">&gt;</span><span class="p">{};</span><span class="w">    </span><span class="c1">// Take _64 elements from m0 and _2 elements from m1</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">bN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">128</span><span class="o">&gt;</span><span class="p">{};</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">bK</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="w">  </span><span class="mi">8</span><span class="o">&gt;</span><span class="p">{};</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">cta_tiler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_shape</span><span class="p">(</span><span class="n">bM</span><span class="p">,</span><span class="w"> </span><span class="n">bN</span><span class="p">,</span><span class="w"> </span><span class="n">bK</span><span class="p">);</span><span class="w">                   </span><span class="c1">// (BLK_M, BLK_N, BLK_K)</span>
+
+<span class="w">  </span><span class="c1">// Define the smem layouts (static)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">sA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="p">(</span><span class="n">bM</span><span class="p">,</span><span class="w"> </span><span class="n">bK</span><span class="p">));</span><span class="w">                 </span><span class="c1">// (m,k) -&gt; smem_idx; m-major</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">sB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="p">(</span><span class="n">bN</span><span class="p">,</span><span class="w"> </span><span class="n">bK</span><span class="p">));</span><span class="w">                 </span><span class="c1">// (n,k) -&gt; smem_idx; n-major</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">sC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="p">(</span><span class="n">bM</span><span class="p">,</span><span class="w"> </span><span class="n">bN</span><span class="p">));</span><span class="w">                 </span><span class="c1">// (m,n) -&gt; smem_idx; m-major</span>
+
+<span class="w">  </span><span class="c1">// Define the thread layouts (static)</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">tA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">32</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="w"> </span><span class="mi">8</span><span class="o">&gt;</span><span class="p">{}));</span><span class="w">   </span><span class="c1">// (m,k) -&gt; thr_idx</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">tB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">32</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="w"> </span><span class="mi">8</span><span class="o">&gt;</span><span class="p">{}));</span><span class="w">   </span><span class="c1">// (n,k) -&gt; thr_idx</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">tC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_layout</span><span class="p">(</span><span class="n">make_shape</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">16</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">16</span><span class="o">&gt;</span><span class="p">{}));</span><span class="w">   </span><span class="c1">// (m,n) -&gt; thr_idx</span>
+
+<span class="w">  </span><span class="n">dim3</span><span class="w"> </span><span class="nf">dimBlock</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">tC</span><span class="p">));</span>
+<span class="w">  </span><span class="n">dim3</span><span class="w"> </span><span class="nf">dimGrid</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">ceil_div</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="w"> </span><span class="n">bM</span><span class="p">)),</span>
+<span class="w">               </span><span class="n">size</span><span class="p">(</span><span class="n">ceil_div</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">bN</span><span class="p">)));</span>
+<span class="w">  </span><span class="n">gemm_device</span><span class="o">&lt;&lt;&lt;</span><span class="n">dimGrid</span><span class="p">,</span><span class="w"> </span><span class="n">dimBlock</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="o">&gt;&gt;&gt;</span>
+<span class="w">      </span><span class="p">(</span><span class="n">prob_shape</span><span class="p">,</span><span class="w"> </span><span class="n">cta_tiler</span><span class="p">,</span>
+<span class="w">       </span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">dA</span><span class="p">,</span><span class="w"> </span><span class="n">sA</span><span class="p">,</span><span class="w"> </span><span class="n">tA</span><span class="p">,</span>
+<span class="w">       </span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">dB</span><span class="p">,</span><span class="w"> </span><span class="n">sB</span><span class="p">,</span><span class="w"> </span><span class="n">tB</span><span class="p">,</span>
+<span class="w">       </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">dC</span><span class="p">,</span><span class="w"> </span><span class="n">sC</span><span class="p">,</span><span class="w"> </span><span class="n">tC</span><span class="p">,</span>
+<span class="w">       </span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that the only changes are the definition of shape <code class="docutils literal notranslate"><span class="pre">M</span></code>, the definition of strides <code class="docutils literal notranslate"><span class="pre">dA</span></code> and <code class="docutils literal notranslate"><span class="pre">dC</span></code>, and the definition of the CTA Tiler <code class="docutils literal notranslate"><span class="pre">bM</span></code>. The above uses a multimodel problem shape <code class="docutils literal notranslate"><span class="pre">M</span> <span class="pre">=</span> <span class="pre">(m0,m1)</span></code> and a multimodal CTA Tiler <code class="docutils literal notranslate"><span class="pre">bM</span> <span class="pre">=</span> <span class="pre">&lt;_64,_2&gt;</span></code> to change which portion of the global memory tensors <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">C</span></code> each CTA will be responsible for computing.</p>
+<p>Similar examples can be found for CUTLASS 3.x kernels that are based on CuTe, such as <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/examples/51_hopper_gett">this Hopper GETT example</a>.</p>
+</section>
+<section id="copyright">
+<h2>Copyright<a class="headerlink" href="#copyright" title="Link to this heading">#</a></h2>
+<p>Copyright (c) 2017 - 2025 NVIDIA CORPORATION &amp; AFFILIATES. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">Redistribution</span> <span class="ow">and</span> <span class="n">use</span> <span class="ow">in</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">binary</span> <span class="n">forms</span><span class="p">,</span> <span class="k">with</span> <span class="ow">or</span> <span class="n">without</span>
+  <span class="n">modification</span><span class="p">,</span> <span class="n">are</span> <span class="n">permitted</span> <span class="n">provided</span> <span class="n">that</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span> <span class="n">are</span> <span class="n">met</span><span class="p">:</span>
+
+  <span class="mf">1.</span> <span class="n">Redistributions</span> <span class="n">of</span> <span class="n">source</span> <span class="n">code</span> <span class="n">must</span> <span class="n">retain</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span> <span class="n">this</span>
+  <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span><span class="o">.</span>
+
+  <span class="mf">2.</span> <span class="n">Redistributions</span> <span class="ow">in</span> <span class="n">binary</span> <span class="n">form</span> <span class="n">must</span> <span class="n">reproduce</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span>
+  <span class="n">this</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">documentation</span>
+  <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">other</span> <span class="n">materials</span> <span class="n">provided</span> <span class="k">with</span> <span class="n">the</span> <span class="n">distribution</span><span class="o">.</span>
+
+  <span class="mf">3.</span> <span class="n">Neither</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">holder</span> <span class="n">nor</span> <span class="n">the</span> <span class="n">names</span> <span class="n">of</span> <span class="n">its</span>
+  <span class="n">contributors</span> <span class="n">may</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">endorse</span> <span class="ow">or</span> <span class="n">promote</span> <span class="n">products</span> <span class="n">derived</span> <span class="kn">from</span>
+<span class="w">  </span><span class="nn">this</span> <span class="n">software</span> <span class="n">without</span> <span class="n">specific</span> <span class="n">prior</span> <span class="n">written</span> <span class="n">permission</span><span class="o">.</span>
+
+  <span class="n">THIS</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">PROVIDED</span> <span class="n">BY</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span> <span class="n">AND</span> <span class="n">CONTRIBUTORS</span> <span class="s2">&quot;AS IS&quot;</span>
+  <span class="n">AND</span> <span class="n">ANY</span> <span class="n">EXPRESS</span> <span class="n">OR</span> <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span><span class="p">,</span> <span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">THE</span>
+  <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span> <span class="n">AND</span> <span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span> <span class="n">ARE</span>
+  <span class="n">DISCLAIMED</span><span class="o">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">SHALL</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDER</span> <span class="n">OR</span> <span class="n">CONTRIBUTORS</span> <span class="n">BE</span> <span class="n">LIABLE</span>
+  <span class="n">FOR</span> <span class="n">ANY</span> <span class="n">DIRECT</span><span class="p">,</span> <span class="n">INDIRECT</span><span class="p">,</span> <span class="n">INCIDENTAL</span><span class="p">,</span> <span class="n">SPECIAL</span><span class="p">,</span> <span class="n">EXEMPLARY</span><span class="p">,</span> <span class="n">OR</span> <span class="n">CONSEQUENTIAL</span>
+  <span class="n">DAMAGES</span> <span class="p">(</span><span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">PROCUREMENT</span> <span class="n">OF</span> <span class="n">SUBSTITUTE</span> <span class="n">GOODS</span> <span class="n">OR</span>
+  <span class="n">SERVICES</span><span class="p">;</span> <span class="n">LOSS</span> <span class="n">OF</span> <span class="n">USE</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">OR</span> <span class="n">PROFITS</span><span class="p">;</span> <span class="n">OR</span> <span class="n">BUSINESS</span> <span class="n">INTERRUPTION</span><span class="p">)</span> <span class="n">HOWEVER</span>
+  <span class="n">CAUSED</span> <span class="n">AND</span> <span class="n">ON</span> <span class="n">ANY</span> <span class="n">THEORY</span> <span class="n">OF</span> <span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">STRICT</span> <span class="n">LIABILITY</span><span class="p">,</span>
+  <span class="n">OR</span> <span class="n">TORT</span> <span class="p">(</span><span class="n">INCLUDING</span> <span class="n">NEGLIGENCE</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">)</span> <span class="n">ARISING</span> <span class="n">IN</span> <span class="n">ANY</span> <span class="n">WAY</span> <span class="n">OUT</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">USE</span>
+  <span class="n">OF</span> <span class="n">THIS</span> <span class="n">SOFTWARE</span><span class="p">,</span> <span class="n">EVEN</span> <span class="n">IF</span> <span class="n">ADVISED</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">POSSIBILITY</span> <span class="n">OF</span> <span class="n">SUCH</span> <span class="n">DAMAGE</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cute"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="0t_mma_atom.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">CuTe’s support for Matrix Multiply-Accumulate instructions</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="0y_predication.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Predication: What to do when tiling isn’t perfect</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sgemm-1-cu"><code class="docutils literal notranslate"><span class="pre">sgemm_1.cu</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#high-level-interface">High-level interface</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-full-tensors-shapes-strides-and-data">The Full Tensors: Shapes, Strides, and Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#aside-m-major-n-major-k-major">Aside: M-major, N-major, K-major</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cta-partitioning">CTA Partitioning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#smem-tensors">SMEM tensors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-partitioning">Copy partitioning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#math-partitioning">Math partitioning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mainloop">Mainloop</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sgemm-2-cu"><code class="docutils literal notranslate"><span class="pre">sgemm_2.cu</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tiledcopy">TiledCopy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tiledmma">TiledMMA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-changes">Other changes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sgemm-sm70-cu"><code class="docutils literal notranslate"><span class="pre">sgemm_sm70.cu</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sgemm-sm80-cu"><code class="docutils literal notranslate"><span class="pre">sgemm_sm80.cu</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gett-as-gemm">GETT as GEMM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

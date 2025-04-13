@@ -1,0 +1,992 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Fundamental Types &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'fundamental_types';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Layouts and Tensors" href="layout.html" />
+    <link rel="prev" title="Functionality" href="functionality.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="overview.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="overview.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">CUTLASS Terminology</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="ide_setup.html">IDE Setup for CUTLASS Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functionality.html">Functionality</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Fundamental Types</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="layout.html">Layouts and Tensors</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="tile_iterator_concept.html">Tile Iterator Concepts</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Synchronization primitives</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="code_organization.html">CUTLASS Code Organization</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="programming_guidelines.html">Programming Guidelines</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">CUTLASS Utilities</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Key Operations &amp; APIs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="gemm_api.html">CUTLASS GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="gemm_api_3x.html">CUTLASS 3.0 GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="efficient_gemm.html">Efficient GEMM in CUDA</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="implicit_gemm_convolution.html">CUTLASS Convolution</a></li>
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTLASS 3.x Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cutlass_3x_design.html">CUTLASS 3.0 Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cutlass_3x_backwards_compatibility.html">CUTLASS 3.0 GEMM Backwards Compatibility</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTE - Compositional Universal Tile Engine</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cute/00_quickstart.html">Getting Started With CuTe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/01_layout.html">CuTe Layouts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/02_layout_algebra.html">CuTe Layout Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/03_tensor.html">CuTe Tensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/04_algorithms.html">CuTe Tensor algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0t_mma_atom.html">CuTe’s support for Matrix Multiply-Accumulate instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0x_gemm_tutorial.html">CuTe dense matrix-matrix multiply tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0y_predication.html">Predication: What to do when tiling isn’t perfect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0z_tma_tensors.html">CuTe TMA Tensors</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Features &amp; Platform Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="dependent_kernel_launch.html">Dependent kernel launches</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grouped_scheduler.html">CUTLASS Grouped Kernel Schedulers</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="blackwell_functionality.html">Blackwell SM100 GEMMs</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="blackwell_cluster_launch_control.html">Blackwell Cluster Launch Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="profiler.html">CUTLASS Profiler</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Building CUTLASS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="build/building_in_windows_with_visual_studio.html">Building on Windows with Visual Studio</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="build/building_with_clang_as_host_compiler.html">Building with Clang as host compiler</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Ffundamental_types.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/fundamental_types.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Fundamental Types</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Fundamental Types</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numeric-types">Numeric Types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#containers">Containers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#array">Array</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alignedarray">AlignedArray</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alignedbuffer">AlignedBuffer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numeric-conversion">Numeric Conversion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coord">Coord</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicatevector">PredicateVector<int bits=""></int></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functional">Functional</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Numeric Conversion</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="ALT" src="../../images/gemm-hierarchy-with-epilogue-no-labels.png" /></p>
+<section class="tex2jax_ignore mathjax_ignore" id="fundamental-types">
+<h1>Fundamental Types<a class="headerlink" href="#fundamental-types" title="Link to this heading">#</a></h1>
+<p>CUTLASS defies several fundamental numeric and container classes upon which computations and
+algorithms algorithms for linear algebra computations are implemented.</p>
+<p>Where possible, CUTLASS fundamental types mirror the C++ Standard Library. However, there are circumstances that necessitate divergence from the Standard Library’s specification. In such cases, the CUTLASS implementation adopts unique capitalization to distinguish that standard vocabulary types may not be safely substituted in all cases.</p>
+<p>Most types in CUTLASS are usable in both host code and device code. Moreover, they are functional regardless of compute capability, but they may only be efficient when hardware support is present.</p>
+<section id="numeric-types">
+<h2>Numeric Types<a class="headerlink" href="#numeric-types" title="Link to this heading">#</a></h2>
+<p>CUTLASS defines classes for the following numeric data types.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">half_t</span></code>: IEEE half-precision floating point (exponent: 5b, mantissa: 10b; literal suffix <code class="docutils literal notranslate"><span class="pre">_hf</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bfloat16_t</span></code>: BFloat16 data type (exponent: 8b, mantissa: 7b; literal suffix <code class="docutils literal notranslate"><span class="pre">_bf16</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tfloat32_t</span></code>: Tensor Float 32 data type (exponent: 8b, mantissa: 10b; literal suffix <code class="docutils literal notranslate"><span class="pre">_tf32</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">int4_t</span></code>, <code class="docutils literal notranslate"><span class="pre">uint4_t</span></code>: 4b signed and unsigned integer (literal suffx <code class="docutils literal notranslate"><span class="pre">_s4</span></code>, <code class="docutils literal notranslate"><span class="pre">_u4</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bin1_t</span></code>: 1b binary numeric type (literal suffix <code class="docutils literal notranslate"><span class="pre">_b1</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">float_e5m2_t</span></code>: 8bits signed float (exponent: 5 bits, mantissa: 2 bits)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">float_e4m3_t</span></code>: 8bits signed float (exponent: 4 bits, mantissa: 3 bits)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">float_ue4m3_t</span></code>: 8bits unsigned float (exponent: 4 bits, mantissa: 3 bits)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">float_ue8m0_t</span></code>: 8bits unsigned float (exponent: 8 bits, mantissa: 0 bits)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">float_e3m2_t</span></code>: 6bits signed float (exponent: 3 bits, mantissa: 2 bits)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">float_e2m3_t</span></code>: 6bits signed float (exponent: 2 bits, mantissa: 3 bits)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">float_e2m1_t</span></code>: 4bits signed float (exponent: 2 bits, mantissa: 1 bits)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">type_erased_dynamic_float8_t</span></code>: Type agnostic 8 bits signed float allowing the user to provide a specific datatype as runtime argument.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">type_erased_dynamic_float6_t</span></code>: Type agnostic 6 bits signed float allowing the user to provide a specific datatype as runtime argument.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">type_erased_dynamic_float4_t</span></code>: Type agnostic 4 bits signed float allowing the user to provide a specific datatype as runtime argument.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mx_float8_t&lt;float_e5m2_t&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">mx_float8_t&lt;float_e4m3_t&gt;</span></code> : Block scaled data type with fp8 element type and float_ue8m0_t scale factor and vector size of 32.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mx_float6_t&lt;float_e3m2_t&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">mx_float6_t&lt;float_e2m3_t&gt;</span></code> : Block scaled data type with fp6 element type and float_ue8m0_t scale factor and vector size of 32.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mx_float4_t&lt;float_e2m1_t&gt;</span></code> : Block scaled data type with signed e2m1 element type and float_ue8m0_t scale factor and vector size of 32.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nv_float4_t&lt;float_e2m1_t&gt;</span></code> : Block scaled data type with signed e2m1 element type and float_ue4m3_t scale factor and vector size of 16.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">complex&lt;T&gt;</span></code>: defines complex-valued data type based on the supplied real-valued numeric type</p></li>
+</ul>
+<p>Numeric types in CUTLASS may be used in both host and device code and are intended to function
+like any other plain-old-data type.</p>
+<p>If CUTLASS is compiled with <code class="docutils literal notranslate"><span class="pre">CUTLASS_F16C_ENABLED</span></code>, then hardware conversion is used for
+half-precision types in host code. Regardless, <code class="docutils literal notranslate"><span class="pre">cutlass::half_t</span></code> uses the most efficient
+NVIDIA GPU hardware instructions available in device code.</p>
+<p>Example:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cutlass/numeric_types.h&gt;</span>
+
+<span class="n">__global__</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">kernel</span><span class="p">(</span><span class="n">cutlass</span><span class="o">::</span><span class="n">half_t</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Device: %f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">2.0</span><span class="n">_hf</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">  </span><span class="n">cutlass</span><span class="o">::</span><span class="n">half_t</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="n">_hf</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Host: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mf">2.0</span><span class="n">_hf</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">kernel</span><span class="o">&lt;&lt;&lt;</span><span class="w"> </span><span class="n">dim3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">dim3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="containers">
+<h2>Containers<a class="headerlink" href="#containers" title="Link to this heading">#</a></h2>
+<p>CUTLASS uses the following containers extensively for implementing efficient CUDA kernels.</p>
+<section id="array">
+<h3>Array<a class="headerlink" href="#array" title="Link to this heading">#</a></h3>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w">       </span><span class="c1">// element type</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="w">             </span><span class="c1">// number of elements</span>
+<span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Array</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Array&lt;class</span> <span class="pre">T,</span> <span class="pre">int</span> <span class="pre">N&gt;</span></code> defines a statically sized array of elements of type <em>T</em> and size <em>N</em>. This class is similar to
+<a class="reference external" href="https://en.cppreference.com/w/cpp/container/array"><code class="docutils literal notranslate"><span class="pre">std::array&lt;&gt;</span></code></a> in the Standard Library with one notable exception:
+partial specializations exist to pack or unpack elements smaller than one byte.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Array&lt;&gt;</span></code> is intended to be a convenient and uniform container class to store arrays of numeric elements regardless of data type or vector length. The storage needed is expected to be the minimum necessary given the logical size of each numeric type in bits (numeric types smaller than one byte are densely packed). Nevertheless, the size reported by <code class="docutils literal notranslate"><span class="pre">sizeof(Array&lt;T,</span> <span class="pre">N&gt;)</span></code> is always an integer multiple of bytes.</p>
+<p>Storing numeric elements in a C++ STL-style container class enables useful modern C++ mechanisms such as range-based for loops. For example, to print the elements of <code class="docutils literal notranslate"><span class="pre">Array&lt;&gt;</span></code>, the following range-based for loop syntax is always valid regardless of numeric data type, compute capability, or context in host or device code.</p>
+<p>Example:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">kN</span><span class="p">;</span>
+<span class="n">Array</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">kN</span><span class="o">&gt;</span><span class="w"> </span><span class="n">elements</span><span class="p">;</span>
+
+<span class="n">CUTLASS_PRAGMA_UNROLL</span><span class="w">                        </span><span class="c1">// required to ensure array remains in registers</span>
+<span class="nf">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">elements</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d, %f&quot;</span><span class="p">,</span><span class="w"> </span><span class="kt">int64_t</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="w"> </span><span class="kt">double</span><span class="p">(</span><span class="n">x</span><span class="p">));</span><span class="w">   </span><span class="c1">// explictly convert to int64_t or double</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>When copying <code class="docutils literal notranslate"><span class="pre">Array&lt;&gt;</span></code> objects or passing them as arguments to methods, it is best to avoid accessing individual elements. This enables the use of vector instructions to perform the operation more efficiently. For example, setting all elements to zero is best performed by calling the <code class="docutils literal notranslate"><span class="pre">clear()</span></code> method. Copies should be performed by assigning the entire object.</p>
+<p>Example:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cutlass/array.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">kN</span><span class="p">;</span>
+<span class="n">Array</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">kN</span><span class="o">&gt;</span><span class="w"> </span><span class="n">source</span><span class="p">;</span>
+<span class="n">Array</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">kN</span><span class="o">&gt;</span><span class="w"> </span><span class="n">destination</span><span class="p">;</span>
+
+<span class="n">source</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w">         </span><span class="c1">// set all elements to value of zero</span>
+
+<span class="n">destination</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source</span><span class="p">;</span><span class="w">   </span><span class="c1">// copy to `destination`</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Array&lt;&gt;</span></code> may be used to store elements smaller than one byte such as 4b integers.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">Array</span><span class="o">&lt;</span><span class="n">int4b_t</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">&gt;</span><span class="w"> </span><span class="n">packed_integers</span><span class="p">;</span>
+
+<span class="k">static_assert</span><span class="p">(</span>
+<span class="w">  </span><span class="k">sizeof</span><span class="p">(</span><span class="n">packed_integers</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w"> </span><span class="s">&quot;Packed storage of sub-byte data types is compact.&quot;</span><span class="p">);</span>
+
+<span class="c1">// Access array elements using usual indirection and assignment operators</span>
+<span class="n">packed_integers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="n">_s4</span><span class="p">;</span>
+<span class="n">packed_integers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="n">_s4</span><span class="p">;</span>
+
+<span class="n">CUTLASS_PRAGMA_UNROLL</span>
+<span class="nf">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">elements</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="p">(</span><span class="n">x</span><span class="p">));</span><span class="w">       </span><span class="c1">// access elements normally</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="alignedarray">
+<h3>AlignedArray<a class="headerlink" href="#alignedarray" title="Link to this heading">#</a></h3>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w">          </span><span class="c1">// element type</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w">               </span><span class="c1">// number of elements</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">Alignment</span><span class="w">        </span><span class="c1">// alignment requirement in bytes</span>
+<span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AlignedArray</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">AlignedArray</span></code> is derived from <code class="docutils literal notranslate"><span class="pre">Array&lt;T,</span> <span class="pre">N&gt;</span></code> and supports an optional alignment field. Pointers to objects of type <code class="docutils literal notranslate"><span class="pre">AlignedArray&lt;&gt;</span></code> reliably yield vectorized memory accesses when dereferenced.</p>
+<p>Example:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">kN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span>
+<span class="n">ArrayAligned</span><span class="o">&lt;</span><span class="n">half_t</span><span class="p">,</span><span class="w"> </span><span class="n">kN</span><span class="o">&gt;</span><span class="w"> </span><span class="n">source</span><span class="p">;</span>
+<span class="n">ArrayAligned</span><span class="o">&lt;</span><span class="n">half_t</span><span class="p">,</span><span class="w"> </span><span class="n">kN</span><span class="o">&gt;</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span>
+
+<span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="p">;</span><span class="w">          </span><span class="c1">// 128b aligned memory access</span>
+</pre></div>
+</div>
+</section>
+<section id="alignedbuffer">
+<h3>AlignedBuffer<a class="headerlink" href="#alignedbuffer" title="Link to this heading">#</a></h3>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w">          </span><span class="c1">// element type</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w">               </span><span class="c1">// number of elements</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">Alignment</span><span class="w">        </span><span class="c1">// alignment requirement in bytes</span>
+<span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AlignedBuffer</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">AlignedBuffer</span></code> provides a uniform way to define aligned memory allocations for all data types. This is particularly
+useful in defining allocations within shared memory with guaranteed memory alignment needed for vectorized access.
+Note, constructors of the elements within AlignedBuffer&lt;&gt; are not called, and so the elements are initially in an
+undefined state.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">AlignedBuffer&lt;&gt;::data()</span></code> to obtain a pointer to the first element of the buffer.</p>
+<p><strong>Example:</strong> Guaranteed aligned shared memory allocation. Note, shared memory contents are uninitialized.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">kN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">kAlignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="p">;</span><span class="w">                  </span><span class="c1">// alignment in bytes</span>
+
+<span class="c1">// Define a shared memory allocation in device code</span>
+<span class="n">__shared__</span><span class="w"> </span><span class="n">AlignedBuffer</span><span class="o">&lt;</span><span class="n">complex</span><span class="o">&lt;</span><span class="n">half_t</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">kN</span><span class="p">,</span><span class="w"> </span><span class="n">kAlignment</span><span class="o">&gt;</span><span class="w"> </span><span class="n">matrix_tile</span><span class="p">;</span>
+
+<span class="n">complex</span><span class="o">&lt;</span><span class="n">half_t</span><span class="o">&gt;</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix_tile</span><span class="p">.</span><span class="n">data</span><span class="p">();</span><span class="w">  </span><span class="c1">// ptr is guaranteed to have 128b (16 Byte) alignment</span>
+</pre></div>
+</div>
+<p>Note, <code class="docutils literal notranslate"><span class="pre">AlignedBuffer&lt;&gt;</span></code> only guarantees that its internal memory allocation is aligned, obtained by <code class="docutils literal notranslate"><span class="pre">AlignedBuffer&lt;&gt;::data()</span></code>. There is no guarantee that the <code class="docutils literal notranslate"><span class="pre">AlignedBuffer&lt;&gt;</span></code> object itself satisfies alignment constraints or that its internal memory allocation is contiguous. Device code performing vectorized memory accesses should use the <code class="docutils literal notranslate"><span class="pre">AlignedArray&lt;&gt;</span></code> type.</p>
+<p><strong><em>Example</em>:</strong> Vectorized memory access to shared memory allocations.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">kN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1024</span><span class="p">;</span>
+
+<span class="n">__shared__</span><span class="w"> </span><span class="n">AlignedBuffer</span><span class="o">&lt;</span><span class="n">half_t</span><span class="p">,</span><span class="w"> </span><span class="n">kN</span><span class="o">&gt;</span><span class="w"> </span><span class="n">smem_buffer</span><span class="p">;</span>
+
+<span class="n">AlignedArray</span><span class="o">&lt;</span><span class="n">half_t</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="o">&gt;</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">AlignedArray</span><span class="o">&lt;</span><span class="n">half_t</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="o">&gt;</span><span class="w"> </span><span class="o">*&gt;</span><span class="p">(</span><span class="n">smem_buffer</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
+
+<span class="n">AlignedArray</span><span class="o">&lt;</span><span class="n">half_t</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="o">&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ptr</span><span class="p">[</span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">];</span><span class="w">     </span><span class="c1">// 128b shared memory load</span>
+</pre></div>
+</div>
+</section>
+<section id="numeric-conversion">
+<h3>Numeric Conversion<a class="headerlink" href="#numeric-conversion" title="Link to this heading">#</a></h3>
+<p>CUTLASS defines procedures for performing numeric conversion between data types in <code class="docutils literal notranslate"><span class="pre">cutlass/numeric_conversion.h</span></code>.
+Where possible, these target hardware acceleration on the target architecture and support multiple rounding modes.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cutlass/numeric_conversion.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cutlass/numeric_types.h&quot;</span>
+
+<span class="n">NumericConverter</span><span class="o">&lt;</span><span class="n">half_t</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">&gt;</span><span class="w">     </span><span class="n">convert_f32_to_f16</span><span class="p">;</span>
+<span class="n">NumericConverter</span><span class="o">&lt;</span><span class="n">tfloat32_t</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">convert_f32_to_tf32</span><span class="p">;</span>
+
+<span class="n">half_t</span><span class="w">     </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">convert_f32_to_f16</span><span class="p">(</span><span class="mf">3.14159f</span><span class="p">);</span>
+<span class="n">tfloat32_t</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">convert_f32_to_tf32</span><span class="p">(</span><span class="mf">3.14159f</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Recent GPU architectures such as NVIDIA Turing and Ampere combine numeric conversion with efficient packing
+into bit vectors. Consequently, CUTLASS defines conversion on both scalars and <code class="docutils literal notranslate"><span class="pre">Array&lt;&gt;</span></code> objects to implement
+the optimal code sequence on all architectures.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">//</span>
+<span class="c1">// Example: convert and pack 32b signed integers to a vector of packed signed 8-bit integers.</span>
+<span class="c1">//</span>
+<span class="kt">int</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">kN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="p">;</span>
+<span class="n">Array</span><span class="o">&lt;</span><span class="kt">int8_t</span><span class="p">,</span><span class="w"> </span><span class="n">kN</span><span class="o">&gt;</span><span class="w"> </span><span class="n">destination</span><span class="p">;</span>
+<span class="n">Array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w">    </span><span class="n">kN</span><span class="o">&gt;</span><span class="w"> </span><span class="n">source</span><span class="p">;</span>
+
+<span class="n">NumericConverter</span><span class="o">&lt;</span><span class="n">descltype</span><span class="p">(</span><span class="n">destination</span><span class="p">),</span><span class="w"> </span><span class="k">decltype</span><span class="p">(</span><span class="n">source</span><span class="p">)</span><span class="o">&gt;</span><span class="w"> </span><span class="n">convert</span><span class="p">;</span>
+
+<span class="n">destination</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">convert</span><span class="p">(</span><span class="n">source</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="coord">
+<h3>Coord<a class="headerlink" href="#coord" title="Link to this heading">#</a></h3>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">Rank</span><span class="p">,</span>
+<span class="w">  </span><span class="k">typename</span><span class="w"> </span><span class="nc">Index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">int</span>
+<span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Coord</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Coord&lt;Rank,</span> <span class="pre">class</span> <span class="pre">T</span> <span class="pre">=</span> <span class="pre">int&gt;</span></code> is a container used explicitly for defining logical coordinates in tensors of known rank. Traditional vector operators are defined such as <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, and scalar multiplication <code class="docutils literal notranslate"><span class="pre">*</span></code> to simplify the creation of vector-valued expressions on tensor coordinates.</p>
+<p><strong>Example:</strong> Vector operations on coordinates.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">Coord</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="w"> </span><span class="n">compute_offset</span><span class="p">(</span><span class="n">Coord</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">base</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">Coord</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="w"> </span><span class="n">stride</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_Coord</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">kM</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">base</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">stride</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">make_Coord</span><span class="p">(</span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="p">);</span><span class="w"> </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Instances of <code class="docutils literal notranslate"><span class="pre">Coord&lt;&gt;</span></code> are used throughout CUTLASS to compute indices into tensors. Frequently, the dimensions of tensors of known layouts may be given names such as “rows” or “columns”. To clarify the code, we have implemented several classes derived from <code class="docutils literal notranslate"><span class="pre">Coord&lt;&gt;</span></code> with accessors for each coordinate member.</p>
+<p>Such classes include:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">MatrixCoord</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Coord</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Index</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">row</span><span class="p">();</span>
+<span class="w">  </span><span class="n">Index</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">column</span><span class="p">();</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>and</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">Tensor4DCoord</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Coord</span><span class="o">&lt;</span><span class="mi">4</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Index</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">n</span><span class="p">();</span>
+<span class="w">  </span><span class="n">Index</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">h</span><span class="p">();</span>
+<span class="w">  </span><span class="n">Index</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">w</span><span class="p">();</span>
+<span class="w">  </span><span class="n">Index</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">c</span><span class="p">();</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</section>
+<section id="predicatevector">
+<h3>PredicateVector<int Bits><a class="headerlink" href="#predicatevector" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">PredicateVector&lt;int</span> <span class="pre">Bits&gt;</span></code> contains a statically sized array of hardware predicates packed into registers to enable efficient access within unrolled loops.</p>
+<p>This container is optimized for sequential access through iterators, though these are only efficient when used within fully unrolled loops.</p>
+<p>Moreover, instances of <code class="docutils literal notranslate"><span class="pre">PredicateVector&lt;&gt;</span></code> are not guaranteed to be updated until any non-const iterator objects have gone out of scope. This is because iterators are effectively caches that update the <code class="docutils literal notranslate"><span class="pre">PredicateVector&lt;&gt;</span></code> instance’s internal storage as a batch.</p>
+<p><strong>Example:</strong> Managing an array of predicates.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">unsigned</span><span class="w"> </span><span class="n">mask</span><span class="p">;</span>
+<span class="n">PredicateVector</span><span class="o">&lt;</span><span class="n">kBits</span><span class="o">&gt;</span><span class="w"> </span><span class="n">predicates</span><span class="p">;</span>
+
+<span class="c1">// Nested scope to update predicates via an iterator</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">pred_it</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">predicates</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+
+<span class="w">  </span><span class="n">CUTLASS_PRAGMA_UNROLL</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">bit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">bit</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">kBits</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">bit</span><span class="p">,</span><span class="w"> </span><span class="o">++</span><span class="n">pred_it</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">guard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">mask</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="mi">1u</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">bit</span><span class="p">));</span>
+<span class="w">    </span><span class="n">pred_it</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="n">guard</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Efficient use of predicates to guard memory instructions</span>
+<span class="n">T</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
+<span class="n">Array</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">kAccesses</span><span class="o">&gt;</span><span class="w"> </span><span class="n">fragment</span><span class="p">;</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">pred_it</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">predicates</span><span class="p">.</span><span class="n">const_begin</span><span class="p">();</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">access</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">access</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">kAccesses</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">access</span><span class="p">,</span><span class="w"> </span><span class="o">++</span><span class="n">pred_it</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">pred_it</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">fragment</span><span class="p">[</span><span class="n">access</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ptr</span><span class="p">[</span><span class="n">access</span><span class="p">];</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Note: <code class="docutils literal notranslate"><span class="pre">PredicateVector&lt;&gt;</span></code> is not efficient when accessed via dynamic random access. If an array of bits is needed with dynamic random access (in contrast with access via <em>constexpr</em> indices), then <code class="docutils literal notranslate"><span class="pre">Array&lt;bin1_t,</span> <span class="pre">N&gt;</span></code> should be used instead.</p>
+</section>
+</section>
+<section id="functional">
+<h2>Functional<a class="headerlink" href="#functional" title="Link to this heading">#</a></h2>
+<p>CUTLASS defines function objects corresponding to basic arithmetic operations modeled after C++ Standard Library’s <code class="docutils literal notranslate"><span class="pre">&lt;functional&gt;</span></code> header.</p>
+<p>CUTLASS extends this by defining <code class="docutils literal notranslate"><span class="pre">multiply_add&lt;T&gt;</span></code> which computes <code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">a</span> <span class="pre">*</span> <span class="pre">b</span> <span class="pre">+</span> <span class="pre">c</span></code>. The partial specialization <code class="docutils literal notranslate"><span class="pre">multiply_add&lt;complex&lt;T&gt;&gt;</span></code> computes complex-valued multiplication and addition using four real-valued multiply-add operations; these may correspond to native hardware instructions.</p>
+<p>Example:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">complex</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="n">complex</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="n">complex</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+<span class="n">complex</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">d</span><span class="p">;</span>
+
+<span class="n">multiply_add</span><span class="o">&lt;</span><span class="n">complex</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">mad_op</span><span class="p">;</span>
+
+<span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mad_op</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">);</span><span class="w">    </span><span class="c1">// four single-precision multiply-add instructions</span>
+</pre></div>
+</div>
+<p>CUTLASS defines partial specializations for type <code class="docutils literal notranslate"><span class="pre">Array&lt;T,</span> <span class="pre">N&gt;</span></code>, performing elementwise operations on each element. A further partial specialization for <code class="docutils literal notranslate"><span class="pre">Array&lt;half_t,</span> <span class="pre">N&gt;</span></code> targets may target native SIMD instructions for compute capability SM60 and beyond.</p>
+<p><strong>Example:</strong> Fused multiply-add of arrays of half-precision elements.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">kN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span>
+
+<span class="n">Array</span><span class="o">&lt;</span><span class="n">half_t</span><span class="p">,</span><span class="w"> </span><span class="n">kN</span><span class="o">&gt;</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="n">Array</span><span class="o">&lt;</span><span class="n">half_t</span><span class="p">,</span><span class="w"> </span><span class="n">kN</span><span class="o">&gt;</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="n">Array</span><span class="o">&lt;</span><span class="n">half_t</span><span class="p">,</span><span class="w"> </span><span class="n">kN</span><span class="o">&gt;</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+<span class="n">Array</span><span class="o">&lt;</span><span class="n">half_t</span><span class="p">,</span><span class="w"> </span><span class="n">kN</span><span class="o">&gt;</span><span class="w"> </span><span class="n">d</span><span class="p">;</span>
+
+<span class="n">multiply_add</span><span class="o">&lt;</span><span class="n">Array</span><span class="o">&lt;</span><span class="n">half_t</span><span class="p">,</span><span class="w"> </span><span class="n">kN</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">mad_op</span><span class="p">;</span>
+
+<span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mad_op</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">);</span><span class="w">   </span><span class="c1">// efficient multiply-add for Array of half-precision elements</span>
+</pre></div>
+</div>
+</section>
+<section id="id1">
+<h2>Numeric Conversion<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>Operators are define to convert between numeric types in <code class="docutils literal notranslate"><span class="pre">numeric_conversion.h</span></code>. Conversion operators are defined in
+terms of individual numeric elements and on arrays which enable the possibility of efficient hardware
+support on current and future NVIDIA GPUs.</p>
+<p><strong>Example:</strong> Converting between 32-b and 8-b integers.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="copyright">
+<h1>Copyright<a class="headerlink" href="#copyright" title="Link to this heading">#</a></h1>
+<p>Copyright (c) 2017 - 2025 NVIDIA CORPORATION &amp; AFFILIATES. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">Redistribution</span> <span class="ow">and</span> <span class="n">use</span> <span class="ow">in</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">binary</span> <span class="n">forms</span><span class="p">,</span> <span class="k">with</span> <span class="ow">or</span> <span class="n">without</span>
+  <span class="n">modification</span><span class="p">,</span> <span class="n">are</span> <span class="n">permitted</span> <span class="n">provided</span> <span class="n">that</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span> <span class="n">are</span> <span class="n">met</span><span class="p">:</span>
+
+  <span class="mf">1.</span> <span class="n">Redistributions</span> <span class="n">of</span> <span class="n">source</span> <span class="n">code</span> <span class="n">must</span> <span class="n">retain</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span> <span class="n">this</span>
+  <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span><span class="o">.</span>
+
+  <span class="mf">2.</span> <span class="n">Redistributions</span> <span class="ow">in</span> <span class="n">binary</span> <span class="n">form</span> <span class="n">must</span> <span class="n">reproduce</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span>
+  <span class="n">this</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">documentation</span>
+  <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">other</span> <span class="n">materials</span> <span class="n">provided</span> <span class="k">with</span> <span class="n">the</span> <span class="n">distribution</span><span class="o">.</span>
+
+  <span class="mf">3.</span> <span class="n">Neither</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">holder</span> <span class="n">nor</span> <span class="n">the</span> <span class="n">names</span> <span class="n">of</span> <span class="n">its</span>
+  <span class="n">contributors</span> <span class="n">may</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">endorse</span> <span class="ow">or</span> <span class="n">promote</span> <span class="n">products</span> <span class="n">derived</span> <span class="kn">from</span>
+<span class="w">  </span><span class="nn">this</span> <span class="n">software</span> <span class="n">without</span> <span class="n">specific</span> <span class="n">prior</span> <span class="n">written</span> <span class="n">permission</span><span class="o">.</span>
+
+  <span class="n">THIS</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">PROVIDED</span> <span class="n">BY</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span> <span class="n">AND</span> <span class="n">CONTRIBUTORS</span> <span class="s2">&quot;AS IS&quot;</span>
+  <span class="n">AND</span> <span class="n">ANY</span> <span class="n">EXPRESS</span> <span class="n">OR</span> <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span><span class="p">,</span> <span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">THE</span>
+  <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span> <span class="n">AND</span> <span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span> <span class="n">ARE</span>
+  <span class="n">DISCLAIMED</span><span class="o">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">SHALL</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDER</span> <span class="n">OR</span> <span class="n">CONTRIBUTORS</span> <span class="n">BE</span> <span class="n">LIABLE</span>
+  <span class="n">FOR</span> <span class="n">ANY</span> <span class="n">DIRECT</span><span class="p">,</span> <span class="n">INDIRECT</span><span class="p">,</span> <span class="n">INCIDENTAL</span><span class="p">,</span> <span class="n">SPECIAL</span><span class="p">,</span> <span class="n">EXEMPLARY</span><span class="p">,</span> <span class="n">OR</span> <span class="n">CONSEQUENTIAL</span>
+  <span class="n">DAMAGES</span> <span class="p">(</span><span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">PROCUREMENT</span> <span class="n">OF</span> <span class="n">SUBSTITUTE</span> <span class="n">GOODS</span> <span class="n">OR</span>
+  <span class="n">SERVICES</span><span class="p">;</span> <span class="n">LOSS</span> <span class="n">OF</span> <span class="n">USE</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">OR</span> <span class="n">PROFITS</span><span class="p">;</span> <span class="n">OR</span> <span class="n">BUSINESS</span> <span class="n">INTERRUPTION</span><span class="p">)</span> <span class="n">HOWEVER</span>
+  <span class="n">CAUSED</span> <span class="n">AND</span> <span class="n">ON</span> <span class="n">ANY</span> <span class="n">THEORY</span> <span class="n">OF</span> <span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">STRICT</span> <span class="n">LIABILITY</span><span class="p">,</span>
+  <span class="n">OR</span> <span class="n">TORT</span> <span class="p">(</span><span class="n">INCLUDING</span> <span class="n">NEGLIGENCE</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">)</span> <span class="n">ARISING</span> <span class="n">IN</span> <span class="n">ANY</span> <span class="n">WAY</span> <span class="n">OUT</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">USE</span>
+  <span class="n">OF</span> <span class="n">THIS</span> <span class="n">SOFTWARE</span><span class="p">,</span> <span class="n">EVEN</span> <span class="n">IF</span> <span class="n">ADVISED</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">POSSIBILITY</span> <span class="n">OF</span> <span class="n">SUCH</span> <span class="n">DAMAGE</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="functionality.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Functionality</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="layout.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Layouts and Tensors</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Fundamental Types</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numeric-types">Numeric Types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#containers">Containers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#array">Array</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alignedarray">AlignedArray</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alignedbuffer">AlignedBuffer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numeric-conversion">Numeric Conversion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coord">Coord</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicatevector">PredicateVector<int bits=""></int></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functional">Functional</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Numeric Conversion</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

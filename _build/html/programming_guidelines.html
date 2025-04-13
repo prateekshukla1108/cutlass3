@@ -1,0 +1,1863 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Programming Guidelines &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'programming_guidelines';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CUTLASS Utilities" href="utilities.html" />
+    <link rel="prev" title="CUTLASS Code Organization" href="code_organization.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="overview.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="overview.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">CUTLASS Terminology</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="ide_setup.html">IDE Setup for CUTLASS Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functionality.html">Functionality</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="fundamental_types.html">Fundamental Types</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="layout.html">Layouts and Tensors</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="tile_iterator_concept.html">Tile Iterator Concepts</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Synchronization primitives</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="code_organization.html">CUTLASS Code Organization</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Programming Guidelines</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">CUTLASS Utilities</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Key Operations &amp; APIs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="gemm_api.html">CUTLASS GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="gemm_api_3x.html">CUTLASS 3.0 GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="efficient_gemm.html">Efficient GEMM in CUDA</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="implicit_gemm_convolution.html">CUTLASS Convolution</a></li>
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTLASS 3.x Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cutlass_3x_design.html">CUTLASS 3.0 Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cutlass_3x_backwards_compatibility.html">CUTLASS 3.0 GEMM Backwards Compatibility</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTE - Compositional Universal Tile Engine</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cute/00_quickstart.html">Getting Started With CuTe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/01_layout.html">CuTe Layouts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/02_layout_algebra.html">CuTe Layout Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/03_tensor.html">CuTe Tensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/04_algorithms.html">CuTe Tensor algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0t_mma_atom.html">CuTe’s support for Matrix Multiply-Accumulate instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0x_gemm_tutorial.html">CuTe dense matrix-matrix multiply tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0y_predication.html">Predication: What to do when tiling isn’t perfect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0z_tma_tensors.html">CuTe TMA Tensors</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Features &amp; Platform Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="dependent_kernel_launch.html">Dependent kernel launches</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grouped_scheduler.html">CUTLASS Grouped Kernel Schedulers</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="blackwell_functionality.html">Blackwell SM100 GEMMs</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="blackwell_cluster_launch_control.html">Blackwell Cluster Launch Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="profiler.html">CUTLASS Profiler</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Building CUTLASS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="build/building_in_windows_with_visual_studio.html">Building on Windows with Visual Studio</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="build/building_with_clang_as_host_compiler.html">Building with Clang as host compiler</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fprogramming_guidelines.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/programming_guidelines.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Programming Guidelines</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Programming Guidelines</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hierarchical-organization">Hierarchical Organization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-patterns">Design Patterns</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#templates">Templates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constant-memory">Constant Memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#composable-shared-memory">Composable Shared Memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loop-unrolling">Loop Unrolling</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#style">Style</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-you-see-an-issue-in-code-formatting-fix-it">If you see an issue in code formatting, fix it</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#no-automatic-code-formatting">No automatic code formatting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-style">C++ style</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-is-a-c-project">CUTLASS is a C++ project</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#follow-standard-c-idioms-where-possible">Follow Standard C++ idioms where possible</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c-is-not-a-subset-of-c">C is not a subset of C++</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spacing-and-line-length">Spacing and line length</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#formatting-function-declarations-and-definitions">Formatting function declarations and definitions</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#formatting-function-calls">Formatting function calls</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#if-else-brackets-and-spacing">If-else brackets and spacing</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#east-const">East const</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#alignment-of-reference-and-pointer-types">Alignment of reference and pointer types</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#avoid-calling-functions-fast-or-optimized">Avoid calling functions “fast” or “optimized”</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#avoid-creating-unconstrained-templated-functions-with-common-names">Avoid creating unconstrained templated functions with common names</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#function-return-values-and-in-out-parameters">Function return values and in-out parameters</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#prefer-return-values-to-output-parameters">Prefer return values to output parameters</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#return-multiple-values-by-struct-or-tuple">Return multiple values by struct or tuple</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#reporting-errors-from-a-function-that-returns-one-or-more-values">Reporting errors from a function that returns one or more values</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-of-different-value-or-error-reporting-methods">Performance of different value-or-error reporting methods</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#use-aggregate-initialization-when-returning-a-struct-or-tuple">Use aggregate initialization when returning a struct or tuple</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#prefer-using-the-actual-return-type-to-auto-if-you-know-the-type">Prefer using the actual return type to auto, if you know the type</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#classes-and-structs">Classes and structs</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#class-members">Class members</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#class-member-order">Class Member Order</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#for-code-reuse-prefer-composition-over-inheritance">For code reuse, prefer composition over inheritance</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#behavioral-subtyping">Behavioral subtyping</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#use-scoped-enums">Use scoped enums</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#namespaces">Namespaces</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#file-names">File Names</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#macros">Macros</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#guard-all-headers-with-pragma-once">Guard all headers with <code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">once</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cute-layout-comments">CuTe Layout Comments</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#warnings">Warnings</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spurious-warnings">Spurious warnings</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-return-statement">Missing return statement</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#unused-variable">Unused variable</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuda-c-style">CUDA C++ style</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cuda-built-in-variables">CUDA Built-in Variables</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cutlass-s-and-cute-s-fundamental-types-and-operations">Use CUTLASS’s and CuTe’s fundamental types and operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-idioms">CUTLASS idioms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#detecting-major-mode">Detecting major mode</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="ALT" src="../../images/gemm-hierarchy-with-epilogue-no-labels.png" /></p>
+<section class="tex2jax_ignore mathjax_ignore" id="programming-guidelines">
+<h1>Programming Guidelines<a class="headerlink" href="#programming-guidelines" title="Link to this heading">#</a></h1>
+<section id="hierarchical-organization">
+<h2>Hierarchical Organization<a class="headerlink" href="#hierarchical-organization" title="Link to this heading">#</a></h2>
+<p>The <a class="reference internal" href="gemm_api_3x.html"><span class="std std-doc">CUTLASS 3.0 GEMM API</span></a> document
+explains CUTLASS 3.0’s hierarchical organization,
+based conceptually on parallelization strategy.
+This differs from CUTLASS 2.x’s approach,
+which more closely mirrors the GPU hardware hierarchy
+of thread blocks, warps, and threads.</p>
+</section>
+<section id="design-patterns">
+<h2>Design Patterns<a class="headerlink" href="#design-patterns" title="Link to this heading">#</a></h2>
+<p>CUTLASS aims for the highest performance possible on NVIDIA GPUs.
+It also offers flexible components that can be assembled and customized
+to solve new problems related to deep learning and linear algebra.
+Given a tradeoff between simplicity and performance,
+CUTLASS chooses performance.
+Consequently, several design patterns are necessary
+to yield a composable structure
+while also satisfying these performance objectives.</p>
+<section id="templates">
+<h3>Templates<a class="headerlink" href="#templates" title="Link to this heading">#</a></h3>
+<p>CUDA C++ templates and modern generic programming techniques enable CUTLASS device code to span a large design space.</p>
+<p>This design space includes:</p>
+<ul class="simple">
+<li><p>Mixed precision arithmetic and data storage</p></li>
+<li><p>Kernels specialized for layout and problem size</p></li>
+<li><p>Support for kernel fusion</p></li>
+</ul>
+<p>Moreover, templates provided a structured approach to collecting compile-time constants such as tile dimensions. These
+must be template arguments to target static array allocation and take advantage of loop unrolling, constant folding,
+and function inlining.</p>
+</section>
+<section id="constant-memory">
+<h3>Constant Memory<a class="headerlink" href="#constant-memory" title="Link to this heading">#</a></h3>
+<p>Several CUTLASS template classes exhibit a pattern in which problem-specific internal state is known at kernel
+launch time and remains invariant throughout the execution of a kernel. For example, tile iterators compute several
+offsets based on the strides of the input tensor that is added to an internal pointer when loading the elements
+of a tile. These are computed from the tensor stride and never updated; the per-thread internal state consists
+only of the internal global memory pointer.</p>
+<p>CUTLASS can take advantage of this CUDA grid-invariant property by constructing the object in host code and passing
+a composed parameters structure to the kernel. This confers two benefits: (1.) invariant state is held in constant
+memory, and (2.) there is no overhead to compute the initial state by each thread.</p>
+<p>The design pattern in CUTLASS is for classes with nontrivial constructors to define <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">Params</span></code> as an inner class
+which contains grid-invariant state. These should define a constructor and an <code class="docutils literal notranslate"><span class="pre">initialize()</span></code> method. The <code class="docutils literal notranslate"><span class="pre">Params</span></code>
+structure should also include a data member corresponding to each data member in the parent class, so these too can
+be properly constructed in host code. The parent class should define a constructor which accepts <code class="docutils literal notranslate"><span class="pre">Params</span> <span class="pre">const</span> <span class="pre">&amp;</span></code> as
+its first argument.</p>
+</section>
+<section id="composable-shared-memory">
+<h3>Composable Shared Memory<a class="headerlink" href="#composable-shared-memory" title="Link to this heading">#</a></h3>
+<p>Shared memory requires explicit effort by the programmer to allocate and de-allocate. CUTLASS follows the paradigm
+introduced by <a class="reference external" href="https://nvlabs.github.io/cub/">CUB</a> to define composed structures for storing data intended to be held
+in shared memory. Any object requiring shared memory storage for itself or its data members should define a child
+structure called <code class="docutils literal notranslate"><span class="pre">SharedStorage</span></code>. This holds data needed by the class and also instantiates <code class="docutils literal notranslate"><span class="pre">SharedStorage</span></code>
+objects for each data member.</p>
+<p>To be consistent, this pattern defines a convention in which classes define internal shared memory storage requirements.
+Classes should consider all SharedStorage structures to be opaque other than their own child class. When the lifetimes
+of child objects are known to be non-overlapping, <code class="docutils literal notranslate"><span class="pre">union</span></code>s may be used to alias multiple SharedStorage objects to the same
+shared memory region and reduce overall shared memory capacity.  Developers should carefully note that C++ <code class="docutils literal notranslate"><span class="pre">union</span></code> rules
+require that they only access the most recently written (“active”) member of the <code class="docutils literal notranslate"><span class="pre">union</span></code>; this differs from C rules.</p>
+<p>For host to device ABI compatibility, inheritance from a class is only permitted if the superclass is unique to the
+child class. This is most easily achieved by templating the parent class by the child class (CRTP).</p>
+</section>
+<section id="loop-unrolling">
+<h3>Loop Unrolling<a class="headerlink" href="#loop-unrolling" title="Link to this heading">#</a></h3>
+<p>CUTLASS requires tiles of data to be stored in registers for high-bandwidth access. Simultaneously, high-throughput math instructions
+must be issued concurrently with memory instructions to hide latency with relatively few concurrent threads. These objectives are
+achieved by unrolling loops whose iteration counts are known at compile time.</p>
+<p>Consequently, most loops within the CUTLASS GEMM implementation are specified by constant values and template arguments. The CUDA compiler
+is able to unroll the loop bodies, map array elements to registers, and construct an efficient instruction schedule.</p>
+<p>All loops expected to be unrolled should be annotated with <code class="docutils literal notranslate"><span class="pre">CUTLASS_PRAGMA_UNROLL</span></code> to explicitly direct the compiler
+to unroll them.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">kN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span>
+<span class="n">Array</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="n">kN</span><span class="o">&gt;</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w">                       </span><span class="c1">// Array we would like to store in registers</span>
+
+<span class="n">CUTLASS_PRAGMA_UNROLL</span><span class="w">                     </span><span class="c1">// Directs the CUDA compiler to unroll this loop.</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">kN</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">      </span><span class="c1">// Loop has constant number of iterations.</span>
+
+<span class="w">  </span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">float</span><span class="p">(</span><span class="n">idx</span><span class="p">);</span><span class="w">                      </span><span class="c1">// Indirect access by induction variable results in</span>
+<span class="w">                                          </span><span class="c1">// direct register access.</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="style">
+<h2>Style<a class="headerlink" href="#style" title="Link to this heading">#</a></h2>
+<section id="if-you-see-an-issue-in-code-formatting-fix-it">
+<h3>If you see an issue in code formatting, fix it<a class="headerlink" href="#if-you-see-an-issue-in-code-formatting-fix-it" title="Link to this heading">#</a></h3>
+<p>You are empowered to reformat code.
+Please, however, consider making reformatting changes separately from content-related changes.</p>
+</section>
+<section id="no-automatic-code-formatting">
+<h3>No automatic code formatting<a class="headerlink" href="#no-automatic-code-formatting" title="Link to this heading">#</a></h3>
+<p>Do not use any kind of automatic code formatting,
+like <code class="docutils literal notranslate"><span class="pre">clang-format</span></code>, on CUTLASS code.</p>
+</section>
+<section id="c-style">
+<h3>C++ style<a class="headerlink" href="#c-style" title="Link to this heading">#</a></h3>
+<section id="cutlass-is-a-c-project">
+<h4>CUTLASS is a C++ project<a class="headerlink" href="#cutlass-is-a-c-project" title="Link to this heading">#</a></h4>
+<p>CUTLASS is a C++ project.  CUDA C++ is a C++ dialect.
+Therefore, we write using standard C++ idioms as much as possible.
+We aim for portability to as many compilers as possible,
+by writing host code in Standard C++
+and device code in CUDA C++
+that resembles Standard C++ as much as possible.
+This improves usability
+for the general community of C++ developers,
+and makes it easier for new staff to join the project.</p>
+</section>
+<section id="follow-standard-c-idioms-where-possible">
+<h4>Follow Standard C++ idioms where possible<a class="headerlink" href="#follow-standard-c-idioms-where-possible" title="Link to this heading">#</a></h4>
+<p>Regarding “standard C++ idioms,”
+CUTLASS source code follows the following guidelines,
+with deviations only because of compiler limitations
+or where performance absolutely requires it.
+“Performance requires it” implies measurement.
+Deviations should be limited in scope
+and we should always strive to eliminate them.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md">C++ Core Guidelines</a></p></li>
+<li><p><a class="reference external" href="https://google.github.io/styleguide/cppguide.html">Google C++ Style Guide</a></p></li>
+</ul>
+</section>
+<section id="c-is-not-a-subset-of-c">
+<h4>C is not a subset of C++<a class="headerlink" href="#c-is-not-a-subset-of-c" title="Link to this heading">#</a></h4>
+<p>C is not a subset of C++.
+Some valid C is not valid C++, and some valid “C-looking” C++ is not valid C.
+See e.g., the informative C++ Standard Committee (WG21) document
+<a class="reference external" href="https://isocpp.org/files/papers/P2735R0.pdf">P2735R0</a>,
+which explains ways in which the same code has different behavior in C vs. C++.
+In some cases, code that compiles in both C and C++,
+and is correct in C, has undefined behavior (can crash or worse) in C++.
+The “type.punning” section of P2735R0 specifically relates to unions.</p>
+</section>
+<section id="spacing-and-line-length">
+<h4>Spacing and line length<a class="headerlink" href="#spacing-and-line-length" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Use spaces, not tabs.</p></li>
+<li><p>Use 2 spaces to indent.</p></li>
+<li><p>Use at most 100 characters per line.</p></li>
+</ul>
+<p>(Right-align tensor shape layout comments at column 120.
+Please see below.)
+Lines longer than 100 characters typically wrap unfavorably
+when viewed in Github’s pretty printer.</p>
+</section>
+<section id="formatting-function-declarations-and-definitions">
+<h4>Formatting function declarations and definitions<a class="headerlink" href="#formatting-function-declarations-and-definitions" title="Link to this heading">#</a></h4>
+<p>Short function headers can go on one line.</p>
+<p>Do not insert a newline between the parenthesis
+that closes the function’s parameters and
+the curly bracket that opens the function’s body.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">short_name</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If the function name and its parameters are too long to fit on one line,
+break the line immediately after the opening parenthesis
+that starts the parameter list.  Then, double-indent the parameters
+to distinguish them from the body of the function.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">indeed_my_fellowbeings_this_function_name_is_unusually_long</span><span class="p">(</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">foo</span><span class="p">,</span><span class="w"> </span><span class="c1">// parameters are double-indented</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="kt">uint32_t</span><span class="w"> </span><span class="k">const</span><span class="o">*</span><span class="w"> </span><span class="n">bar</span><span class="p">,</span>
+<span class="w">    </span><span class="n">TypeA</span><span class="w"> </span><span class="n">a</span><span class="p">,</span>
+<span class="w">    </span><span class="n">TypeB</span><span class="w"> </span><span class="n">b</span><span class="p">,</span>
+<span class="w">    </span><span class="n">TypeC</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// the ) and { go on the same line still</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">body_of_the_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">);</span><span class="w"> </span><span class="c1">// body is single-indented</span>
+<span class="w">  </span><span class="c1">// ... more code ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For a constructor with a long parameter list,
+break the line after the parentheses, just as with other functions.
+Align the colon that starts the constructor’s initializer list
+flush with the comma on the next line.</p>
+<p>As with functions, double-indent the parameters
+to distinguish them from the constructor body.
+Here is an example.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">YesTheCommunityAgreesThatTheNameOfThisClassIsIndeedExtremelyLong</span><span class="w"> </span><span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="n">CUTLASS_HOST_DEVICE</span>
+<span class="w">  </span><span class="n">YesTheCommunityAgreesThatTheNameOfThisClassIsIndeedExtremelyLong</span><span class="p">(</span>
+<span class="w">      </span><span class="kt">int</span><span class="w"> </span><span class="n">this_is_the_first_parameter_and_its_name_is_long</span><span class="p">,</span>
+<span class="w">      </span><span class="kt">int</span><span class="w"> </span><span class="n">this_is_the_second_parameter_and_its_name_is_also_long</span><span class="p">,</span>
+<span class="w">      </span><span class="kt">int</span><span class="w"> </span><span class="n">this_is_the_third_parameter_and_its_name_is_long_too</span><span class="p">)</span>
+<span class="w">  </span><span class="o">:</span><span class="w"> </span><span class="n">x_</span><span class="p">(</span><span class="n">this_is_the_first_parameter_and_its_name_is_long</span><span class="p">)</span>
+<span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="n">y_</span><span class="p">(</span><span class="n">this_is_the_second_parameter_and_its_name_is_also_long</span><span class="p">)</span>
+<span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="n">z_</span><span class="p">(</span><span class="n">this_is_the_third_parameter_and_its_name_is_long_too</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// constructor body</span>
+<span class="w">    </span><span class="c1">// more of the constructor body</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="k">private</span><span class="o">:</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">x_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">y_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">z_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</section>
+<section id="formatting-function-calls">
+<h4>Formatting function calls<a class="headerlink" href="#formatting-function-calls" title="Link to this heading">#</a></h4>
+<p>When calling a function or function object with a long name,
+break the line right after the invoking open parenthesis.
+Here are some examples.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">detail</span><span class="o">::</span><span class="n">very_long_function_object_name</span><span class="o">&lt;</span><span class="n">TemplateArgument</span><span class="o">&gt;</span><span class="p">{}(</span>
+<span class="w">  </span><span class="n">params</span><span class="p">.</span><span class="n">long_parameter_name</span><span class="p">,</span><span class="w"> </span><span class="n">some_operator</span><span class="p">.</span><span class="n">another_long_function_name</span><span class="p">());</span>
+
+<span class="n">detail</span><span class="o">::</span><span class="n">an_even_longer_function_object_name</span><span class="o">&lt;</span><span class="n">TemplateArgument1</span><span class="p">,</span><span class="w"> </span><span class="n">TemplateArgument2</span><span class="o">&gt;</span><span class="p">{}(</span>
+<span class="w">  </span><span class="n">params</span><span class="p">.</span><span class="n">long_parameter_name</span><span class="p">,</span><span class="w"> </span><span class="n">some_operator</span><span class="p">.</span><span class="n">long_member_function_name</span><span class="p">(),</span>
+<span class="w">  </span><span class="n">another_operator</span><span class="p">.</span><span class="n">another_long_member_function_name</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">));</span>
+</pre></div>
+</div>
+</section>
+<section id="if-else-brackets-and-spacing">
+<h4>If-else brackets and spacing<a class="headerlink" href="#if-else-brackets-and-spacing" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Always use braces with conditionals such as <code class="docutils literal notranslate"><span class="pre">if</span></code>,
+even if the body is a single line.</p></li>
+<li><p>Use a space after control flow keywords
+such as <code class="docutils literal notranslate"><span class="pre">if</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span></code>, and <code class="docutils literal notranslate"><span class="pre">while</span></code>.</p></li>
+<li><p>Use a space after the parenthesis closing a conditional
+such as <code class="docutils literal notranslate"><span class="pre">if</span></code>, and the curly bracket opening a scope.</p></li>
+<li><p>Use a new line between the closing brace
+of an <code class="docutils literal notranslate"><span class="pre">if</span></code> branch, and the <code class="docutils literal notranslate"><span class="pre">else</span></code> keyword.</p></li>
+</ul>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">condition</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// space after if, and between ) and {</span>
+<span class="w">  </span><span class="c1">// ... code ...</span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// newline after }</span>
+<span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// ... other code ...</span>
+<span class="p">}</span>
+
+<span class="c1">// space after keyword for</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">num_iters</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// ... still more code ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="east-const">
+<h4>East const<a class="headerlink" href="#east-const" title="Link to this heading">#</a></h4>
+<p>CUTLASS uses the
+<a class="reference external" href="http://slashslash.info/2018/02/a-foolish-consistency/">“East const”</a>
+convention.
+That is, the <code class="docutils literal notranslate"><span class="pre">const</span></code> or <code class="docutils literal notranslate"><span class="pre">constexpr</span></code> keyword
+goes after the type, not before.
+The general rule is that <code class="docutils literal notranslate"><span class="pre">const</span></code> or <code class="docutils literal notranslate"><span class="pre">constexpr</span></code>
+modifies the type to the left of it.
+Here are some examples.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">float</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="n">compile_time_constant</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">42.3f</span><span class="p">;</span>
+
+<span class="kt">float</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">const_float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* whatever */</span><span class="p">;</span>
+<span class="kt">float</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">reference_to_const_float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">const_float</span><span class="p">;</span>
+<span class="kt">float</span><span class="w"> </span><span class="k">const</span><span class="o">*</span><span class="w"> </span><span class="n">pointer_to_const_float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">const_float</span><span class="p">;</span>
+<span class="kt">float</span><span class="w"> </span><span class="k">const</span><span class="o">*</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">const_pointer_to_const_float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">const_float</span><span class="p">;</span>
+
+<span class="kt">float</span><span class="w"> </span><span class="n">nonconst_float</span><span class="p">;</span>
+<span class="kt">float</span><span class="o">&amp;</span><span class="w"> </span><span class="n">reference_to_nonconst_float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nonconst_float</span><span class="p">;</span>
+<span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">pointer_to_nonconst_float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">nonconst_float</span><span class="p">;</span>
+<span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">pointer_to_nonconst_float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">nonconst_float</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Contrast this with “West const” style, e.g.,</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">const_float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* whatever */</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">pointer_to_const_float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">const_float</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="alignment-of-reference-and-pointer-types">
+<h4>Alignment of reference and pointer types<a class="headerlink" href="#alignment-of-reference-and-pointer-types" title="Link to this heading">#</a></h4>
+<p>For reference and pointer types,
+align the <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> resp. <code class="docutils literal notranslate"><span class="pre">*</span></code> flush against the type
+that it modifies.  This is called “left alignment.”</p>
+<p>For example, do this:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">var</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="k">const</span><span class="o">*</span><span class="w"> </span><span class="n">var</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>and not this.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">var</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">*</span><span class="n">var</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="avoid-calling-functions-fast-or-optimized">
+<h4>Avoid calling functions “fast” or “optimized”<a class="headerlink" href="#avoid-calling-functions-fast-or-optimized" title="Link to this heading">#</a></h4>
+<p>Putting words like “fast” or “optimized”
+in the name of a function
+assumes that the “fast” path is actually faster.
+That might be true now, but later changes
+(in the code, compilers, or GPU hardware)
+might make it false.  In that case,
+your name could be unintentionally misleading.
+Consider instead a name that briefly describes
+the algorithm or feature that is relevant for optimization.
+For example, <code class="docutils literal notranslate"><span class="pre">compute_on_host</span></code> is more meaningful
+than <code class="docutils literal notranslate"><span class="pre">compute_slowly</span></code>, and computing on host
+might be faster in some cases
+(e.g., if the data are already on host
+and the algorithm is not GPU-friendly).</p>
+<p>CUTLASS code has not always followed this rule in the past.
+Some functions and classes might have words like “fast” in their name.
+New code should follow this rule, however.</p>
+</section>
+<section id="avoid-creating-unconstrained-templated-functions-with-common-names">
+<h4>Avoid creating unconstrained templated functions with common names<a class="headerlink" href="#avoid-creating-unconstrained-templated-functions-with-common-names" title="Link to this heading">#</a></h4>
+<p>See <a class="reference external" href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#t47-avoid-highly-visible-unconstrained-templates-with-common-names">C++ Core Guidelines T.47</a>:
+“Avoid highly visible unconstrained templates
+with common names.”
+Argument-dependent lookup (ADL) means that
+if users call a function name without specifying the namespace,
+the compiler can find overloads
+of that function in any namespace.
+This can lead to ambiguous overloads in users’ code,
+just because they happened to include one of your header files
+that exposes an unconstrained function template.
+The following illustrates this
+with an unconstrained swap overload in the <code class="docutils literal notranslate"><span class="pre">cutlass</span></code> namespace.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cassert&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;utility&gt;</span>
+
+<span class="c1">// Uncomment the line below to observe unwarranted build errors.</span>
+<span class="c1">//#define BAD_CUTLASS_SWAP 1</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">cutlass</span><span class="w"> </span><span class="p">{</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Bar</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">f</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace cutlass</span>
+
+<span class="cp">#ifdef BAD_CUTLASS_SWAP</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">cutlass</span><span class="w"> </span><span class="p">{</span>
+
+<span class="c1">// don&#39;t do this</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">swap</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&amp;</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">T</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="w">  </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmp</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace cutlass</span>
+<span class="cp">#endif </span><span class="c1">// BAD_CUTLASS_SWAP</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">other</span><span class="w"> </span><span class="p">{</span>
+
+<span class="cp">#ifdef BAD_CUTLASS_SWAP</span>
+<span class="k">using</span><span class="w"> </span><span class="n">cutlass</span><span class="o">::</span><span class="n">swap</span><span class="p">;</span>
+<span class="cp">#endif </span><span class="c1">// BAD_CUTLASS_SWAP</span>
+
+<span class="c1">// Imagine for the sake of this example</span>
+<span class="c1">// that &quot;foo&quot; is a less common name,</span>
+<span class="c1">// and that T is constrained via</span>
+<span class="c1">// std::enable_if or a requires clause.</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">foo</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&amp;</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// The usual idiom for using std::swap is the &quot;swap two-step&quot;:</span>
+<span class="w">  </span><span class="c1">//</span>
+<span class="w">  </span><span class="c1">// 1. import std::swap into the current scope, then</span>
+<span class="w">  </span><span class="c1">// 2. call swap without namespace qualification.</span>
+<span class="w">  </span><span class="c1">//</span>
+<span class="w">  </span><span class="c1">// That won&#39;t build if we have another swap</span>
+<span class="w">  </span><span class="c1">// overload available in the scope already.</span>
+
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">;</span>
+<span class="w">  </span><span class="n">swap</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span><span class="w"> </span><span class="c1">// OBSERVE UNWARRANTED BUILD ERROR HERE</span>
+<span class="p">}</span>
+
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace other</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">43</span><span class="p">;</span>
+<span class="w">  </span><span class="n">other</span><span class="o">::</span><span class="n">foo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span>
+<span class="w">  </span><span class="n">assert</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">43</span><span class="p">);</span>
+<span class="w">  </span><span class="n">assert</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">42</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">cutlass</span><span class="o">::</span><span class="n">Bar</span><span class="w"> </span><span class="n">a</span><span class="p">{</span><span class="mf">42.0</span><span class="p">};</span>
+<span class="w">  </span><span class="n">cutlass</span><span class="o">::</span><span class="n">Bar</span><span class="w"> </span><span class="n">b</span><span class="p">{</span><span class="mf">43.0</span><span class="p">};</span>
+<span class="w">  </span><span class="n">other</span><span class="o">::</span><span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span>
+<span class="w">  </span><span class="n">assert</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">f</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">43.0</span><span class="p">);</span>
+<span class="w">  </span><span class="n">assert</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">f</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">42.0</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// GCC 7.5 std::unique_ptr::reset calls swap,</span>
+<span class="w">  </span><span class="c1">// leading to the same issue as above.</span>
+<span class="w">  </span><span class="c1">// GCC 12.2&#39;s implementation of std::unique_ptr</span>
+<span class="w">  </span><span class="c1">// does not have this issue.  Nevertheless,</span>
+<span class="w">  </span><span class="c1">// breaking the swap two-step will break users&#39; code,</span>
+<span class="w">  </span><span class="c1">// just by them happening to include your headers.</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">cutlass</span><span class="o">::</span><span class="n">Bar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cutlass</span><span class="o">::</span><span class="n">Bar</span><span class="p">{</span><span class="mf">666.0f</span><span class="p">});</span>
+<span class="w">  </span><span class="n">ptr</span><span class="p">.</span><span class="n">reset</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">cutlass</span><span class="o">::</span><span class="n">Bar</span><span class="p">{</span><span class="mf">777.0f</span><span class="p">});</span><span class="w"> </span><span class="c1">// OBSERVE UNWARRANTED BUILD ERROR HERE</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="function-return-values-and-in-out-parameters">
+<h4>Function return values and in-out parameters<a class="headerlink" href="#function-return-values-and-in-out-parameters" title="Link to this heading">#</a></h4>
+<section id="prefer-return-values-to-output-parameters">
+<h5>Prefer return values to output parameters<a class="headerlink" href="#prefer-return-values-to-output-parameters" title="Link to this heading">#</a></h5>
+<p>In general, avoid in-out mutable references to return a value.
+If you need to return multiple values,
+you can return them by <code class="docutils literal notranslate"><span class="pre">struct</span></code> or <code class="docutils literal notranslate"><span class="pre">tuple</span></code>,
+rather than by output references.
+This includes the special case of error reporting
+by returning either a value or an error code.
+Please see the next section for details.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Instead of passing in-out mutable references ...</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">not_preferred</span><span class="p">(</span><span class="kt">float</span><span class="o">&amp;</span><span class="w"> </span><span class="n">input_and_output</span><span class="p">);</span><span class="w"> </span><span class="c1">// not preferred</span>
+
+<span class="c1">// keep functions pure and return value types instead</span>
+<span class="kt">float</span><span class="w"> </span><span class="nf">preferred</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">input</span><span class="p">);</span><span class="w"> </span><span class="c1">// preferred</span>
+</pre></div>
+</div>
+</section>
+<section id="return-multiple-values-by-struct-or-tuple">
+<h5>Return multiple values by struct or tuple<a class="headerlink" href="#return-multiple-values-by-struct-or-tuple" title="Link to this heading">#</a></h5>
+<p>Sometimes a function needs to return multiple values.  In that case, consider the following, in decreasing order of preference.</p>
+<ol class="arabic simple">
+<li><p>Return a <code class="docutils literal notranslate"><span class="pre">struct</span></code>.  This lets you name the fields
+(for more self-documenting code),
+yet still permits use of structured binding.</p></li>
+<li><p>Return a <code class="docutils literal notranslate"><span class="pre">tuple</span></code>.  If you need a tuple type
+that works on device, use <code class="docutils literal notranslate"><span class="pre">cute::tuple</span></code>.
+(Please note that <code class="docutils literal notranslate"><span class="pre">cute::tuple</span></code> does not work
+for all the types that work in <code class="docutils literal notranslate"><span class="pre">std::tuple</span></code>.
+CuTe’s documentation explains.)</p></li>
+<li><p>Resort to “returning” multiple values by output references
+only if performance requires it.</p></li>
+</ol>
+<p>Here is an example of the struct approach for named values.
+For a comparable example in the C++ Standard,
+please see <a class="reference external" href="https://en.cppreference.com/w/cpp/memory/allocate_at_least"><code class="docutils literal notranslate"><span class="pre">std::allocate_at_least</span></code></a>,
+which returns <code class="docutils literal notranslate"><span class="pre">std::allocation_result</span></code>.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">my_computation_result</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">relative_error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">my_computation_result</span><span class="w"> </span><span class="nf">my_computation</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">tolerance</span><span class="p">);</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">tolerance</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Approach 1: Use structured binding.  The names</span>
+<span class="w">  </span><span class="c1">// you choose on the left-hand side have nothing</span>
+<span class="w">  </span><span class="c1">// to do with the struct, so it&#39;s up to you</span>
+<span class="w">  </span><span class="c1">// to get the order right.  On the other hand,</span>
+<span class="w">  </span><span class="c1">// this code works whether my_computation returns</span>
+<span class="w">  </span><span class="c1">// a struct or a tuple.</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="p">[</span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="n">rel_err</span><span class="p">,</span><span class="w"> </span><span class="n">ok</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_computation</span><span class="p">(</span><span class="n">tolerance</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Approach 2: Keep the struct and use its named fields.</span>
+<span class="w">  </span><span class="c1">// This approach prevents errors like mixing the order of return types.</span>
+<span class="w">  </span><span class="c1">// However, it only works for structs, not for tuples.</span>
+
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_computation</span><span class="p">(</span><span class="n">tolerance</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">not</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">success</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// computation did not succeed</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">relative_error</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">tolerance</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// successful but relative error too large</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// successful and relative error is in bounds</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="reporting-errors-from-a-function-that-returns-one-or-more-values">
+<h5>Reporting errors from a function that returns one or more values<a class="headerlink" href="#reporting-errors-from-a-function-that-returns-one-or-more-values" title="Link to this heading">#</a></h5>
+<p>We may want to return one or more values
+from a function that could fail
+or otherwise report errors.
+That is, the function either</p>
+<ul class="simple">
+<li><p>returns one or more valid values, or</p></li>
+<li><p>does not return any values and reports an error,</p></li>
+</ul>
+<p>but NOT BOTH.  We contrast this with cases
+when it’s meaningful to report both a result
+and whether the result is satisfactory.
+For example, when solving
+a system of nonlinear equations iteratively,
+users may want the approximate computed solution,
+even if the iteration did not succeed
+by converging to the desired tolerance
+in the desired number of steps.
+(Users may want to invest more steps,
+or use the current approximation
+to jump-start a different algorithm.)</p>
+<p>We’re talking here about the “either valid value(s),
+or error, but not both” case.
+For this case, C++ offers a few options.</p>
+<ol class="arabic simple">
+<li><p>Return the value(s), or throw an exception on error</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::expected</span></code> (requiring C++23) or something like it</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::optional</span></code> (for a Boolean error state)
+or something like it</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::variant</span></code> (a C++17 fall-back for <code class="docutils literal notranslate"><span class="pre">std::expected</span></code>)
+or something like it</p></li>
+<li><p>C-style interface: return an error code,
+and “return” the values as output parameters</p></li>
+</ol>
+<p>We usually cannot or do not want to
+throw exceptions on device.
+Some code projects forbid exceptions entirely
+(on host or device)
+and tell the compiler to disable them.
+If we exclude a C-style interface (the last option)
+as not idiomatic C++, then for host-only code,
+<code class="docutils literal notranslate"><span class="pre">std::expected</span></code>, <code class="docutils literal notranslate"><span class="pre">std::optional</span></code>, and <code class="docutils literal notranslate"><span class="pre">std::variant</span></code>
+all work.
+For code that needs to build and run on device,
+we can fall back to libcu++ equivalents
+in the <code class="docutils literal notranslate"><span class="pre">cuda::std::</span></code> namespace, when they exist.
+Otherwise, we must resort to returning a struct or tuple
+with the value and the error information,
+and ask users not to use the value on error.
+This is acceptable if the value can be constructed
+cheaply with a reasonable default.</p>
+</section>
+<section id="performance-of-different-value-or-error-reporting-methods">
+<h5>Performance of different value-or-error reporting methods<a class="headerlink" href="#performance-of-different-value-or-error-reporting-methods" title="Link to this heading">#</a></h5>
+<p><a class="reference external" href="https://wg21.link/P1886R0">P1886R0</a>
+(Ben Craig, “Error speed benchmarking”)
+surveys different ways in Standard C++
+to report errors from a function
+that returns one or more values,
+and compares their (host-only) performance
+with different compilers.</p>
+</section>
+<section id="use-aggregate-initialization-when-returning-a-struct-or-tuple">
+<h5>Use aggregate initialization when returning a struct or tuple<a class="headerlink" href="#use-aggregate-initialization-when-returning-a-struct-or-tuple" title="Link to this heading">#</a></h5>
+<p>Use aggregate initialization when returning a struct or tuple.
+This avoids duplication of the return type name.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">foo_result</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">foo_result</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">span</span><span class="o">&lt;</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// ... code  ...</span>
+
+<span class="w">  </span><span class="c1">// Prefer this.  We know what type the function returns.</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">ok</span><span class="p">};</span><span class="w"> </span><span class="c1">// prefer this</span>
+
+<span class="w">  </span><span class="c1">// Naming foo_result again here is unnecessary.</span>
+<span class="w">  </span><span class="c1">// return foo_result{val, err, ok};</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>However, note that this won’t work if the function returns <code class="docutils literal notranslate"><span class="pre">auto</span></code>.
+The general rule is to avoid code duplication.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">foo</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">span</span><span class="o">&lt;</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// ... code  ...</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">some_condition</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">foo_result</span><span class="p">{</span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">ok</span><span class="p">};</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">bar_result</span><span class="p">{</span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">ok</span><span class="p">};</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="prefer-using-the-actual-return-type-to-auto-if-you-know-the-type">
+<h5>Prefer using the actual return type to auto, if you know the type<a class="headerlink" href="#prefer-using-the-actual-return-type-to-auto-if-you-know-the-type" title="Link to this heading">#</a></h5>
+<p>C++ lets you use <code class="docutils literal notranslate"><span class="pre">auto</span></code> to deduce the type returned from a function.</p>
+<ul class="simple">
+<li><p>If you know the actual type, prefer using the type instead of <code class="docutils literal notranslate"><span class="pre">auto</span></code>.</p></li>
+<li><p>Use <a class="reference external" href="https://en.cppreference.com/w/cpp/language/class_template_argument_deduction">Constructor Type Argument Deduction</a>
+(CTAD) if you know that a function returns some type
+(e.g., <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>), but don’t know the type’s template arguments.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">auto</span></code> in structured bindings (where you have to use it anyway).  This also makes your code agnostic of whether the return type is a <code class="docutils literal notranslate"><span class="pre">struct</span></code>, <code class="docutils literal notranslate"><span class="pre">tuple</span></code>, <code class="docutils literal notranslate"><span class="pre">pair</span></code>, or other tuple-like type.</p></li>
+<li><p>Be careful using <code class="docutils literal notranslate"><span class="pre">auto</span></code> with types that provide expression templates.</p></li>
+</ul>
+<p>Contrast this with “Almost Always Auto” (AAA) style.
+We deliberately choose not to follow AAA style,
+for the following reasons.</p>
+<ul class="simple">
+<li><p>Using the actual type when we know it can help prevent common loss-of-precision errors in mixed-precision computations, an important use case for CUTLASS.</p></li>
+<li><p>CTAD gives us much of the brevity of AAA, with more clarity.</p></li>
+<li><p>Using the actual type instead of <code class="docutils literal notranslate"><span class="pre">auto</span></code> can prevent common dangling errors with expression templates.</p></li>
+</ul>
+</section>
+</section>
+<section id="classes-and-structs">
+<h4>Classes and structs<a class="headerlink" href="#classes-and-structs" title="Link to this heading">#</a></h4>
+<p>Type names use <code class="docutils literal notranslate"><span class="pre">CamelCase</span></code>.
+That is, words start with capital letters.
+The remaining letters in the word are lower case,
+and words are joined with no intervening underscores.
+The only exception is when implementations are
+a drop-in replacement for C++ Standard Library components.</p>
+<p>Follow the
+<a class="reference external" href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rc-struct">C++ Core Guidelines</a>
+to decide whether to use <code class="docutils literal notranslate"><span class="pre">class</span></code> or <code class="docutils literal notranslate"><span class="pre">struct</span></code>.</p>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">class</span></code> when the object must maintain an invariant.
+Data members related to the invariant should be <code class="docutils literal notranslate"><span class="pre">private</span></code>.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">struct</span></code> when the class has no invariant to maintain,
+and data members may vary arbitrarily with respect to each other.</p></li>
+</ul>
+<p>Prefer nonmember functions and statelessness where possible.
+Member functions imply invariants.
+More invariants make code maintenance and testing harder.</p>
+</section>
+<section id="class-members">
+<h4>Class members<a class="headerlink" href="#class-members" title="Link to this heading">#</a></h4>
+<p>Methods and members are written using <code class="docutils literal notranslate"><span class="pre">snake_case</span></code>.</p>
+<p>Private data and function members have suffix <code class="docutils literal notranslate"><span class="pre">_</span></code>.</p>
+</section>
+<section id="class-member-order">
+<h4>Class Member Order<a class="headerlink" href="#class-member-order" title="Link to this heading">#</a></h4>
+<p>Members within classes and structures should be organized as follows:</p>
+<ol class="arabic simple">
+<li><p>Type and constant definitions</p></li>
+<li><p>Data members</p></li>
+<li><p>Constructors</p></li>
+<li><p>Other methods</p></li>
+</ol>
+<p>This convention follows the
+<a class="reference external" href="https://nvlabs.github.io/cub/">CUB library</a>
+and is also described by
+<a class="reference external" href="https://howardhinnant.github.io/classdecl.html">Howard Hinnant</a>.
+It also approximates the usual ordering of chapters
+in a typical Systems and Controls textbook.
+That is, it</p>
+<ol class="arabic simple">
+<li><p>identifies relevant constants,</p></li>
+<li><p>defines a state-space representation
+of the dynamical system under study
+(the class’s data members), and then</p></li>
+<li><p>devotes the remaining “chapters” to defining
+the system’s dynamical behavior
+(the class’s methods).</p></li>
+</ol>
+<p>Here is an example class.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">A</span><span class="w"> </span><span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="c1">// type definitions</span>
+<span class="k">protected</span><span class="o">:</span>
+<span class="w">  </span><span class="c1">// protected type definitions</span>
+<span class="k">private</span><span class="o">:</span>
+<span class="w">  </span><span class="c1">// private type definitions</span>
+
+<span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="c1">// data members</span>
+<span class="k">protected</span><span class="o">:</span>
+<span class="w">  </span><span class="c1">// protected data members</span>
+<span class="w">  </span><span class="c1">// STRONGLY TO BE AVOIDED;</span>
+<span class="w">  </span><span class="c1">// please see C++ Core Guidelines</span>
+<span class="k">private</span><span class="o">:</span>
+<span class="w">  </span><span class="c1">// private data members</span>
+
+<span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="c1">// methods</span>
+<span class="k">protected</span><span class="o">:</span>
+<span class="w">  </span><span class="c1">// protected methods</span>
+<span class="k">private</span><span class="o">:</span>
+<span class="w">  </span><span class="c1">// private methods</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</section>
+<section id="for-code-reuse-prefer-composition-over-inheritance">
+<h4>For code reuse, prefer composition over inheritance<a class="headerlink" href="#for-code-reuse-prefer-composition-over-inheritance" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><a class="reference external" href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#c129-when-designing-a-class-hierarchy-distinguish-between-implementation-inheritance-and-interface-inheritance">C++ Core Guidelines C.129</a>: “When designing a class hierarchy, distinguish between implementation inheritance and interface inheritance”</p></li>
+<li><p><a class="reference external" href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Res-slice">C++ Core Guidelines ES.63</a>: “Don’t slice”</p></li>
+</ul>
+<p>Suppose that a class hierarchy exists entirely for implementation convenience, so that implementers can reuse code and “program by difference” (changing or adding only what’s different from the base class).  In the example below, both <code class="docutils literal notranslate"><span class="pre">PipelineA</span></code> and <code class="docutils literal notranslate"><span class="pre">PipelineB</span></code> are used by themselves.  <code class="docutils literal notranslate"><span class="pre">PipelineB</span></code> inherits from <code class="docutils literal notranslate"><span class="pre">PipelineA</span></code> just to avoid duplicating code.  There are no virtual member functions, and users don’t expect to rely on run-time polymorphism.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">PipelineA</span><span class="w"> </span><span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="n">PipelineA</span><span class="p">(</span><span class="n">Arg0</span><span class="w"> </span><span class="n">arg0</span><span class="p">,</span><span class="w"> </span><span class="n">Arg1</span><span class="w"> </span><span class="n">arg1</span><span class="p">)</span>
+<span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="n">arg0_</span><span class="p">(</span><span class="n">arg0</span><span class="p">),</span><span class="w"> </span><span class="n">arg1_</span><span class="p">(</span><span class="n">arg1</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{}</span>
+
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">producer_acquire</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">phase</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">skip_wait</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ... implementation ... </span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">consumer_release</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">skip</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ... implementation ...</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="k">private</span><span class="o">:</span>
+<span class="w">  </span><span class="n">Arg0</span><span class="w"> </span><span class="n">arg0_</span><span class="p">;</span>
+<span class="w">  </span><span class="n">Arg1</span><span class="w"> </span><span class="n">arg1_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PipelineB</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">PipelineA</span><span class="w"> </span><span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="n">PipelineB</span><span class="p">(</span><span class="n">Arg0</span><span class="w"> </span><span class="n">arg0</span><span class="p">,</span><span class="w"> </span><span class="n">Arg1</span><span class="w"> </span><span class="n">arg1</span><span class="p">,</span><span class="w"> </span><span class="n">Arg2</span><span class="w"> </span><span class="n">arg2</span><span class="p">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">PipelineA</span><span class="p">(</span><span class="n">arg0</span><span class="p">,</span><span class="w"> </span><span class="n">arg1</span><span class="p">),</span><span class="w"> </span><span class="n">arg2_</span><span class="p">(</span><span class="n">arg2</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{}</span>
+
+<span class="w">  </span><span class="c1">// Reuse PipelineA::producer_acquire via inheritance</span>
+
+<span class="w">  </span><span class="c1">// Override PipelineA::consumer_release</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">consumer_release</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">skip</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ... some other implementation, not invoking parent ...</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="k">private</span><span class="o">:</span>
+<span class="w">  </span><span class="n">Arg2</span><span class="w"> </span><span class="n">arg2_</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The problem with public inheritance here is that <code class="docutils literal notranslate"><span class="pre">PipelineB</span></code> is NOT a (versus “is-a,” i.e., substitutable-as) <code class="docutils literal notranslate"><span class="pre">PipelineA</span></code>. In particular, the following code would be incorrect.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">consume_and_release_pipeline</span><span class="p">(</span><span class="n">PipelineA</span><span class="o">*</span><span class="w"> </span><span class="n">parent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// ... code ...</span>
+<span class="w">  </span><span class="n">parent</span><span class="o">-&gt;</span><span class="n">consumer_release</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">skip</span><span class="p">);</span>
+<span class="w">  </span><span class="c1">// ... code ...</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">use_pipeline</span><span class="p">(</span><span class="w"> </span><span class="cm">/* other args */</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// ... code ...</span>
+<span class="w">  </span><span class="n">PipelineB</span><span class="w"> </span><span class="n">child</span><span class="p">{</span><span class="n">arg0</span><span class="p">,</span><span class="w"> </span><span class="n">arg1</span><span class="p">,</span><span class="w"> </span><span class="n">arg2</span><span class="p">};</span>
+<span class="w">  </span><span class="c1">// ... code ...</span>
+
+<span class="w">  </span><span class="c1">// WRONG!!! SLICES CHILD TO PARENT!!!</span>
+<span class="w">  </span><span class="n">consume_and_release_pipeline</span><span class="p">(</span><span class="o">&amp;</span><span class="n">child</span><span class="p">);</span><span class="w"> </span><span class="c1">// BAD</span>
+
+<span class="w">  </span><span class="c1">// ... code ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">PipelineA::consumer_release</span></code> is not a virtual member function, so <code class="docutils literal notranslate"><span class="pre">consume_and_release_pipeline</span></code> would not actually be polymorphic, as callers might have expected from an interface that takes a base class pointer. What’s worse is that the resulting slicing could violate <code class="docutils literal notranslate"><span class="pre">PipelineB</span></code>’s invariants, thus putting it in an incorrect state.</p>
+<p>The most straightforward way to reuse code would be by changing from inheritance (is-a) to composition (has-a).</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">namespace</span><span class="w"> </span><span class="nn">detail</span><span class="w"> </span><span class="p">{</span>
+
+<span class="c1">// Implementation class; not for users</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PipelineImpl</span><span class="w"> </span><span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="n">PipelineImpl</span><span class="p">(</span><span class="n">Arg0</span><span class="w"> </span><span class="n">arg0</span><span class="p">,</span><span class="w"> </span><span class="n">Arg1</span><span class="w"> </span><span class="n">arg1</span><span class="p">)</span>
+<span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="n">arg0_</span><span class="p">(</span><span class="n">arg0</span><span class="p">),</span><span class="w"> </span><span class="n">arg1_</span><span class="p">(</span><span class="n">arg1</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{}</span>
+
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">producer_acquire</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">phase</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">skip_wait</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ... implementation ...</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">consumer_release</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">skip</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ... implementation ...</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="k">private</span><span class="o">:</span>
+<span class="w">  </span><span class="n">Arg0</span><span class="w"> </span><span class="n">arg0_</span><span class="p">;</span>
+<span class="w">  </span><span class="n">Arg1</span><span class="w"> </span><span class="n">arg1_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace detail</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PipelineA</span><span class="w"> </span><span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="n">PipelineA</span><span class="p">(</span><span class="n">Arg0</span><span class="w"> </span><span class="n">arg0</span><span class="p">,</span><span class="w"> </span><span class="n">Arg1</span><span class="w"> </span><span class="n">arg1</span><span class="p">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">impl_</span><span class="p">(</span><span class="n">arg0</span><span class="p">,</span><span class="w"> </span><span class="n">arg1</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{}</span>
+
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">producer_acquire</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">phase</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">skip_wait</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">impl_</span><span class="p">.</span><span class="n">producer_acquire</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">phase</span><span class="p">,</span><span class="w"> </span><span class="n">skip_wait</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">consumer_release</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">skip</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">impl_</span><span class="p">.</span><span class="n">consumer_release</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">skip</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="k">private</span><span class="o">:</span>
+<span class="w">  </span><span class="n">detail</span><span class="o">::</span><span class="n">PipelineImpl</span><span class="w"> </span><span class="n">impl_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// A second kind of pipeline.</span>
+<span class="c1">// Note that this does NOT inherit from PipelineB!</span>
+<span class="c1">// The two pipeline classes have the same compile-time interface</span>
+<span class="c1">// (for compile-time polymorphism), but do not belong in an </span>
+<span class="c1">// inheritance hierarchy (as would imply run-time polymorphism).</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PipelineB</span><span class="w"> </span><span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="n">PipelineB</span><span class="p">(</span><span class="n">Arg0</span><span class="w"> </span><span class="n">arg0</span><span class="p">,</span><span class="w"> </span><span class="n">Arg1</span><span class="w"> </span><span class="n">arg1</span><span class="p">,</span><span class="w"> </span><span class="n">Arg2</span><span class="w"> </span><span class="n">arg2</span><span class="p">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">impl_</span><span class="p">(</span><span class="n">arg0</span><span class="p">,</span><span class="w"> </span><span class="n">arg1</span><span class="p">),</span><span class="w"> </span><span class="n">otherTwo_</span><span class="p">(</span><span class="n">arg2</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{}</span>
+
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">producer_acquire</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">phase</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">skip_wait</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">impl_</span><span class="p">.</span><span class="n">producer_acquire</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">phase</span><span class="p">,</span><span class="w"> </span><span class="n">skip_wait</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">consumer_release</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">skip</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// this class doesn&#39;t actually use impl_ here</span>
+<span class="w">    </span><span class="n">otherTwo_</span><span class="p">.</span><span class="n">other_action</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">skip</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// ... some other code not using impl_ ...</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="k">private</span><span class="o">:</span>
+<span class="w">  </span><span class="n">detail</span><span class="o">::</span><span class="n">PipelineImpl</span><span class="w"> </span><span class="n">impl_</span><span class="p">;</span>
+<span class="w">  </span><span class="n">OtherTwo</span><span class="w"> </span><span class="n">otherTwo_</span><span class="p">;</span>
+<span class="w">  </span><span class="c1">// ... other member data ...</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>This design prevents users at compile time from incorrectly assuming that <code class="docutils literal notranslate"><span class="pre">PipelineB</span></code> is a <code class="docutils literal notranslate"><span class="pre">PipelineA</span></code>.  Implementers continue to get compile-time polymorphism, as long as <code class="docutils literal notranslate"><span class="pre">PipelineA</span></code> and <code class="docutils literal notranslate"><span class="pre">PipelineB</span></code> implement the same compile-time interface.</p>
+<section id="behavioral-subtyping">
+<h5>Behavioral subtyping<a class="headerlink" href="#behavioral-subtyping" title="Link to this heading">#</a></h5>
+<p>Another reason to avoid public inheritance would be if the public member functions of <code class="docutils literal notranslate"><span class="pre">PipelineA</span></code> and <code class="docutils literal notranslate"><span class="pre">PipelineB</span></code> have different behavior, such that the invariants satisfied by the member functions of the base class <code class="docutils literal notranslate"><span class="pre">PipelineA</span></code> are not satisfied by the correspondingly named member functions of the subclass <code class="docutils literal notranslate"><span class="pre">PipelineB</span></code>.  For example, suppose that both classes have a public <code class="docutils literal notranslate"><span class="pre">producer_arrive</span></code> member function.  However, for <code class="docutils literal notranslate"><span class="pre">PipelineA</span></code>, this issues a producer arrival only for its own block, whereas for <code class="docutils literal notranslate"><span class="pre">PipelineB</span></code>, this issues a producer arrival for all blocks in the cluster.  Again, PipelineB “is-not-a” PipelineA.  The child class doesn’t just add behavior onto the parent class; it has completely different behavior. Thus, it fails to satisfy behavioral subtyping: invariants of the parent class’s member functions are not satisfied by the child class.  Behavioral subtyping is especially important when reasoning about already difficult things like parallel synchronization.  The inheritance design would give developers the false impression that <code class="docutils literal notranslate"><span class="pre">PipelineB</span></code> just adds behavior atop <code class="docutils literal notranslate"><span class="pre">PipelineA</span></code>, whereas in fact, developers would need to understand both pipeline classes completely to build a correct mental model about their behavior.</p>
+<p>The fix is the same: Use composition, not inheritance.  As <a class="reference external" href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#c120-use-class-hierarchies-to-represent-concepts-with-inherent-hierarchical-structure-only">C++ Core Guidelines C.120</a> explains: “Use class hierarchies to represent concepts with inherent hierarchical structure (only).”</p>
+<ol class="arabic simple">
+<li><p>“Make sure the idea represented in the base class exactly matches all derived types and there is not a better way to express it than using the tight coupling of inheritance.”</p></li>
+<li><p>“Do not use inheritance when simply having a data member will do.”</p></li>
+</ol>
+</section>
+</section>
+<section id="use-scoped-enums">
+<h4>Use scoped enums<a class="headerlink" href="#use-scoped-enums" title="Link to this heading">#</a></h4>
+<p>Use scoped enums (a C++11 feature) for enumerated types.
+Use capital letters for the enumerated type name
+and prefix <code class="docutils literal notranslate"><span class="pre">k</span></code> for enumerators like other constants.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MatrixOperation</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">kNone</span><span class="p">,</span>
+<span class="w">  </span><span class="n">kTranspose</span><span class="p">,</span>
+<span class="w">  </span><span class="n">kConjugate</span><span class="p">,</span>
+<span class="w">  </span><span class="n">kHermitian</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</section>
+<section id="namespaces">
+<h4>Namespaces<a class="headerlink" href="#namespaces" title="Link to this heading">#</a></h4>
+<p>Namespaces are all lower case.
+The top-level namespace is <code class="docutils literal notranslate"><span class="pre">cutlass::</span></code>.
+The second nested namespace refers to
+the general category of operation
+performed by its members: e.g., <code class="docutils literal notranslate"><span class="pre">gemm::</span></code>.
+The third nested namespace refers to
+the operations’ position in the conceptual hierarchy:
+e.g., <code class="docutils literal notranslate"><span class="pre">device::</span></code>, <code class="docutils literal notranslate"><span class="pre">kernel::</span></code>, or <code class="docutils literal notranslate"><span class="pre">collective::</span></code>.</p>
+<p>The bodies of namespace definitions should not be indented.
+Comments on the closing brace to indicate
+the namespace being closed are welcome.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">namespace</span><span class="w"> </span><span class="nn">cutlass</span><span class="w"> </span><span class="p">{</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">gemm</span><span class="w"> </span><span class="p">{</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">kernel</span><span class="w"> </span><span class="p">{</span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">AnotherGemmKernel</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// ... contents ...</span>
+<span class="p">};</span>
+
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace kernel</span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace gemm</span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace cutlass</span>
+</pre></div>
+</div>
+</section>
+<section id="file-names">
+<h4>File Names<a class="headerlink" href="#file-names" title="Link to this heading">#</a></h4>
+<p>New files should be named using <code class="docutils literal notranslate"><span class="pre">snake_case</span></code>
+with extension <code class="docutils literal notranslate"><span class="pre">.hpp</span></code> for header files,
+<code class="docutils literal notranslate"><span class="pre">.cu</span></code> for CUDA sources,
+and <code class="docutils literal notranslate"><span class="pre">.cpp</span></code> for C++ host-only source files.</p>
+<p>Header files with extension <code class="docutils literal notranslate"><span class="pre">.h</span></code>
+are CUTLASS 2.x legacy headers.</p>
+</section>
+<section id="macros">
+<h4>Macros<a class="headerlink" href="#macros" title="Link to this heading">#</a></h4>
+<p>Only use macros when the preprocessor
+is the only way to accomplish the task.
+Do not use macros for literal constants.
+Instead, if inside the body of a function,
+use <code class="docutils literal notranslate"><span class="pre">constexpr</span></code> values,
+and if at namespace scope, use
+<a class="reference external" href="https://en.cppreference.com/w/cpp/language/inline"><code class="docutils literal notranslate"><span class="pre">inline</span> <span class="pre">constexpr</span></code> variables</a>
+(a C++17 feature).</p>
+<p>“Namespace” macros by starting them with the module name, e.g., <code class="docutils literal notranslate"><span class="pre">CUTLASS_</span></code>.
+Macros and ONLY MACROS use all capital letters with underscores between words.
+For example:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#define CUTLASS_MACROS_USE_ALL_CAPS inline __host__ __device__</span>
+</pre></div>
+</div>
+<p>Header files such as
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/cutlass.h">cutlass/cutlass.h</a>
+and
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/cutlass.h">cute/config.hpp</a>
+offer macros for expressing compiler-dependent behavior.
+These include</p>
+<ul class="simple">
+<li><p>replacements for <code class="docutils literal notranslate"><span class="pre">__device__</span></code> and/or <code class="docutils literal notranslate"><span class="pre">__host__</span></code>
+annotations:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">CUTLASS_HOST_DEVICE</span></code> or <code class="docutils literal notranslate"><span class="pre">CUTE_HOST_DEVICE</span></code>
+for functions that run on the host and the device,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CUTLASS_DEVICE</span></code> or <code class="docutils literal notranslate"><span class="pre">CUTE_DEVICE</span></code>
+for functions that run on the device only,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CUTE_HOST</span></code>
+for functions that run on the host only, and</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CUTE_HOST_RTC</span></code>
+for functions that run on the host only,
+but occur as unevaluated operands (of e.g., <code class="docutils literal notranslate"><span class="pre">decltype</span></code> or <code class="docutils literal notranslate"><span class="pre">sizeof</span></code>;
+see C++ Standard, <code class="docutils literal notranslate"><span class="pre">[expr.context]</span></code> 1) in device code; and</p></li>
+</ul>
+</li>
+<li><p>annotations to loop unrolling:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">CUTLASS_PRAGMA_UNROLL</span></code> or <code class="docutils literal notranslate"><span class="pre">CUTE_UNROLL</span></code>
+for full unrolling of loops with constant trip counts, and</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CUTLASS_PRAGMA_NO_UNROLL</span></code> or <code class="docutils literal notranslate"><span class="pre">CUTE_NO_UNROLL</span></code> to prevent unrolling.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="guard-all-headers-with-pragma-once">
+<h4>Guard all headers with <code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">once</span></code><a class="headerlink" href="#guard-all-headers-with-pragma-once" title="Link to this heading">#</a></h4>
+<p>Use <code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">once</span></code> to guard all headers.</p>
+</section>
+</section>
+<section id="cute-layout-comments">
+<h3>CuTe Layout Comments<a class="headerlink" href="#cute-layout-comments" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Right-align tensor shape layout comments at column 120.</p></li>
+<li><p>If layout comment is too long do your best to align it.</p></li>
+<li><p>If layout comment is too long and there are many related tensors
+that the reader should read together,
+try to align the layout comments of related tensors.</p></li>
+</ul>
+<p>Here are a couple examples.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">Tensor</span><span class="w"> </span><span class="n">mC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tensor</span><span class="p">(</span><span class="n">make_gmem_ptr</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="n">ptr_C</span><span class="p">),</span><span class="w"> </span><span class="n">make_shape</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">),</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">dC</span><span class="p">);</span><span class="w">                              </span><span class="c1">// (M,N)</span>
+<span class="n">Tensor</span><span class="w"> </span><span class="n">mD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tensor</span><span class="p">(</span><span class="n">make_gmem_ptr</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="n">ptr_D</span><span class="p">),</span><span class="w"> </span><span class="n">make_shape</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">),</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">dD</span><span class="p">);</span><span class="w">                              </span><span class="c1">// (M,N)</span>
+<span class="n">Tensor</span><span class="w"> </span><span class="n">mAux</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tensor</span><span class="p">(</span><span class="n">make_gmem_ptr</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="n">ptr_Aux</span><span class="p">),</span><span class="w"> </span><span class="n">make_shape</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">),</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">dAux</span><span class="p">);</span><span class="w">                        </span><span class="c1">// (M,N)</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">thr_mma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tiled_mma</span><span class="p">.</span><span class="n">get_thread_slice</span><span class="p">(</span><span class="n">thread_idx</span><span class="p">);</span>
+<span class="n">Tensor</span><span class="w"> </span><span class="n">tCgD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">thr_mma</span><span class="p">.</span><span class="n">partition_C</span><span class="p">(</span><span class="n">gD</span><span class="p">);</span><span class="w">                                                             </span><span class="c1">// (VEC,THR_M,THR_N)</span>
+<span class="n">Tensor</span><span class="w"> </span><span class="n">tCgC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">thr_mma</span><span class="p">.</span><span class="n">partition_C</span><span class="p">(</span><span class="n">gC</span><span class="p">);</span><span class="w">                                                             </span><span class="c1">// (VEC,THR_M,THR_N)</span>
+<span class="n">Tensor</span><span class="w"> </span><span class="n">tCgAux</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">thr_mma</span><span class="p">.</span><span class="n">partition_C</span><span class="p">(</span><span class="n">gAux</span><span class="p">);</span><span class="w">                                                         </span><span class="c1">// (VEC,THR_M,THR_N)</span>
+</pre></div>
+</div>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">Tensor</span><span class="w"> </span><span class="n">my_tensor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tensor</span><span class="o">&lt;</span><span class="n">Type</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="o">&lt;</span><span class="n">_2</span><span class="p">,</span><span class="n">_2</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">_2</span><span class="o">&gt;&gt;</span><span class="p">{});</span><span class="w">                           </span><span class="c1">// (2,2):(1,2)</span>
+<span class="w">    </span>
+<span class="c1">// Related tensors</span>
+<span class="n">Tensor</span><span class="w"> </span><span class="n">my_tensor1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tensor</span><span class="o">&lt;</span><span class="n">Type</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ThisIsAVeryComplicatedLayoutWithAVeryLongName</span><span class="p">);</span><span class="w">         </span><span class="c1">// ((Mode0_0,Mode0_1,Mode0_2),Mode1,Mode2,Mode3)</span>
+<span class="n">Tensor</span><span class="w"> </span><span class="n">my_tensor2_related</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tensor</span><span class="o">&lt;</span><span class="n">Type</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ThisIsAVeryComplicatedLayoutWithAVeryLongName</span><span class="p">);</span><span class="w"> </span><span class="c1">// ((Mode0_0,Mode0_1,Mode0_2),Mode1,Mode2,Mode3)</span>
+</pre></div>
+</div>
+</section>
+<section id="warnings">
+<h3>Warnings<a class="headerlink" href="#warnings" title="Link to this heading">#</a></h3>
+<p>CUTLASS code aims to build free of warnings.</p>
+<section id="spurious-warnings">
+<h4>Spurious warnings<a class="headerlink" href="#spurious-warnings" title="Link to this heading">#</a></h4>
+<p>Some compilers, or some versions of a compiler, emit spurious warnings, that is, “false positives” for perfectly fine code.  While such code is correct, the warnings can obscure errors.  Users also may report warnings as bugs, and processing those bugs takes developer time away from other tasks.  Thus, it’s good to try to “fix” the warnings, if doing so wouldn’t make the code worse.</p>
+</section>
+<section id="missing-return-statement">
+<h4>Missing return statement<a class="headerlink" href="#missing-return-statement" title="Link to this heading">#</a></h4>
+<p>GCC 10 (but not 7.5, 9.4.0, or 11) has trouble deducing that a function with <code class="docutils literal notranslate"><span class="pre">auto</span></code> return type and all of its returns in an <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">constexpr</span></code> … <code class="docutils literal notranslate"><span class="pre">else</span></code> statement must actually return.  As a result, GCC emits spurious “missing return statement” build warnings.  Such functions have one of two forms: <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">constexpr</span></code> … <code class="docutils literal notranslate"><span class="pre">else</span></code> where <code class="docutils literal notranslate"><span class="pre">else</span></code> returns, and <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">constexpr</span></code> … <code class="docutils literal notranslate"><span class="pre">else</span></code> where <code class="docutils literal notranslate"><span class="pre">else</span></code> is meant to fail at compile time.  Here is an example of the first form.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">first_form</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">some_condition_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">some_function</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">another_condition_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">another_function</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">yet_another_function</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In this form, the <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">constexpr</span></code> … <code class="docutils literal notranslate"><span class="pre">else</span></code> sequence of branches covers all possibilities.  Here is an example of the second form.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">second_form</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">some_condition_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">some_function</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">another_condition_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">another_function</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;This branch always fails&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In this form, the <code class="docutils literal notranslate"><span class="pre">else</span></code> branch had a <code class="docutils literal notranslate"><span class="pre">static_assert</span></code> that was meant always to fail if the <code class="docutils literal notranslate"><span class="pre">else</span></code> branch were taken, such as <code class="docutils literal notranslate"><span class="pre">static_assert(sizeof(T)</span> <span class="pre">&lt;</span> <span class="pre">0)</span></code>.  (Note that we cannot use <code class="docutils literal notranslate"><span class="pre">static_assert(false)</span></code> here, because it will ALWAYS fail at compile time, even if the <code class="docutils literal notranslate"><span class="pre">else</span></code> branch is not taken.  C++23 fixes this behavior, but CUTLASS currently requires that its code be compatible with C++17.  As a result, CUTLASS includes a <code class="docutils literal notranslate"><span class="pre">dependent_false&lt;T&gt;</span></code> library function that you can use in place of the always-<code class="docutils literal notranslate"><span class="pre">false</span></code> test <code class="docutils literal notranslate"><span class="pre">sizeof(T)</span> <span class="pre">&lt;</span> <span class="pre">0</span></code>.)</p>
+<p>One can suppress “missing return statement” warnings for both forms by invoking CUTLASS’ function-like macro <code class="docutils literal notranslate"><span class="pre">CUTE_GCC_UNREACHABLE</span></code>.  When building with GCC, this invokes the GCC-specific built-in function <code class="docutils literal notranslate"><span class="pre">__builtin_unreachable()</span></code>.  Actually calling this function is undefined behavior, so using this lets the programmer declare that the code path calling that function will never be taken.  (C++23 introduces the <code class="docutils literal notranslate"><span class="pre">std::unreachable()</span></code> function, which achieves the same goal.  Again, though, CUTLASS cannot currently use C++23 library functions.)  Here is an example of how to use <code class="docutils literal notranslate"><span class="pre">CUTE_GCC_UNREACHABLE</span></code>.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">second_form</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">some_condition_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">some_function</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">another_condition_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">another_function</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;This branch always fails&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">CUTE_GCC_UNREACHABLE</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This macro should only be used if it is needed to suppress spurious warnings.  Also, this function should not be used if the developer is not sure whether the code exhaustively tests all possibilities.  For example, some functions may look like this.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">possibly_nonexhaustive</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">some_condition_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">some_function</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">another_condition_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">another_function</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w"> </span>
+<span class="w">  </span><span class="c1">// NOTE lack of unadorned &quot;else&quot; here</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This is a good opportunity to review the function.  If the branches are obviously meant to be exhaustive, you can add an <code class="docutils literal notranslate"><span class="pre">else</span></code> branch with a <code class="docutils literal notranslate"><span class="pre">static_assert</span></code> (see above for how to express this).  If you’re not sure, leave it alone and let the compiler issue warnings.</p>
+</section>
+<section id="unused-variable">
+<h4>Unused variable<a class="headerlink" href="#unused-variable" title="Link to this heading">#</a></h4>
+<p>Some compilers may emit spurious unused warnings for some variable declarations, where the variable was only being used inside a <code class="docutils literal notranslate"><span class="pre">decltype</span></code> in an <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">constexpr</span></code> test. Marking the variables as <code class="docutils literal notranslate"><span class="pre">[[maybe_unused]]</span></code> (a standard C++17 attribute) suppresses these warnings.  Again, please only do this if you’re sure that the code is right.</p>
+</section>
+</section>
+<section id="cuda-c-style">
+<h3>CUDA C++ style<a class="headerlink" href="#cuda-c-style" title="Link to this heading">#</a></h3>
+<section id="cuda-built-in-variables">
+<h4>CUDA Built-in Variables<a class="headerlink" href="#cuda-built-in-variables" title="Link to this heading">#</a></h4>
+<p>Avoid direct access to CUDA built-in variables <code class="docutils literal notranslate"><span class="pre">threadIdx</span></code>, <code class="docutils literal notranslate"><span class="pre">blockIdx</span></code>, <code class="docutils literal notranslate"><span class="pre">blockDim</span></code>, and <code class="docutils literal notranslate"><span class="pre">gridDim</span></code> within
+CUTLASS components except in special circumstances.</p>
+<p>Using built-in global variables directly within resuable components necessitates that all components
+use them consistently which may not be possible if CUTLASS components are used in other contexts.</p>
+<p>Instead, components should accept a linear ID identifying threads, warps, and threadblocks from calling
+code. The top-level kernel may then decide how to map threads, warps, and blocks to the problem it is
+solving.</p>
+</section>
+<section id="use-cutlass-s-and-cute-s-fundamental-types-and-operations">
+<h4>Use CUTLASS’s and CuTe’s fundamental types and operations<a class="headerlink" href="#use-cutlass-s-and-cute-s-fundamental-types-and-operations" title="Link to this heading">#</a></h4>
+<p>Use the
+<a class="reference internal" href="fundamental_types.html"><span class="std std-doc">fundamental types and operations</span></a>
+defined in CUTLASS consistently.
+This contributes to a framework of interoperable, consistent components.
+It reduces code duplication, which reduces build and test times.
+It also saves developer effort.</p>
+<p>CUTLASS’s fundamental types and operations include</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="fundamental_types.html#numeric-types"><span class="std std-ref">Numeric types</span></a> to represent numeric data in host and device code, and</p></li>
+<li><p><a class="reference internal" href="fundamental_types.html#functional"><span class="std std-ref">functional.h</span></a> to perform numeric operations in generic code.</p></li>
+</ul>
+<p>CUTLASS 3.0 uses CuTe components to represent data layouts and multidimensional arrays.
+Please refer to the <a class="reference internal" href="cute/00_quickstart.html"><span class="std std-doc">CuTe Tutorial</span></a> for details.
+CuTe has replaced CUTLASS 2.x components such as
+<a class="reference internal" href="fundamental_types.html#containers"><span class="std std-ref">Containers</span></a>,
+<a class="reference internal" href="layout.html"><span class="std std-doc">Layouts</span></a>, and
+<a class="reference internal" href="layout.html#tensorref"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">TensorRef</span></code> and <code class="docutils literal notranslate"><span class="pre">TensorView</span></code></span></a>.</p>
+</section>
+</section>
+</section>
+<section id="cutlass-idioms">
+<h2>CUTLASS idioms<a class="headerlink" href="#cutlass-idioms" title="Link to this heading">#</a></h2>
+<section id="detecting-major-mode">
+<h3>Detecting major mode<a class="headerlink" href="#detecting-major-mode" title="Link to this heading">#</a></h3>
+<p>Developers sometimes need to detect whether a tensor is MN-major or K-major.
+(For definitions, see the <a class="reference internal" href="cute/0x_gemm_tutorial.html"><span class="std std-doc">CuTe GEMM tutorial</span></a>.)</p>
+<ul class="simple">
+<li><p><em>Correct</em>: <code class="docutils literal notranslate"><span class="pre">cutlass::detail::is_major&lt;0,</span> <span class="pre">Stride&gt;()</span></code> or
+<code class="docutils literal notranslate"><span class="pre">cutlass::detail::is_k_major()</span></code> from <code class="docutils literal notranslate"><span class="pre">include/cutlass/gemm/gemm.h</span></code></p></li>
+<li><p><em>Incorrect</em>: <code class="docutils literal notranslate"><span class="pre">get&lt;0&gt;(stride)</span> <span class="pre">==</span> <span class="pre">1</span></code></p></li>
+</ul>
+<p>The second point is incorrect because it assumes that the mode
+is a single integer, not a multimode.
+This means that the code will fail to compile for tensor contractions.
+For example, suppose that a tensor A
+has shape <code class="docutils literal notranslate"><span class="pre">((X,</span> <span class="pre">Y),</span> <span class="pre">K)</span></code> and stride <code class="docutils literal notranslate"><span class="pre">((1,</span> <span class="pre">X),</span> <span class="pre">X*Y)</span></code>.
+<code class="docutils literal notranslate"><span class="pre">get&lt;0&gt;(stride)</span></code> is the tuple <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">X)</span></code>, not a single integer.
+However, A is certainly M major if interpreted as a matrix.</p>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="copyright">
+<h1>Copyright<a class="headerlink" href="#copyright" title="Link to this heading">#</a></h1>
+<p>Copyright (c) 2017 - 2025 NVIDIA CORPORATION &amp; AFFILIATES. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">Redistribution</span> <span class="ow">and</span> <span class="n">use</span> <span class="ow">in</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">binary</span> <span class="n">forms</span><span class="p">,</span> <span class="k">with</span> <span class="ow">or</span> <span class="n">without</span>
+  <span class="n">modification</span><span class="p">,</span> <span class="n">are</span> <span class="n">permitted</span> <span class="n">provided</span> <span class="n">that</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span> <span class="n">are</span> <span class="n">met</span><span class="p">:</span>
+
+  <span class="mf">1.</span> <span class="n">Redistributions</span> <span class="n">of</span> <span class="n">source</span> <span class="n">code</span> <span class="n">must</span> <span class="n">retain</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span> <span class="n">this</span>
+  <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span><span class="o">.</span>
+
+  <span class="mf">2.</span> <span class="n">Redistributions</span> <span class="ow">in</span> <span class="n">binary</span> <span class="n">form</span> <span class="n">must</span> <span class="n">reproduce</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span>
+  <span class="n">this</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">documentation</span>
+  <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">other</span> <span class="n">materials</span> <span class="n">provided</span> <span class="k">with</span> <span class="n">the</span> <span class="n">distribution</span><span class="o">.</span>
+
+  <span class="mf">3.</span> <span class="n">Neither</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">holder</span> <span class="n">nor</span> <span class="n">the</span> <span class="n">names</span> <span class="n">of</span> <span class="n">its</span>
+  <span class="n">contributors</span> <span class="n">may</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">endorse</span> <span class="ow">or</span> <span class="n">promote</span> <span class="n">products</span> <span class="n">derived</span> <span class="kn">from</span>
+<span class="w">  </span><span class="nn">this</span> <span class="n">software</span> <span class="n">without</span> <span class="n">specific</span> <span class="n">prior</span> <span class="n">written</span> <span class="n">permission</span><span class="o">.</span>
+
+  <span class="n">THIS</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">PROVIDED</span> <span class="n">BY</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span> <span class="n">AND</span> <span class="n">CONTRIBUTORS</span> <span class="s2">&quot;AS IS&quot;</span>
+  <span class="n">AND</span> <span class="n">ANY</span> <span class="n">EXPRESS</span> <span class="n">OR</span> <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span><span class="p">,</span> <span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">THE</span>
+  <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span> <span class="n">AND</span> <span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span> <span class="n">ARE</span>
+  <span class="n">DISCLAIMED</span><span class="o">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">SHALL</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDER</span> <span class="n">OR</span> <span class="n">CONTRIBUTORS</span> <span class="n">BE</span> <span class="n">LIABLE</span>
+  <span class="n">FOR</span> <span class="n">ANY</span> <span class="n">DIRECT</span><span class="p">,</span> <span class="n">INDIRECT</span><span class="p">,</span> <span class="n">INCIDENTAL</span><span class="p">,</span> <span class="n">SPECIAL</span><span class="p">,</span> <span class="n">EXEMPLARY</span><span class="p">,</span> <span class="n">OR</span> <span class="n">CONSEQUENTIAL</span>
+  <span class="n">DAMAGES</span> <span class="p">(</span><span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">PROCUREMENT</span> <span class="n">OF</span> <span class="n">SUBSTITUTE</span> <span class="n">GOODS</span> <span class="n">OR</span>
+  <span class="n">SERVICES</span><span class="p">;</span> <span class="n">LOSS</span> <span class="n">OF</span> <span class="n">USE</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">OR</span> <span class="n">PROFITS</span><span class="p">;</span> <span class="n">OR</span> <span class="n">BUSINESS</span> <span class="n">INTERRUPTION</span><span class="p">)</span> <span class="n">HOWEVER</span>
+  <span class="n">CAUSED</span> <span class="n">AND</span> <span class="n">ON</span> <span class="n">ANY</span> <span class="n">THEORY</span> <span class="n">OF</span> <span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">STRICT</span> <span class="n">LIABILITY</span><span class="p">,</span>
+  <span class="n">OR</span> <span class="n">TORT</span> <span class="p">(</span><span class="n">INCLUDING</span> <span class="n">NEGLIGENCE</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">)</span> <span class="n">ARISING</span> <span class="n">IN</span> <span class="n">ANY</span> <span class="n">WAY</span> <span class="n">OUT</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">USE</span>
+  <span class="n">OF</span> <span class="n">THIS</span> <span class="n">SOFTWARE</span><span class="p">,</span> <span class="n">EVEN</span> <span class="n">IF</span> <span class="n">ADVISED</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">POSSIBILITY</span> <span class="n">OF</span> <span class="n">SUCH</span> <span class="n">DAMAGE</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="code_organization.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">CUTLASS Code Organization</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="utilities.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">CUTLASS Utilities</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Programming Guidelines</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hierarchical-organization">Hierarchical Organization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-patterns">Design Patterns</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#templates">Templates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constant-memory">Constant Memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#composable-shared-memory">Composable Shared Memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loop-unrolling">Loop Unrolling</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#style">Style</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-you-see-an-issue-in-code-formatting-fix-it">If you see an issue in code formatting, fix it</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#no-automatic-code-formatting">No automatic code formatting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-style">C++ style</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-is-a-c-project">CUTLASS is a C++ project</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#follow-standard-c-idioms-where-possible">Follow Standard C++ idioms where possible</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c-is-not-a-subset-of-c">C is not a subset of C++</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spacing-and-line-length">Spacing and line length</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#formatting-function-declarations-and-definitions">Formatting function declarations and definitions</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#formatting-function-calls">Formatting function calls</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#if-else-brackets-and-spacing">If-else brackets and spacing</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#east-const">East const</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#alignment-of-reference-and-pointer-types">Alignment of reference and pointer types</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#avoid-calling-functions-fast-or-optimized">Avoid calling functions “fast” or “optimized”</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#avoid-creating-unconstrained-templated-functions-with-common-names">Avoid creating unconstrained templated functions with common names</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#function-return-values-and-in-out-parameters">Function return values and in-out parameters</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#prefer-return-values-to-output-parameters">Prefer return values to output parameters</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#return-multiple-values-by-struct-or-tuple">Return multiple values by struct or tuple</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#reporting-errors-from-a-function-that-returns-one-or-more-values">Reporting errors from a function that returns one or more values</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-of-different-value-or-error-reporting-methods">Performance of different value-or-error reporting methods</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#use-aggregate-initialization-when-returning-a-struct-or-tuple">Use aggregate initialization when returning a struct or tuple</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#prefer-using-the-actual-return-type-to-auto-if-you-know-the-type">Prefer using the actual return type to auto, if you know the type</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#classes-and-structs">Classes and structs</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#class-members">Class members</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#class-member-order">Class Member Order</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#for-code-reuse-prefer-composition-over-inheritance">For code reuse, prefer composition over inheritance</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#behavioral-subtyping">Behavioral subtyping</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#use-scoped-enums">Use scoped enums</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#namespaces">Namespaces</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#file-names">File Names</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#macros">Macros</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#guard-all-headers-with-pragma-once">Guard all headers with <code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">once</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cute-layout-comments">CuTe Layout Comments</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#warnings">Warnings</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spurious-warnings">Spurious warnings</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-return-statement">Missing return statement</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#unused-variable">Unused variable</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuda-c-style">CUDA C++ style</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cuda-built-in-variables">CUDA Built-in Variables</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cutlass-s-and-cute-s-fundamental-types-and-operations">Use CUTLASS’s and CuTe’s fundamental types and operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-idioms">CUTLASS idioms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#detecting-major-mode">Detecting major mode</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

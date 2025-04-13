@@ -1,0 +1,1309 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CUTLASS 3.0 GEMM API &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gemm_api_3x';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Efficient GEMM in CUDA" href="efficient_gemm.html" />
+    <link rel="prev" title="CUTLASS GEMM API" href="gemm_api.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="overview.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="overview.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">CUTLASS Terminology</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="ide_setup.html">IDE Setup for CUTLASS Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functionality.html">Functionality</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="fundamental_types.html">Fundamental Types</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="layout.html">Layouts and Tensors</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="tile_iterator_concept.html">Tile Iterator Concepts</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Synchronization primitives</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="code_organization.html">CUTLASS Code Organization</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="programming_guidelines.html">Programming Guidelines</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">CUTLASS Utilities</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Key Operations &amp; APIs</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="gemm_api.html">CUTLASS GEMM API</a></li>
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">CUTLASS 3.0 GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="efficient_gemm.html">Efficient GEMM in CUDA</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="implicit_gemm_convolution.html">CUTLASS Convolution</a></li>
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTLASS 3.x Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cutlass_3x_design.html">CUTLASS 3.0 Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cutlass_3x_backwards_compatibility.html">CUTLASS 3.0 GEMM Backwards Compatibility</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTE - Compositional Universal Tile Engine</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cute/00_quickstart.html">Getting Started With CuTe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/01_layout.html">CuTe Layouts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/02_layout_algebra.html">CuTe Layout Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/03_tensor.html">CuTe Tensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/04_algorithms.html">CuTe Tensor algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0t_mma_atom.html">CuTe’s support for Matrix Multiply-Accumulate instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0x_gemm_tutorial.html">CuTe dense matrix-matrix multiply tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0y_predication.html">Predication: What to do when tiling isn’t perfect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cute/0z_tma_tensors.html">CuTe TMA Tensors</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Features &amp; Platform Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="dependent_kernel_launch.html">Dependent kernel launches</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grouped_scheduler.html">CUTLASS Grouped Kernel Schedulers</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="blackwell_functionality.html">Blackwell SM100 GEMMs</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="blackwell_cluster_launch_control.html">Blackwell Cluster Launch Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="profiler.html">CUTLASS Profiler</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Building CUTLASS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="build/building_in_windows_with_visual_studio.html">Building on Windows with Visual Studio</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="build/building_with_clang_as_host_compiler.html">Building with Clang as host compiler</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fgemm_api_3x.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/gemm_api_3x.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>CUTLASS 3.0 GEMM API</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">CUTLASS 3.0 GEMM API</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-gemm-model">CUTLASS GEMM Model</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-gemm-components">CUTLASS GEMM Components</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collective-api">Collective API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#collective-mainloops">Collective Mainloops</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#collective-dispatch-policies">Collective Dispatch Policies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#collective-builder-for-collectivemmas">Collective Builder for <code class="docutils literal notranslate"><span class="pre">CollectiveMma</span></code>s</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#epilogue">Epilogue</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-api">Kernel API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device-api">Device API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tiled-mma-and-copy">Tiled MMA and Copy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atom-api">Atom API</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="ALT" src="../../images/gemm-hierarchy-with-epilogue-no-labels.png" /></p>
+<section class="tex2jax_ignore mathjax_ignore" id="cutlass-3-0-gemm-api">
+<h1>CUTLASS 3.0 GEMM API<a class="headerlink" href="#cutlass-3-0-gemm-api" title="Link to this heading">#</a></h1>
+<p>CUTLASS presents a uniform programming model
+for matrix multiply-accumulate (MMA) operations
+at different levels of the GPU system hierarchy.
+CUTLASS 3.0 has GEMM APIs corresponding to the following levels
+in order of highest to the lowest level.</p>
+<ol class="arabic simple">
+<li><p>Device</p></li>
+<li><p>Kernel</p></li>
+<li><p>Collective</p></li>
+<li><p>Tiled MMA and Copy</p></li>
+<li><p>Atom</p></li>
+</ol>
+<p>This document will cover the first three levels in detail:
+Device, Kernel, and Collective.
+It also briefly discusses the Tiled MMA/Copy and Atom level,
+and then refers readers to CuTe’s tutorial for more information.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="cutlass-gemm-model">
+<h1>CUTLASS GEMM Model<a class="headerlink" href="#cutlass-gemm-model" title="Link to this heading">#</a></h1>
+<p>CUTLASS implements algorithms that express
+the classical “triply nested loop” GEMM algorithm
+with a tiled structure mirroring the above hierarchy.</p>
+<p>The following pseudocode describes the model for a GEMM kernel
+targeting a warp-synchronous matrix multiply instruction like <code class="docutils literal notranslate"><span class="pre">mma.sync.</span></code>
+The entire operation is referred to as “Gemm,”
+as it is assumed that an epilogue operation
+performs the general matrix update similar to BLAS.
+This is pseudocode and is only meant to illustrate which parts of the layers
+correspond to the inner or outer loops of the GEMM.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// cutlass::gemm::kernel::GemmUniversal: ClusterTileM and ClusterTileN loops</span>
+<span class="c1">//   are either rasterized by the hardware or scheduled by the kernel in persistent kernels.</span>
+<span class="c1">// Parallelism over thread block clusters</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">cluster_m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">cluster_m</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">GemmM</span><span class="p">;</span><span class="w"> </span><span class="n">cluster_m</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">ClusterTileM</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">cluster_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">cluster_n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">GemmN</span><span class="p">;</span><span class="w"> </span><span class="n">cluster_n</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">ClusterTileN</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="c1">// cutlass::gemm::collective::CollectiveMma: mainloop that iterates over all k-tiles</span>
+<span class="w">    </span><span class="c1">// No loop unrolling is performed at this stage</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">k_tile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">k_tile</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">gmem_tensor_A</span><span class="p">);</span><span class="w"> </span><span class="n">k_tile</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">      </span><span class="c1">// loops inside cute::gemm(tiled_mma, a, b, c); Dispatch 5: (V,M,K) x (V,N,K) =&gt; (V,M,N)</span>
+<span class="w">      </span><span class="c1">// TiledMma uses the hardware instruction provided through its Mma_Atom</span>
+<span class="w">      </span><span class="c1">// TiledMma&#39;s atom layout, value layout, and permutations define the iteration order</span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">tiled_mma_k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">tiled_mma_k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">A</span><span class="p">);</span><span class="w"> </span><span class="n">tiled_mma_k</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">tiled_mma_m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">tiled_mma_m</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">A</span><span class="p">);</span><span class="w"> </span><span class="n">tiled_mma_m</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">tiled_mma_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">tiled_mma_n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">B</span><span class="p">);</span><span class="w"> </span><span class="n">tiled_mma_n</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="c1">// TiledMma&#39;s vector mode dispatches to the underlying instruction.</span>
+<span class="w">            </span><span class="n">mma</span><span class="p">.</span><span class="n">call</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">);</span>
+<span class="w">          </span><span class="p">}</span><span class="w"> </span><span class="c1">// tiled_mma_n</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="c1">// tiled_mma_m</span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="c1">// tiled_mma_k</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="c1">// k_tile mainloop</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="c1">// cluster_m</span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// cluster_n</span>
+</pre></div>
+</div>
+<p>The first three nested <code class="docutils literal notranslate"><span class="pre">for</span></code> loops
+correspond to parallelism over thread block clusters.
+The code does not actually express them as explicit <code class="docutils literal notranslate"><span class="pre">for</span></code> loops.
+Instead, the parallelization scheme over tiles
+is implied by CUDA grid launch semantics.
+However, for persistent kernels,
+these three loops are expressed in the source code
+as a single <code class="docutils literal notranslate"><span class="pre">while</span></code> loop that queries the
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/kernel/sm90_tile_scheduler.hpp">work tile scheduler</a>
+for problem tiles on which to compute.</p>
+<p>Inside the three nested <code class="docutils literal notranslate"><span class="pre">for</span></code> loops,
+one finds code that pulls matrix tiles
+from global memory into more “local” memory
+(like shared memory or registers)
+and computes MMAs.
+These tiled copy and tiled mma iterations are generally
+fully static and get fully unrolled.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="cutlass-gemm-components">
+<h1>CUTLASS GEMM Components<a class="headerlink" href="#cutlass-gemm-components" title="Link to this heading">#</a></h1>
+<p>CUTLASS expresses the above loop nest
+with the following components which are specialized for
+data type, layout, and math instruction.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>API level</p></th>
+<th class="head"><p>API Class and/or function names</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Device</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cutlass::gemm::device::GemmUniversalAdapter</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Kernel</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cutlass::gemm::kernel::GemmUniversal</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Collective</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cutlass::gemm::collective::CollectiveMma</span></code> <br /> <code class="docutils literal notranslate"><span class="pre">cutlass::epilogue::collective::DefaultEpilogue</span></code> <br /> <code class="docutils literal notranslate"><span class="pre">cutlass::epilogue::collective::Epilogue</span></code>        <br /></p></td>
+</tr>
+<tr class="row-odd"><td><p>Tiled (MMA and Copy)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cute::TiledMma</span></code> and <code class="docutils literal notranslate"><span class="pre">cute::TiledCopy</span></code> <br /> <code class="docutils literal notranslate"><span class="pre">cute::gemm()</span></code> and <code class="docutils literal notranslate"><span class="pre">cute::copy()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Atom</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cute::Mma_Atom</span></code> and <code class="docutils literal notranslate"><span class="pre">cute::Copy_Atom</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In CUTLASS 3.0, we assemble kernels
+by first composing a collective mainloop and collective epilogue
+together at the kernel layer,
+and then wrapping them with a host-side adapter
+to form a GEMM handle to that kernel.</p>
+<p>The following sections describe these components
+in the order a user should instantiate them
+in order to assemble a kernel.  This order is</p>
+<ol class="arabic simple">
+<li><p>assemble the required collective mainloop and epilogues,</p></li>
+<li><p>compose them together to build a kernel type, and</p></li>
+<li><p>wrap up the kernel with a device layer adapter.</p></li>
+</ol>
+<p>This order is also reflected in the <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/examples/48_hopper_warp_specialized_gemm">CUTLASS 3.0 Hopper kernel examples</a> as seen in the excerpt below.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Step 1: Generate the required collective layer mainloop specialization</span>
+<span class="k">using</span><span class="w"> </span><span class="n">CollectiveMainloop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">cutlass</span><span class="o">::</span><span class="n">gemm</span><span class="o">::</span><span class="n">collective</span><span class="o">::</span><span class="n">CollectiveBuilder</span><span class="o">&lt;</span>
+<span class="w">    </span><span class="n">ArchTag</span><span class="p">,</span><span class="w"> </span><span class="n">OperatorClass</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ElementA</span><span class="p">,</span><span class="w"> </span><span class="n">LayoutA</span><span class="p">,</span><span class="w"> </span><span class="n">AlignmentA</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ElementB</span><span class="p">,</span><span class="w"> </span><span class="n">LayoutB</span><span class="p">,</span><span class="w"> </span><span class="n">AlignmentB</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ElementAccumulator</span><span class="p">,</span>
+<span class="w">    </span><span class="n">TilesShape</span><span class="p">,</span><span class="w"> </span><span class="n">ClusterShape</span><span class="p">,</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">gemm</span><span class="o">::</span><span class="n">collective</span><span class="o">::</span><span class="n">StageCountAuto</span><span class="p">,</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">gemm</span><span class="o">::</span><span class="n">collective</span><span class="o">::</span><span class="n">KernelScheduleAuto</span>
+<span class="w">  </span><span class="o">&gt;::</span><span class="n">CollectiveOp</span><span class="p">;</span>
+
+<span class="c1">// Step 2: Specify the collective layer epilogue type</span>
+<span class="k">using</span><span class="w"> </span><span class="n">CollectiveEpilogue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cutlass</span><span class="o">::</span><span class="n">epilogue</span><span class="o">::</span><span class="n">collective</span><span class="o">::</span><span class="n">DefaultEpilogue</span><span class="o">&lt;</span>
+<span class="w">    </span><span class="n">ElementC</span><span class="p">,</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">gemm</span><span class="o">::</span><span class="n">TagToStrideC_t</span><span class="o">&lt;</span><span class="n">LayoutC</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">gemm</span><span class="o">::</span><span class="n">TagToStrideC_t</span><span class="o">&lt;</span><span class="n">LayoutC</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">cutlass</span><span class="o">::</span><span class="n">epilogue</span><span class="o">::</span><span class="kr">thread</span><span class="o">::</span><span class="n">LinearCombination</span><span class="o">&lt;</span><span class="n">ElementC</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ElementAccumulator</span><span class="p">,</span><span class="w"> </span><span class="n">ElementAccumulator</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+
+<span class="c1">// Step 3: Compose the mainloop and epilogue together at the kernel layer</span>
+<span class="k">using</span><span class="w"> </span><span class="n">GemmKernel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cutlass</span><span class="o">::</span><span class="n">gemm</span><span class="o">::</span><span class="n">kernel</span><span class="o">::</span><span class="n">GemmUniversal</span><span class="o">&lt;</span>
+<span class="w">    </span><span class="n">cute</span><span class="o">::</span><span class="n">Shape</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="c1">// ProblemShape [M,N,K,L]</span>
+<span class="w">    </span><span class="n">CollectiveMainloop</span><span class="p">,</span>
+<span class="w">    </span><span class="n">CollectiveEpilogue</span>
+<span class="o">&gt;</span><span class="p">;</span>
+
+<span class="c1">// Step 4: Wrap up the kernel::GemmUniversal kernel class</span>
+<span class="c1">// with the device adapter to obtain a host-side handle to the kernel</span>
+<span class="k">using</span><span class="w"> </span><span class="n">GemmHandle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cutlass</span><span class="o">::</span><span class="n">gemm</span><span class="o">::</span><span class="n">device</span><span class="o">::</span><span class="n">GemmUniversalAdapter</span><span class="o">&lt;</span><span class="n">GemmKernel</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Towards the end, we also briefly cover CuTe’s tiled mma and copy as well as the atom layer APIs,
+before redirecting users to CuTe-specific documentation for further details.</p>
+<section id="collective-api">
+<h2>Collective API<a class="headerlink" href="#collective-api" title="Link to this heading">#</a></h2>
+<p>A Collective is “the largest collection of threads
+onto which mma atoms and copy atoms are tiled.”
+That is, it is the largest number of threads in a grid
+that can cooperate by leveraging hardware features
+for accelerated communication and synchronization.
+These hardware features include</p>
+<ul class="simple">
+<li><p>asynchronous array copy
+(e.g., from global memory to shared memory);</p></li>
+<li><p>MMA instructions
+for small tiles that live in shared memory;</p></li>
+<li><p>synchronization operations for clusters,
+thread blocks, and/or warps; and/or</p></li>
+<li><p>hardware acceleration (such as barriers)
+for ensuring that data dependencies
+between asynchronous operations are met.</p></li>
+</ul>
+<p>A Collective uses the <code class="docutils literal notranslate"><span class="pre">TiledMma</span></code> and <code class="docutils literal notranslate"><span class="pre">TiledCopy</span></code> API (see below)
+to access operations that copy and perform MMA on tiles.</p>
+<p>Different units of parallelism
+(e.g., threads, warps, or thread blocks)
+in a Collective might have different roles.
+For example, in “warp-specialized” algorithms,
+some warps may be responsible for copying data,
+while others may be responsible for computation.
+Nevertheless, the different units of parallelism
+still need to share data and coordinate access
+to the shared data. For example,
+the producer warps in a warp-specialized algorithm
+that copy input matrix tiles into shared memory
+need to let the consumer MMA warp(s) know
+that their MMA inputs are ready.
+We contrast this with the <code class="docutils literal notranslate"><span class="pre">kernel::</span></code> layer API,
+which schedules the collectives over <em>independent</em> tiles in the grid.</p>
+<p>The Collective API includes both the “mainloop”
+of matrix multiply-accumulate, and the epilogue.
+This API is the composition point for optimizations
+such as mainloop fusions and epilogue fusions.
+It is responsible for implementing
+the <code class="docutils literal notranslate"><span class="pre">k_tile</span></code> loop in the above triply nested loop pseudocode.</p>
+<section id="collective-mainloops">
+<h3>Collective Mainloops<a class="headerlink" href="#collective-mainloops" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">cutlass::gemm::collective::CollectiveMma</span></code> class
+is the primary interface to the collective
+matrix multiply-accumulate (MMA) mainloops.
+“Mainloop” refers to the “main loop” over tiles –
+the “cluster tile k” loop in the pseudocode
+near the top of this document.
+Any looping over multiple tiles that
+the algorithm might need to do would happen here.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">CollectiveMma</span></code> class is declared in the header
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/collective/collective_mma.hpp">cutlass/gemm/collective/collective_mma.hpp</a>.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">namespace</span><span class="w"> </span><span class="nn">cutlass</span><span class="o">::</span><span class="nn">gemm</span><span class="o">::</span><span class="nn">collective</span><span class="w"> </span><span class="p">{</span>
+
+<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">DispatchPolicy</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">TileShape</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">ElementA</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">StrideA</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">ElementB</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">StrideB</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">TiledMma</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">GmemTiledCopyA</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">SmemLayoutAtomA</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">SmemCopyAtomA</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">TransformA</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">GmemTiledCopyB</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">SmemLayoutAtomB</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">SmemCopyAtomB</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">TransformB</span>
+<span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">CollectiveMma</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">ElementA</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Could not find a mainloop specialization.&quot;</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace cutlass::gemm::collective</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DispatchPolicy</span></code> is the most important type for a collective, and is
+<a class="reference internal" href="#collective-dispatch-policies"><span class="xref myst">covered in more detail below</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">StrideA</span></code> and <code class="docutils literal notranslate"><span class="pre">StrideB</span></code> are instances of type <code class="docutils literal notranslate"><span class="pre">cute::Stride</span></code> that represent the global memory layout of A and B tensors. These strides are required to be rank-3, representing the modes <code class="docutils literal notranslate"><span class="pre">[outer,</span> <span class="pre">inner,</span> <span class="pre">batch]</span></code>. Each of the 3 ranks can be a multi-modal hierarchical stride; this would apply if implementing a tensor contraction.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TiledMma</span></code> is an instance of <code class="docutils literal notranslate"><span class="pre">cute::TiledMma</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GmemTiledCopyA</span></code> and <code class="docutils literal notranslate"><span class="pre">GmemTiledCopyB</span></code> are instances of <code class="docutils literal notranslate"><span class="pre">cute::TiledCopy</span></code> types. Both tiled operation types are <a class="reference internal" href="#tiled-mma-and-copy"><span class="xref myst">covered in more detail below</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SmemLayoutAtomA</span></code> and <code class="docutils literal notranslate"><span class="pre">SmemLayoutAtomB</span></code> are instances of type <code class="docutils literal notranslate"><span class="pre">cute::Layout</span></code> and represent the smallest
+layout that will get tiled over the entire collective’s shared memory. This layout does <em>not</em> include the
+pipeline mode, and therefore, both are expected to be rank 2 layouts of shape [<code class="docutils literal notranslate"><span class="pre">outer</span></code>, <code class="docutils literal notranslate"><span class="pre">inner</span></code>].</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SmemCopyAtomA</span></code> and <code class="docutils literal notranslate"><span class="pre">SmemCopyAtomB</span></code> are <code class="docutils literal notranslate"><span class="pre">Copy_Atom</span></code>s to be used for moving data from shared memory
+into register memory.</p></li>
+</ul>
+<p>Notice that CUTLASS 3.0 mainloops do not accept a dedicated accumulator element type.
+We obtain the accumulator type from the <code class="docutils literal notranslate"><span class="pre">typename</span> <span class="pre">TiledMma::ValTypeC</span></code>. Note also that
+top level API’s <code class="docutils literal notranslate"><span class="pre">ElementA</span></code> and <code class="docutils literal notranslate"><span class="pre">ElementB</span></code> can differ from those of the MMA facing
+<code class="docutils literal notranslate"><span class="pre">typename</span> <span class="pre">TiledMma::ValTypeA</span></code> and <code class="docutils literal notranslate"><span class="pre">typename</span> <span class="pre">TiledMma::ValTypeB</span></code>, allowing TMA or user
+supplied transform operations to perform type conversions.</p>
+</section>
+<section id="collective-dispatch-policies">
+<h3>Collective Dispatch Policies<a class="headerlink" href="#collective-dispatch-policies" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">CollectiveMma</span></code> implementations are not generic.
+Instead, they must be specialized for each algorithm and GPU architecture.
+Users can dispatch to a <code class="docutils literal notranslate"><span class="pre">CollectiveMma</span></code> specialization
+by picking template arguments matching that specialization.
+CUTLASS 3.0 adopts a tag-based dispatch policy type to specialize
+mainloop implementations and add tuning knobs to them.</p>
+<p>Below is an example of one of the dispatch policies that is used to dispatch to a Hopper TMA
+warp-specialized mainloop implementation:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// n-buffer in smem (Hopper TMA),</span>
+<span class="c1">// pipelined with Hopper GMMA and TMA,</span>
+<span class="c1">// warp-specialized dynamic schedule</span>
+<span class="k">template</span><span class="o">&lt;</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">Stages_</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">ClusterShape_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Shape</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">_1</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">KernelSchedule</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KernelTmaWarpSpecializedCooperative</span>
+<span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">MainloopSm90TmaGmmaWarpSpecialized</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">constexpr</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Stages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Stages_</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">ClusterShape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ClusterShape_</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">ArchTag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arch</span><span class="o">::</span><span class="n">Sm90</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">Schedule</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KernelSchedule</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Stages_</span></code> template parameter lets the user freely vary the number of pipeline stages,
+while the <code class="docutils literal notranslate"><span class="pre">ClusterShape_</span></code> type allows for parameterization over the shape of the threadblock
+cluster over which TMA multicast will take place.</p>
+<p>The collective dispatch policy is also the primary point of composing various kernel schedules
+freely with any mainloop. Each mainloop policy either prescribes a <code class="docutils literal notranslate"><span class="pre">Schedule</span></code> with which
+it needs to be run, or exposes a template API that lets the user pick a subset of the following schedules:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">KernelCpAsyncWarpSpecialized</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">};</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">KernelCpAsyncWarpSpecializedPingpong</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">};</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">KernelCpAsyncWarpSpecializedCooperative</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">};</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">KernelTma</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">};</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">KernelTmaWarpSpecialized</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">};</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">KernelTmaWarpSpecializedPingpong</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">};</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">KernelTmaWarpSpecializedCooperative</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">};</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>A single kernel schedule can support multiple mainloop implementations. For example,
+<code class="docutils literal notranslate"><span class="pre">KernelMultistage</span></code> can be composed with many different mainloop implementations across GPU
+architectures such as <code class="docutils literal notranslate"><span class="pre">MainloopSm70TwoStage</span></code>, <code class="docutils literal notranslate"><span class="pre">MainloopSm80CpAsyncUnpredicated</span></code>, and many more.</p></li>
+<li><p>A single mainloop can be composed with multiple
+possible kernel schedules. For example, the <code class="docutils literal notranslate"><span class="pre">MainloopSm90TmaGmmaWarpSpecialized</span></code> can be
+composed with any of the <code class="docutils literal notranslate"><span class="pre">KernelTmaWarpSpecialized</span></code>, <code class="docutils literal notranslate"><span class="pre">KernelTmaWarpSpecializedPingpong</span></code> or <code class="docutils literal notranslate"><span class="pre">KernelTmaWarpSpecializedCooperative</span></code>
+kernel schedules.</p></li>
+</ul>
+<p>As <a class="reference internal" href="cutlass_3x_design.html"><span class="std std-doc">discussed in the CUTLASS 3.0 design documentation</span></a>, adopting tag
+dispatch policies for our core vocabulary types allows us to maintain a single type name for
+all operations that conceptually belong to the same class. This design has the following benefits.</p>
+<ul class="simple">
+<li><p>It <em>avoids code duplication</em> in cases where mainloops can be composed with multiple kernels or vice versa.</p></li>
+<li><p>It <em>makes writing generic code easier</em>, as the primary type name <code class="docutils literal notranslate"><span class="pre">CollectiveMma</span></code> does not change across any implementation.</p></li>
+<li><p>It <em>provides a clear, singular extension point</em> for users to plug in new, custom mainloops implementations specialized on their own dispatch policies.</p></li>
+</ul>
+</section>
+<section id="collective-builder-for-collectivemmas">
+<h3>Collective Builder for <code class="docutils literal notranslate"><span class="pre">CollectiveMma</span></code>s<a class="headerlink" href="#collective-builder-for-collectivemmas" title="Link to this heading">#</a></h3>
+<p>The primary <code class="docutils literal notranslate"><span class="pre">CollectiveMma</span></code> is intended to be an expert user interface that allows full control over
+all the properties of the collective’s GPU micro-kernel. However, often a user just wants an
+off-the-shelf GEMM mainloop implementation parameterized on simple configuration parameters. CUTLASS 3.0
+provides <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/collective/collective_builder.hpp"><code class="docutils literal notranslate"><span class="pre">cutlass::gemm::collective::CollectiveBuilder</span></code></a> for such scenarios.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">namespace</span><span class="w"> </span><span class="nn">cutlass</span><span class="o">::</span><span class="nn">gemm</span><span class="o">::</span><span class="nn">collective</span><span class="w"> </span><span class="p">{</span>
+<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">ArchTag</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">OpClass</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">ElementA</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">GmemLayoutA</span><span class="p">,</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">AlignmentA</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">ElementB</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">GmemLayoutB</span><span class="p">,</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">AlignmentB</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">ElementAccumulator</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">TileShape_MNK</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">ClusterShape_MNK</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">StageCountType</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">KernelScheduleType</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">Enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span>
+<span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">CollectiveBuilder</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">ElementA</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Could not build a collective for given parameters.&quot;</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace cutlass::gemm::collective</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">CollectiveBuilder</span></code> accepts CUTLASS 2.x equivalent input template arguments, and attempts to build
+the best performing <code class="docutils literal notranslate"><span class="pre">CollectiveMma</span></code> from the given parameters.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ArchTag</span></code> is one of the SM architectures tags from <code class="docutils literal notranslate"><span class="pre">cutlass::arch::Sm*</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpClass</span></code> is one of the operator class tags from <code class="docutils literal notranslate"><span class="pre">cutlass::arch::OpClass*</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ElementA</span></code> and <code class="docutils literal notranslate"><span class="pre">ElementB</span></code> are the logical value types of the A resp. B tensors.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ElementAccumulator</span></code> is the accumulator type to be used in the instruction.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GmemLayoutA</span></code> and <code class="docutils literal notranslate"><span class="pre">GmemLayoutB</span></code> are CUTLASS 2.x layout tags, <code class="docutils literal notranslate"><span class="pre">layout::RowMajor</span></code> or <code class="docutils literal notranslate"><span class="pre">layout::ColumnMajor</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AlignmentA</span></code> and <code class="docutils literal notranslate"><span class="pre">AlignmentB</span></code> are global memory alignments of A and B tensors in terms of element count.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TileShape_MNK</span></code> is an instance of <code class="docutils literal notranslate"><span class="pre">cute::Shape</span></code> that is rank-3, representing the MxNxK collective tile shape.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClusterShape_MNK</span></code> is an instance of <code class="docutils literal notranslate"><span class="pre">cute::Shape</span></code> that is rank-3, representing the MxNxK threadblock cluster tile shape.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">StageCountType</span></code> is either <code class="docutils literal notranslate"><span class="pre">collective::StageCountAuto</span></code> or an instance of <code class="docutils literal notranslate"><span class="pre">collective::StageCount&lt;N&gt;</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">KernelScheduleType</span></code> is either <code class="docutils literal notranslate"><span class="pre">collective::KernelScheduleAuto</span></code> or one of the specific kernel schedule tags discussed in the <a class="reference internal" href="#collective-dispatch-policies"><span class="xref myst">dispatch policy section</span></a> above.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">StageCountAuto</span></code> allows the collective builder to compute the size of a single stage’s size in shared memory
+and maximize the shared memory usage assuming 1 threadblock / multiprocessor occupancy.</p>
+<p><code class="docutils literal notranslate"><span class="pre">KernelScheduleAuto</span></code> allows the collective builder to pick the best kernel schedule available for the
+given set of parameters, or let’s the user override this with a specific kernel schedule type.</p>
+<p>Note that collective builders are still in beta, and their functionality
+does not map onto the full design space that the primary expert <code class="docutils literal notranslate"><span class="pre">CollectiveMma</span></code> API
+allows for. We expect their supported mainloop types to expand in future releases, but
+with 3.0, only SM90 tensorop kernels are supported through the builder API. The builder API
+may also change in the future as we adopt user feedback.</p>
+<p>If the builder is able to provide a collective mainloop type for the given set of parameters,
+it will be aliased within as <code class="docutils literal notranslate"><span class="pre">CollectiveOp</span></code>. For more information on how to
+parameterize kernels conveniently with the collective builder, please see example <a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/examples/49_hopper_gemm_with_collective_builder">49_hopper_gemm_with_collective_builder</a>.</p>
+</section>
+<section id="epilogue">
+<h3>Epilogue<a class="headerlink" href="#epilogue" title="Link to this heading">#</a></h3>
+<p>The collective epilogue implements element-wise operations
+involving the output matrix.  Users can provide a custom
+epilogue, or use one of the standard epilogues.
+These live in the directory
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/epilogue/collective/">include/cutlass/epilogue/collective/</a>,
+and include classes like
+<code class="docutils literal notranslate"><span class="pre">cutlass::epilogue::collective::DefaultEpilogue</span></code>
+and
+<code class="docutils literal notranslate"><span class="pre">cutlass::epilogue::collective::Epilogue</span></code>.
+CUTLASS’s provided collective epilogues
+do not live under <code class="docutils literal notranslate"><span class="pre">include/cutlass/gemm</span></code>
+or in the <code class="docutils literal notranslate"><span class="pre">cutlass::gemm</span></code> namespace,
+because they can be used for computations
+other than GEMM.</p>
+</section>
+</section>
+<section id="kernel-api">
+<h2>Kernel API<a class="headerlink" href="#kernel-api" title="Link to this heading">#</a></h2>
+<p>The kernel is “a collection of all clusters in the grid.”
+The kernel layer schedules have four main responsibilities.</p>
+<ul class="simple">
+<li><p>Ordering the execution of collectives within the kernel, performing any synchronization between that may be necessary</p></li>
+<li><p>Marshalling the threads of a warp specialized schedules into their respective roles</p></li>
+<li><p>Performing any necessary grid swizzling logic</p></li>
+<li><p>Tiling the input tensors with the threadblock cluster value tile before invoking the collectives on them</p></li>
+</ul>
+<p>The Kernel API is the entry point for a grid of thread blocks
+that may or may not be organized in a cluster.
+It is the composition point for fusing back-to-back GEMMs,
+epilogues, and/or other operations.</p>
+<p>The entry point API for CUTLASS 3.0 kernel is the class
+<code class="docutils literal notranslate"><span class="pre">cutlass::gemm::kernel::GemmUniversal</span></code>, found in the header file
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/kernel/gemm_universal.hpp">include/cutlass/gemm/kernel/gemm_universal.hpp</a>.
+<code class="docutils literal notranslate"><span class="pre">GemmUniversal</span></code> is a stateless universal device kernel
+that implements GEMM as the composition of two parts:</p>
+<ul class="simple">
+<li><p>a collective mainloop, and</p></li>
+<li><p>a collective epilogue</p></li>
+</ul>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">namespace</span><span class="w"> </span><span class="nn">cutlass</span><span class="o">::</span><span class="nn">gemm</span><span class="o">::</span><span class="nn">kernel</span><span class="w"> </span><span class="p">{</span>
+<span class="cm">/*</span>
+<span class="cm"> * Stateless universal device GEMM kernel type that treats GEMM as</span>
+<span class="cm"> * a composition of a collective mainloop and a collective epilogue.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Supports both the 2.x and 3.x APIs based on whether the first type is</span>
+<span class="cm"> * a cute::tuple&lt;&gt; or not.</span>
+<span class="cm"> * 2.x API implementation: cutlass/gemm/kernel/gemm_universal.h</span>
+<span class="cm"> * 3.x API implementation: cutlass/gemm/kernel/gemm_*.hpp</span>
+<span class="cm"> *</span>
+<span class="cm"> * In the following declaration, the name preceding the &#39;Or&#39; refers to</span>
+<span class="cm"> * 3.x API type argument order, and the name succeeding the &#39;Or&#39; refers to</span>
+<span class="cm"> * 2.x API type argument order. Template arguments without two names</span>
+<span class="cm"> * belong to the 3.x API only.</span>
+<span class="cm">**/</span>
+<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">ProblemShapeOrThreadblockMma_</span><span class="p">,</span><span class="w"> </span><span class="c1">// (m, n, k) or (m, n, k, l)</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">CollectiveMainloopOrEpilogue_</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">CollectiveEpilogueOrThreadblockSwizzle_</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">TileScheduler_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">Enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span>
+<span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GemmUniversal</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace cutlass::gemm::kernel</span>
+</pre></div>
+</div>
+<p><em>Stateless</em> means that the caller –
+for example, the Device API described above –
+manages the kernel’s state.
+The kernel just takes input and output parameters (<code class="docutils literal notranslate"><span class="pre">Params</span></code>).</p>
+<p><em>Universal</em> means that <code class="docutils literal notranslate"><span class="pre">GemmUniversal</span></code> works
+for both CUTLASS 3.0 and 2.x interfaces
+and across a broad range of kernel schedules.
+If <code class="docutils literal notranslate"><span class="pre">GemmUniversal</span></code>’s first template argument is a <code class="docutils literal notranslate"><span class="pre">cute::Shape</span></code>,
+then <code class="docutils literal notranslate"><span class="pre">GemmUniversal</span></code> assumes that the remaining template arguments
+implement the 3.0 APIs.  Otherwise, <code class="docutils literal notranslate"><span class="pre">GemmUniversal</span></code> assumes that
+the remaining template arguments implement the 2.x APIs.
+Starting with CUTLASS 3.0, the problem shape has been promoted
+to a top-level template API for the GEMM kernel.
+This supports fully static GEMM instantiations
+where the user expects to know some or all
+of the problem shapes at compile time
+in order to extract even more performance.</p>
+<p>The <em>collective mainloop</em> implements MMA on local tiles.
+The <em>collective epilogue</em> addresses any operations after the MMA,
+such as applying the <code class="docutils literal notranslate"><span class="pre">beta</span> <span class="pre">*</span> <span class="pre">C</span></code> part of <code class="docutils literal notranslate"><span class="pre">C</span> <span class="pre">:=</span> <span class="pre">beta</span> <span class="pre">*</span> <span class="pre">C</span> <span class="pre">+</span> <span class="pre">alpha</span> <span class="pre">*</span> <span class="pre">A</span> <span class="pre">*</span> <span class="pre">B</span></code>.
+We will explain <em>collective</em> in more detail below.</p>
+<p>Specializations of <code class="docutils literal notranslate"><span class="pre">kernel::GemmUniversal</span></code> for 3.0 APIs live in
+any of various <code class="docutils literal notranslate"><span class="pre">gemm_*.hpp</span></code> files in the directory
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/kernel/">include/cutlass/gemm/kernel/</a>.
+Specializations for 2.x APIs can be found in the header file
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/kernel/gemm_universal.h">include/cutlass/gemm/kernel/gemm_universal.h</a>.</p>
+<p>CUTLASS 3.x implements various embodiments of <code class="docutils literal notranslate"><span class="pre">kernel::GemmUniversal</span></code>.
+Each kernel layer schedule is specialized
+for a GEMM scheduling algorithm and GPU architecture.
+Specializations of <code class="docutils literal notranslate"><span class="pre">kernel::GemmUniversal</span></code> for 3.0 APIs live in
+any of various <code class="docutils literal notranslate"><span class="pre">include/cutlass/gemm/kernel/{arch_tag}*.hpp</span></code> files in the directory
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/kernel/">include/cutlass/gemm/kernel/</a>.
+Which specialization to dispatch to is decided through the dispatch policy’s <code class="docutils literal notranslate"><span class="pre">Schedule</span></code> type.</p>
+<p>For example, the header file
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/kernel/sm90_gemm_tma_warpspecialized_pingpong.hpp">include/cutlass/gemm/kernel/sm90_gemm_tma_warpspecialized_pingpong.hpp</a>
+has a specialization of <code class="docutils literal notranslate"><span class="pre">kernel::GemmUniversal</span></code> for Hopper
+that uses a warp-specialized mainloop with a persistent scheduling algorithm,
+while the header file
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/kernel/sm90_gemm_tma_warpspecialized.hpp">include/cutlass/gemm/kernel/sm90_gemm_tma_warpspecialized.hpp</a>
+has a specialization of <code class="docutils literal notranslate"><span class="pre">GemmUniversal</span></code> for Hopper
+that uses a warp-specialized but non-persistent algorithm.</p>
+<p>To support composition between supported kernel schedules and mainloop dispatch policies without having to
+duplicate collective mainloop implementations, GEMM kernel layer schedules can be composed with
+any mainloop that specifies their corresponding kernel schedule as their <code class="docutils literal notranslate"><span class="pre">Schedule</span></code> type in the policy.
+This is discussed in detail in the <a class="reference internal" href="#collective-dispatch-policies"><span class="xref myst">collective dispatch policy section</span></a> above.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// An example of the SM90 KernelMultistage kernel&#39;s</span>
+<span class="c1">// specialization logic that allows it to be composed</span>
+<span class="c1">// with many mainloops such as `MainloopSm80CpAsync`</span>
+<span class="c1">// and `MainloopSm70TwoStage`.</span>
+<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">ProblemShape_</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">CollectiveMainloop_</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">CollectiveEpilogue_</span><span class="p">,</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">TileScheduler_</span>
+<span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GemmUniversal</span><span class="o">&lt;</span>
+<span class="w">  </span><span class="n">ProblemShape_</span><span class="p">,</span>
+<span class="w">  </span><span class="n">CollectiveMainloop_</span><span class="p">,</span>
+<span class="w">  </span><span class="n">CollectiveEpilogue_</span><span class="p">,</span>
+<span class="w">  </span><span class="n">TileScheduler_</span><span class="p">,</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">is_base_of_v</span><span class="o">&lt;</span><span class="n">KernelMultistage</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">CollectiveMainloop_</span><span class="o">::</span><span class="n">DispatchPolicy</span><span class="o">::</span><span class="n">Schedule</span><span class="o">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="device-api">
+<h2>Device API<a class="headerlink" href="#device-api" title="Link to this heading">#</a></h2>
+<p>The Device API is a universal, kernel-agnostic host interface
+for kernel launch and managing the lifetime of
+reusable host-side parameters.</p>
+<p>This API is how users’ host-side .cu code
+invokes CUTLASS’s single-GPU GEMM kernels.
+It serves the same purpose as cuBLAS and behaves similarly.</p>
+<p>The entry point for the Device GEMM API is the class
+<code class="docutils literal notranslate"><span class="pre">cutlass::gemm::device::GemmUniversalAdapter</span></code>.
+This class lives in the header file
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cutlass/gemm/device/gemm_universal_adapter.h">include/cutlass/gemm/device/gemm_universal_adapter.h</a>.
+<code class="docutils literal notranslate"><span class="pre">GemmUniversalAdapter</span></code> is a stateful, reusable handle,
+which is parameterized on the <code class="docutils literal notranslate"><span class="pre">cutlass::gemm::kernel</span></code> type.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cm">/*! </span>
+<span class="cm">  GemmUniversalAdapter is a stateful, reusable GEMM handle built around a kernel</span>
+<span class="cm">  of type cutlass::gemm::kernel::*</span>
+
+<span class="cm">  It manages the lifetime of the underlying `kernel::Params` struct, and exposes APIs</span>
+<span class="cm">  to create it from the host facing arguments. For power users, new static methods</span>
+<span class="cm">  are exposed in 3.x APIs that bypass the stateful methods or args-&gt;params lowering.</span>
+
+<span class="cm">  It supports kernel types that implement both the 2.x and 3.0 APIs,</span>
+<span class="cm">  however, this is done by specializing the implementation of GemmUniversalAdapter</span>
+<span class="cm">  on the two kernel API types, and thus, GemmUniversalAdapter&#39;s behavior might</span>
+<span class="cm">  differ between the two specializations.</span>
+<span class="cm">*/</span>
+<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">GemmKernel_</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GemmUniversalAdapter</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><em>Stateful</em> means that the handle instance contains state
+that the kernel needs to run.
+This means that the user must initialize the handle first,
+then use the initialized handle instance to run the kernel.
+Statefulness also means that the handle can manage the lifetime
+of the kernel’s <code class="docutils literal notranslate"><span class="pre">Params</span></code> – the parameters of the kernel itself.
+An important duty of <code class="docutils literal notranslate"><span class="pre">GemmUniversalAdapter</span></code>
+is to map from the user’s <code class="docutils literal notranslate"><span class="pre">Arguments</span></code> –
+what the user sees as the kernel’s parameters –
+to the <code class="docutils literal notranslate"><span class="pre">Params</span></code> that the kernel actually sees.
+For power users, the class exposes new static methods
+in 3.0 APIs that can bypass stateful methods
+or go directly to <code class="docutils literal notranslate"><span class="pre">Params</span></code> without intermediate <code class="docutils literal notranslate"><span class="pre">Arguments</span></code>.</p>
+<p><em>Reusable</em> means that the handle instance can be used
+to call the kernel multiple times with different arguments
+(e.g., different matrices).
+Reusing the handle may be more efficient than just
+creating a new handle for each kernel invocation.</p>
+<p><em>Parameterized on the kernel type</em> means that
+the <code class="docutils literal notranslate"><span class="pre">GemmUniversalAdapter</span></code> class’ behavior
+depends on the GEMM kernel type (see the next section).
+Specifically, <code class="docutils literal notranslate"><span class="pre">GemmUniversalAdapter</span></code> has a template parameter
+<code class="docutils literal notranslate"><span class="pre">GemmKernel</span></code>, which is the GEMM kernel type.
+Valid template arguments for <code class="docutils literal notranslate"><span class="pre">GemmKernel</span></code> are</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cutlass::gemm::kernel::GemmUniversal</span></code>,
+implementing CUTLASS 3.x API kernels;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cutlass::gemm::kernel::GemmUniversal</span></code>,
+implementing CUTLASS 2.x API kernels; or</p></li>
+<li><p>Any valid CUTLASS 2.x <code class="docutils literal notranslate"><span class="pre">kernel</span></code> layer GEMM that
+was previously composable with the <code class="docutils literal notranslate"><span class="pre">device::GemmUniversalAdapter</span></code>.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">GemmUniversalAdapter</span></code> presents a single
+host-side interface to both 3.0 and 2.x kernels.
+CUTLASS accomplishes this by
+specializing <code class="docutils literal notranslate"><span class="pre">GemmUniversalAdapter</span></code>’s implementation
+on either the 2.x API implementing kernel layer GEMMs, or on the 3.x API
+implementing kernel layer GEMMs. The metafunction <a class="reference internal" href="cutlass_3x_backwards_compatibility.html#kernel-api-design-differences"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cutlass::gemm::detail::IsCutlass3GemmKernel</span></code></span></a>
+is what <code class="docutils literal notranslate"><span class="pre">GemmUniversalAdapter</span></code> uses to distinguish between 2.x and 3.x kernels.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GemmUniversalAdapter</span></code> sets up and launches the kernel, using the
+CUDA extended launch API for threadblock cluster support if required.
+Note, <code class="docutils literal notranslate"><span class="pre">GemmUniversalAdapter</span></code> does <em>not</em> specify the grid shape.
+The kernel controls the grid shape
+and other kernel-specific launch parameters.
+This makes it possible for all 3.0 kernels
+to use the same kernel launch code,
+thus factoring out kernel launch from the actual kernel.</p>
+</section>
+<section id="tiled-mma-and-copy">
+<h2>Tiled MMA and Copy<a class="headerlink" href="#tiled-mma-and-copy" title="Link to this heading">#</a></h2>
+<p>The Tiled MMA or Copy are tilings of MMA atoms resp. Copy atoms
+across threads and data, with possible permutations applied to the
+resulting tiling. This layer is most analogous to the warp level
+tiling of MMA instructions in CUTLASS 2.x. However, it views the tiling
+from the perspective of all threads participating in the operation
+and generalizes the concept to copy operations as well. The purpose
+of this layer is to build composable GPU micro-kernels out of a plethora
+of hardware accelerated math and data movement operations, each with their
+unit layouts in threads and data. The tiled MMA and Copy types present
+all these various hardware accelerated CuTe Atoms with a single, consistent
+API.</p>
+<p>The resulting tiled operation acts as a single MMA or copy operation
+that users can invoke in the “inner” loop
+of the three-nested-loops pseudocode
+at the top of this document using <code class="docutils literal notranslate"><span class="pre">cute::gemm()</span></code> or <code class="docutils literal notranslate"><span class="pre">cute::copy()</span></code>.</p>
+<p>We call this API “tiled” because it constructs
+larger operations out of the Atoms provided by CuTe,
+as if fitting together individual tiles
+to build a reusable component of a mosaic.
+For example, CuTe might provide an MMA Atom
+that users can call on a single warp,
+for fixed M, N, and K dimensions.
+CUTLASS can then use CuTe operations like <code class="docutils literal notranslate"><span class="pre">make_tiled_mma</span></code>
+to turn this Atom into an operation
+that works on an entire thread block,
+for larger M, N, and K dimensions.</p>
+</section>
+<section id="atom-api">
+<h2>Atom API<a class="headerlink" href="#atom-api" title="Link to this heading">#</a></h2>
+<p>An “Atom” is the smallest collection of threads and data
+that must participate in the execution of a hardware-accelerated
+math or copy operation.</p>
+<p>An Atom is “atomic” (indivisible) not in the sense of
+concurrent memory operations like <code class="docutils literal notranslate"><span class="pre">atomicAdd</span></code>
+(which are “indivisible in time (causality)”),
+but in the sense of indivisibility in “space” –
+the number of values and the groups of parallel workers
+that must participate in the operation together.</p>
+<p>An Atom uses CuTe Layouts to express the required
+dimensions and strides of its input and output arrays.
+Generally these are fixed at compile time.</p>
+<p>The Atom API wraps calls to actual hardware instructions
+that accelerate MMA or copy operations.
+Users can ask for GPU architecture-specific implementations,
+or just pick generic implementations and rely on
+whatever GPU architectures were enabled.</p>
+<p>For more information about Atoms,
+please refer to CuTe’s tutorial, e.g., the sections on</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="cute/04_algorithms.html"><span class="std std-doc">algorithms</span></a> like <code class="docutils literal notranslate"><span class="pre">gemm</span></code> and <code class="docutils literal notranslate"><span class="pre">copy</span></code>,</p></li>
+<li><p><a class="reference internal" href="cute/0t_mma_atom.html#cute-mma-atoms"><span class="std std-ref">MMA Atoms</span></a>, and</p></li>
+<li><p><a class="reference internal" href="cute/0x_gemm_tutorial.html"><span class="std std-doc">a GEMM example</span></a>.</p></li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="copyright">
+<h1>Copyright<a class="headerlink" href="#copyright" title="Link to this heading">#</a></h1>
+<p>Copyright (c) 2023 - 2025 NVIDIA CORPORATION &amp; AFFILIATES. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">Redistribution</span> <span class="ow">and</span> <span class="n">use</span> <span class="ow">in</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">binary</span> <span class="n">forms</span><span class="p">,</span> <span class="k">with</span> <span class="ow">or</span> <span class="n">without</span>
+  <span class="n">modification</span><span class="p">,</span> <span class="n">are</span> <span class="n">permitted</span> <span class="n">provided</span> <span class="n">that</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span> <span class="n">are</span> <span class="n">met</span><span class="p">:</span>
+
+  <span class="mf">1.</span> <span class="n">Redistributions</span> <span class="n">of</span> <span class="n">source</span> <span class="n">code</span> <span class="n">must</span> <span class="n">retain</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span> <span class="n">this</span>
+  <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span><span class="o">.</span>
+
+  <span class="mf">2.</span> <span class="n">Redistributions</span> <span class="ow">in</span> <span class="n">binary</span> <span class="n">form</span> <span class="n">must</span> <span class="n">reproduce</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span>
+  <span class="n">this</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">documentation</span>
+  <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">other</span> <span class="n">materials</span> <span class="n">provided</span> <span class="k">with</span> <span class="n">the</span> <span class="n">distribution</span><span class="o">.</span>
+
+  <span class="mf">3.</span> <span class="n">Neither</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">holder</span> <span class="n">nor</span> <span class="n">the</span> <span class="n">names</span> <span class="n">of</span> <span class="n">its</span>
+  <span class="n">contributors</span> <span class="n">may</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">endorse</span> <span class="ow">or</span> <span class="n">promote</span> <span class="n">products</span> <span class="n">derived</span> <span class="kn">from</span>
+<span class="w">  </span><span class="nn">this</span> <span class="n">software</span> <span class="n">without</span> <span class="n">specific</span> <span class="n">prior</span> <span class="n">written</span> <span class="n">permission</span><span class="o">.</span>
+
+  <span class="n">THIS</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">PROVIDED</span> <span class="n">BY</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span> <span class="n">AND</span> <span class="n">CONTRIBUTORS</span> <span class="s2">&quot;AS IS&quot;</span>
+  <span class="n">AND</span> <span class="n">ANY</span> <span class="n">EXPRESS</span> <span class="n">OR</span> <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span><span class="p">,</span> <span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">THE</span>
+  <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span> <span class="n">AND</span> <span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span> <span class="n">ARE</span>
+  <span class="n">DISCLAIMED</span><span class="o">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">SHALL</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDER</span> <span class="n">OR</span> <span class="n">CONTRIBUTORS</span> <span class="n">BE</span> <span class="n">LIABLE</span>
+  <span class="n">FOR</span> <span class="n">ANY</span> <span class="n">DIRECT</span><span class="p">,</span> <span class="n">INDIRECT</span><span class="p">,</span> <span class="n">INCIDENTAL</span><span class="p">,</span> <span class="n">SPECIAL</span><span class="p">,</span> <span class="n">EXEMPLARY</span><span class="p">,</span> <span class="n">OR</span> <span class="n">CONSEQUENTIAL</span>
+  <span class="n">DAMAGES</span> <span class="p">(</span><span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">PROCUREMENT</span> <span class="n">OF</span> <span class="n">SUBSTITUTE</span> <span class="n">GOODS</span> <span class="n">OR</span>
+  <span class="n">SERVICES</span><span class="p">;</span> <span class="n">LOSS</span> <span class="n">OF</span> <span class="n">USE</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">OR</span> <span class="n">PROFITS</span><span class="p">;</span> <span class="n">OR</span> <span class="n">BUSINESS</span> <span class="n">INTERRUPTION</span><span class="p">)</span> <span class="n">HOWEVER</span>
+  <span class="n">CAUSED</span> <span class="n">AND</span> <span class="n">ON</span> <span class="n">ANY</span> <span class="n">THEORY</span> <span class="n">OF</span> <span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">STRICT</span> <span class="n">LIABILITY</span><span class="p">,</span>
+  <span class="n">OR</span> <span class="n">TORT</span> <span class="p">(</span><span class="n">INCLUDING</span> <span class="n">NEGLIGENCE</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">)</span> <span class="n">ARISING</span> <span class="n">IN</span> <span class="n">ANY</span> <span class="n">WAY</span> <span class="n">OUT</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">USE</span>
+  <span class="n">OF</span> <span class="n">THIS</span> <span class="n">SOFTWARE</span><span class="p">,</span> <span class="n">EVEN</span> <span class="n">IF</span> <span class="n">ADVISED</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">POSSIBILITY</span> <span class="n">OF</span> <span class="n">SUCH</span> <span class="n">DAMAGE</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="gemm_api.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">CUTLASS GEMM API</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="efficient_gemm.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Efficient GEMM in CUDA</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">CUTLASS 3.0 GEMM API</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-gemm-model">CUTLASS GEMM Model</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cutlass-gemm-components">CUTLASS GEMM Components</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collective-api">Collective API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#collective-mainloops">Collective Mainloops</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#collective-dispatch-policies">Collective Dispatch Policies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#collective-builder-for-collectivemmas">Collective Builder for <code class="docutils literal notranslate"><span class="pre">CollectiveMma</span></code>s</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#epilogue">Epilogue</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-api">Kernel API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device-api">Device API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tiled-mma-and-copy">Tiled MMA and Copy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atom-api">Atom API</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

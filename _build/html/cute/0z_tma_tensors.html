@@ -1,0 +1,896 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CuTe TMA Tensors &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cute/0z_tma_tensors';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Dependent kernel launches" href="../dependent_kernel_launch.html" />
+    <link rel="prev" title="Predication: What to do when tiling isn’t perfect" href="0y_predication.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../overview.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../overview.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../terminology.html">CUTLASS Terminology</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../ide_setup.html">IDE Setup for CUTLASS Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../functionality.html">Functionality</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../fundamental_types.html">Fundamental Types</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../layout.html">Layouts and Tensors</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../tile_iterator_concept.html">Tile Iterator Concepts</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../pipeline.html">Synchronization primitives</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../code_organization.html">CUTLASS Code Organization</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../programming_guidelines.html">Programming Guidelines</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">CUTLASS Utilities</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Key Operations &amp; APIs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../gemm_api.html">CUTLASS GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../gemm_api_3x.html">CUTLASS 3.0 GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../efficient_gemm.html">Efficient GEMM in CUDA</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../implicit_gemm_convolution.html">CUTLASS Convolution</a></li>
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTLASS 3.x Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../cutlass_3x_design.html">CUTLASS 3.0 Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cutlass_3x_backwards_compatibility.html">CUTLASS 3.0 GEMM Backwards Compatibility</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTE - Compositional Universal Tile Engine</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_quickstart.html">Getting Started With CuTe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_layout.html">CuTe Layouts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_layout_algebra.html">CuTe Layout Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_tensor.html">CuTe Tensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_algorithms.html">CuTe Tensor algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0t_mma_atom.html">CuTe’s support for Matrix Multiply-Accumulate instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0x_gemm_tutorial.html">CuTe dense matrix-matrix multiply tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0y_predication.html">Predication: What to do when tiling isn’t perfect</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">CuTe TMA Tensors</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Features &amp; Platform Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../dependent_kernel_launch.html">Dependent kernel launches</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../grouped_scheduler.html">CUTLASS Grouped Kernel Schedulers</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../blackwell_functionality.html">Blackwell SM100 GEMMs</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../blackwell_cluster_launch_control.html">Blackwell Cluster Launch Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../profiler.html">CUTLASS Profiler</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Building CUTLASS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../build/building_in_windows_with_visual_studio.html">Building on Windows with Visual Studio</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../build/building_with_clang_as_host_compiler.html">Building with Clang as host compiler</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fcute/0z_tma_tensors.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/cute/0z_tma_tensors.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>CuTe TMA Tensors</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">CuTe TMA Tensors</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-tma-instructions">Introduction to TMA instructions</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-tma-tensor">Building a TMA Tensor</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implicit-cute-tensors">Implicit CuTe Tensors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arithtupleiterators-and-arithtuples">ArithTupleIterators and ArithTuples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strides-aren-t-just-integers">Strides aren’t just integers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aside-integer-module-strides">Aside: Integer-module strides</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basis-elements">Basis elements</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-combinations-of-strides">Linear combinations of strides</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#application-to-tma-tensors">Application to TMA Tensors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="cute-tma-tensors">
+<h1>CuTe TMA Tensors<a class="headerlink" href="#cute-tma-tensors" title="Link to this heading">#</a></h1>
+<p>Along your travels, you may find strange looking CuTe Tensors that are printed as something like</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ArithTuple</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">_0</span><span class="p">,</span><span class="n">_0</span><span class="p">,</span><span class="n">_0</span><span class="p">)</span> <span class="n">o</span> <span class="p">((</span><span class="n">_128</span><span class="p">,</span><span class="n">_64</span><span class="p">),</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">):((</span><span class="n">_1</span><span class="o">@</span><span class="mi">0</span><span class="p">,</span><span class="n">_1</span><span class="o">@</span><span class="mi">1</span><span class="p">),</span><span class="n">_64</span><span class="o">@</span><span class="mi">1</span><span class="p">,</span><span class="n">_1</span><span class="o">@</span><span class="mi">2</span><span class="p">,</span><span class="n">_1</span><span class="o">@</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>What is an <code class="docutils literal notranslate"><span class="pre">ArithTuple</span></code>? Are those tensor strides? What do those mean? What is this for?</p>
+<p>This documentation intends to answer those questions and introduce some of the more advanced features of CuTe.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="introduction-to-tma-instructions">
+<h1>Introduction to TMA instructions<a class="headerlink" href="#introduction-to-tma-instructions" title="Link to this heading">#</a></h1>
+<p>The Tensor Memory Accelerator (TMA) is a set of instructions for copying possibly multidimensional arrays between global and shared memory.  TMA was introduced in the Hopper architecture.  A single TMA instruction can copy an entire tile of data all at once.  As a result, the hardware no longer needs to compute individual memory addresses and issue a separate copy instruction for each element of the tile.</p>
+<p>To accomplish this, the TMA instruction is given a <em>TMA descriptor</em>, which is a packed representation of a multidimensional tensor in global memory with 1, 2, 3, 4, or 5 dimensions. The TMA descriptor holds</p>
+<ul class="simple">
+<li><p>the base pointer of the tensor;</p></li>
+<li><p>the data type of the tensor’s elements (e.g., <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">float</span></code>, <code class="docutils literal notranslate"><span class="pre">double</span></code>, or <code class="docutils literal notranslate"><span class="pre">half</span></code>);</p></li>
+<li><p>the size of each dimension;</p></li>
+<li><p>the stride within each dimension; and</p></li>
+<li><p>other flags representing the smem box size, smem swizzling patterns, and out-of-bounds access behavior.</p></li>
+</ul>
+<p>This descriptor must be created on the host before kernel execution.
+It is shared between all thread blocks that will be issuing TMA instructions.
+Once inside the kernel, the TMA is executed with the following parameters:</p>
+<ul class="simple">
+<li><p>pointer to the TMA descriptor;</p></li>
+<li><p>pointer to the SMEM; and</p></li>
+<li><p>coordinates into the GMEM tensor represented within the TMA descriptor.</p></li>
+</ul>
+<p>For example, the interface for TMA-store with 3-D coordinates looks like this.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">SM90_TMA_STORE_3D</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">CUTE_DEVICE</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span>
+<span class="w">  </span><span class="n">copy</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="k">const</span><span class="o">*</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">desc_ptr</span><span class="p">,</span>
+<span class="w">       </span><span class="kt">void</span><span class="w"> </span><span class="k">const</span><span class="o">*</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">smem_ptr</span><span class="p">,</span>
+<span class="w">       </span><span class="kt">int32_t</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">crd0</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">crd1</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">crd2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ... invoke CUDA PTX instruction ...</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>We observe that the TMA instruction does not directly consume pointers to global memory. Indeed, the global memory pointer is contained in the descriptor, is considered constant, and is NOT a separate parameter to the TMA instruction. Instead, the TMA consumes TMA coordinates into the TMA’s view of global memory that is defined in the TMA descriptor.</p>
+<p>That means that an ordinary CuTe Tensor that stores a GMEM pointer and computes offsets and new GMEM pointers is useless to the TMA.</p>
+<p>What do we do?</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="building-a-tma-tensor">
+<h1>Building a TMA Tensor<a class="headerlink" href="#building-a-tma-tensor" title="Link to this heading">#</a></h1>
+<section id="implicit-cute-tensors">
+<h2>Implicit CuTe Tensors<a class="headerlink" href="#implicit-cute-tensors" title="Link to this heading">#</a></h2>
+<p>All CuTe Tensors are compositions of Layouts and Iterators. An ordinary global memory tensor’s iterator is its global memory pointer. However, a CuTe Tensor’s iterator doesn’t have to be a pointer; it can be any random-access iterator.</p>
+<p>One example of such an iterator is a <em>counting iterator</em>.
+This represents a possibly infinite sequence of integers that starts at some value.
+We call the members of this sequence <em>implicit integers</em>,
+because the sequence is not explicitly stored in memory.
+The iterator just stores its current value.</p>
+<p>We can use a counting iterator to create a tensor of implicit integers,</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Tensor</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tensor</span><span class="p">(</span><span class="n">counting_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">42</span><span class="p">),</span><span class="w"> </span><span class="n">make_shape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">));</span>
+<span class="n">print_tensor</span><span class="p">(</span><span class="n">A</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>which outputs</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">counting_iter</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span> <span class="n">o</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">):(</span><span class="n">_1</span><span class="p">,</span><span class="mi">4</span><span class="p">):</span>
+   <span class="mi">42</span>   <span class="mi">46</span>   <span class="mi">50</span>   <span class="mi">54</span>   <span class="mi">58</span>
+   <span class="mi">43</span>   <span class="mi">47</span>   <span class="mi">51</span>   <span class="mi">55</span>   <span class="mi">59</span>
+   <span class="mi">44</span>   <span class="mi">48</span>   <span class="mi">52</span>   <span class="mi">56</span>   <span class="mi">60</span>
+   <span class="mi">45</span>   <span class="mi">49</span>   <span class="mi">53</span>   <span class="mi">57</span>   <span class="mi">61</span>
+</pre></div>
+</div>
+<p>This tensor maps logical coordinates to on-the-fly computed integers. Because it’s still a CuTe Tensor, it can still be tiled and partitioned and sliced just like a normal tensor by accumulating integer offsets into the iterator.</p>
+<p>But the TMA doesn’t consume pointers or integers, it consumes coordinates. Can we make a tensor of implicit TMA
+coordinates for the TMA instruction to consume? If so, then we could presumably also tile and partition and slice that tensor of coordinates so that we would always have the right TMA coordinate to give to the instruction.</p>
+</section>
+<section id="arithtupleiterators-and-arithtuples">
+<h2>ArithTupleIterators and ArithTuples<a class="headerlink" href="#arithtupleiterators-and-arithtuples" title="Link to this heading">#</a></h2>
+<p>First, we build a <code class="docutils literal notranslate"><span class="pre">counting_iterator</span></code> equivalent for TMA coordinates. It should support</p>
+<ul class="simple">
+<li><p>dereference to a TMA coordinate, and</p></li>
+<li><p>offset by another TMA coordinate.</p></li>
+</ul>
+<p>We’ll call this an <code class="docutils literal notranslate"><span class="pre">ArithmeticTupleIterator</span></code>. It stores a coordinate (a tuple of integers) that is represented as an <code class="docutils literal notranslate"><span class="pre">ArithmeticTuple</span></code>. The <code class="docutils literal notranslate"><span class="pre">ArithmeticTuple</span></code> is simply a (public subclass of) <code class="docutils literal notranslate"><span class="pre">cute::tuple</span></code> that has an overloaded <code class="docutils literal notranslate"><span class="pre">operator+</span></code> so that it can be offset by another tuple. The sum of two tuples is the tuple of the sum of the elements.</p>
+<p>Now similar to <code class="docutils literal notranslate"><span class="pre">counting_iterator&lt;int&gt;(42)</span></code> we can create an implicit “iterator” (but without increment or other common iterator operations) over tuples that can be dereferenced and offset by other tuples</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">ArithmeticTupleIterator</span><span class="w"> </span><span class="n">citer_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_inttuple_iter</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">7</span><span class="o">&gt;</span><span class="p">{});</span>
+<span class="n">ArithmeticTupleIterator</span><span class="w"> </span><span class="n">citer_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">citer_1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">make_tuple</span><span class="p">(</span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">Int</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">{});</span>
+<span class="n">print</span><span class="p">(</span><span class="o">*</span><span class="n">citer_2</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>which outputs</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">42</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="n">_9</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A TMA Tensor can use an iterator like this to store the current TMA coordinate “offset”. The “offset” here is in quotes because it’s clearly not a normal 1-D array offset or pointer.</p>
+<p>In summary, one creates a TMA descriptor for the <em>whole global memory tensor</em>. The TMA descriptor defines a view into that tensor and the instruction takes TMA coordinates into that view. In order to generate and track those TMA coordinates, we define an implicit CuTe Tensor of TMA coordinates that can be tiled, sliced, and partitioned the exact same way as an ordinary CuTe Tensor.</p>
+<p>We can now track and offset TMA coordinates with this iterator, but how do we get CuTe Layouts to generate non-integer offsets?</p>
+</section>
+<section id="strides-aren-t-just-integers">
+<h2>Strides aren’t just integers<a class="headerlink" href="#strides-aren-t-just-integers" title="Link to this heading">#</a></h2>
+<p>Ordinary tensors have a layout that maps
+a logical coordinate <code class="docutils literal notranslate"><span class="pre">(i,j)</span></code> into a 1-D linear index <code class="docutils literal notranslate"><span class="pre">k</span></code>.
+This mapping is the inner-product of the coordinate with the strides.</p>
+<p>TMA Tensors hold iterators of TMA coordinates.
+Thus, a TMA Tensor’s Layout must map a logical coordinate
+to a TMA coordinate, rather than to a 1-D linear index.</p>
+<p>To do this, we can abstract what a stride is. Strides need not be integers, but rather any algebraic object that supports inner-product with the integers (the logical coordinate). The obvious choice is the <code class="docutils literal notranslate"><span class="pre">ArithmeticTuple</span></code> we used earlier since they can be added to each other, but this time additionally equipped with an <code class="docutils literal notranslate"><span class="pre">operator*</span></code> so it can also be scaled by an integer.</p>
+<section id="aside-integer-module-strides">
+<h3>Aside: Integer-module strides<a class="headerlink" href="#aside-integer-module-strides" title="Link to this heading">#</a></h3>
+<p>A group of objects that support addition between elements and product between elements and integers is called an integer-module.</p>
+<p>Formally, an integer-module is an abelian group <code class="docutils literal notranslate"><span class="pre">(M,+)</span></code> equipped with <code class="docutils literal notranslate"><span class="pre">Z*M</span> <span class="pre">-&gt;</span> <span class="pre">M</span></code>, where <code class="docutils literal notranslate"><span class="pre">Z</span></code> are the integers. That is, an integer-module <code class="docutils literal notranslate"><span class="pre">M</span></code> is
+a group that supports inner products with the integers.
+The integers are an integer-module.
+Rank-R tuples of integers are an integer-module.</p>
+<p>In principle, layout strides may be any integer-module.</p>
+</section>
+<section id="basis-elements">
+<h3>Basis elements<a class="headerlink" href="#basis-elements" title="Link to this heading">#</a></h3>
+<p>CuTe’s basis elements live in the header file <code class="docutils literal notranslate"><span class="pre">cute/numeric/arithmetic_tuple.hpp</span></code>.
+To make it easy to create <code class="docutils literal notranslate"><span class="pre">ArithmeticTuple</span></code>s that can be used as strides, CuTe defines normalized basis elements using the <code class="docutils literal notranslate"><span class="pre">E</span></code> type alias. “Normalized” means that the scaling factor of the basis element is the compile-time integer 1.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>C++ object</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>String representation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">E&lt;&gt;{}</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">E&lt;0&gt;{}</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(1,0,...)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1&#64;0</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">E&lt;1&gt;{}</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(0,1,0,...)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1&#64;1</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">E&lt;0,1&gt;{}</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">((0,1,0,...),0,...)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1&#64;1&#64;0</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">E&lt;1,0&gt;{}</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(0,(1,0,...),0,...)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1&#64;0&#64;1</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The “description” column in the above table
+interprets each basis element as an infinite tuple of integers,
+where all the tuple’s entries not specified by the element’s type are zero.
+We count tuple entries from left to right, starting with zero.
+For example, <code class="docutils literal notranslate"><span class="pre">E&lt;1&gt;{}</span></code> has a 1 in position 1: <code class="docutils literal notranslate"><span class="pre">(0,1,0,...)</span></code>.
+<code class="docutils literal notranslate"><span class="pre">E&lt;3&gt;{}</span></code> has a 1 in position 3: <code class="docutils literal notranslate"><span class="pre">(0,0,0,1,0,...)</span></code>.</p>
+<p>Basis elements can be <em>nested</em>.
+For instance, in the above table, <code class="docutils literal notranslate"><span class="pre">E&lt;0,1&gt;{}</span></code> means that
+in position 0 there is a <code class="docutils literal notranslate"><span class="pre">E&lt;1&gt;{}</span></code>: <code class="docutils literal notranslate"><span class="pre">((0,1,0,...),0,...)</span></code>.</p>
+<p>Basis elements can be <em>scaled</em>.
+That is, they can be multiplied by an integer <em>scaling factor</em>.
+For example, in <code class="docutils literal notranslate"><span class="pre">5*E&lt;1&gt;{}</span></code>, the scaling factor is <code class="docutils literal notranslate"><span class="pre">5</span></code>.
+<code class="docutils literal notranslate"><span class="pre">5*E&lt;1&gt;{}</span></code> prints as <code class="docutils literal notranslate"><span class="pre">5&#64;1</span></code> and means <code class="docutils literal notranslate"><span class="pre">(0,5,0,...)</span></code>.
+The scaling factor commutes through any nesting.
+For instance, <code class="docutils literal notranslate"><span class="pre">5*E&lt;0,1&gt;{}</span></code> prints as <code class="docutils literal notranslate"><span class="pre">5&#64;1&#64;0</span></code>
+and means <code class="docutils literal notranslate"><span class="pre">((0,5,0,...),0,...)</span></code>.</p>
+<p>Basis elements can also be added together,
+as long as their hierarchical structures are compatible.
+For example, <code class="docutils literal notranslate"><span class="pre">3*E&lt;0&gt;{}</span> <span class="pre">+</span> <span class="pre">4*E&lt;1&gt;{}</span></code> results in <code class="docutils literal notranslate"><span class="pre">(3,4,0,...)</span></code>.
+Intuitively, “compatible” means that
+the nested structure of the two basis elements
+matches well enough to add the two elements together.</p>
+</section>
+<section id="linear-combinations-of-strides">
+<h3>Linear combinations of strides<a class="headerlink" href="#linear-combinations-of-strides" title="Link to this heading">#</a></h3>
+<p>Layouts work by taking the inner product
+of the natural coordinate with their strides.
+For strides made of integer elements, e.g., <code class="docutils literal notranslate"><span class="pre">(1,100)</span></code>,
+the inner product of the input coordinate <code class="docutils literal notranslate"><span class="pre">(i,j)</span></code>
+and the stride is <code class="docutils literal notranslate"><span class="pre">i</span> <span class="pre">+</span> <span class="pre">100j</span></code>.
+Offsetting an “ordinary” tensor’s pointer and this index
+gives the pointer to the tensor element at <code class="docutils literal notranslate"><span class="pre">(i,j)</span></code>.</p>
+<p>For strides of basis elements, we still compute the inner product of the natural coordinate with the strides.
+For example, if the stride is <code class="docutils literal notranslate"><span class="pre">(1&#64;0,1&#64;1)</span></code>,
+then the inner product of the input coordinate <code class="docutils literal notranslate"><span class="pre">(i,j)</span></code>
+with the strides is <code class="docutils literal notranslate"><span class="pre">i&#64;0</span> <span class="pre">+</span> <span class="pre">j&#64;1</span> <span class="pre">=</span> <span class="pre">(i,j)</span></code>.
+That translates into the (TMA) coordinate <code class="docutils literal notranslate"><span class="pre">(i,j)</span></code>.
+If we wanted to reverse the coordinates,
+then we could use <code class="docutils literal notranslate"><span class="pre">(1&#64;1,1&#64;0)</span></code> as the stride.
+Evaluating the layout would give <code class="docutils literal notranslate"><span class="pre">i&#64;1</span> <span class="pre">+</span> <span class="pre">j&#64;0</span> <span class="pre">=</span> <span class="pre">(j,i)</span></code>.</p>
+<p>A linear combination of basis elements
+can be interpreted as a possibly multidimensional and hierarchical coordinate.
+For instance, <code class="docutils literal notranslate"><span class="pre">2*2&#64;1&#64;0</span> <span class="pre">+</span> <span class="pre">3*1&#64;1</span> <span class="pre">+</span> <span class="pre">4*5&#64;1</span> <span class="pre">+</span> <span class="pre">7*1&#64;0&#64;0</span></code>
+means <code class="docutils literal notranslate"><span class="pre">((0,4,...),0,...)</span> <span class="pre">+</span> <span class="pre">(0,3,0,...)</span> <span class="pre">+</span> <span class="pre">(0,20,0,...)</span> <span class="pre">+</span> <span class="pre">((7,...),...)</span> <span class="pre">=</span> <span class="pre">((7,4,...),23,...)</span></code>
+and can be interpreted as the coordinate <code class="docutils literal notranslate"><span class="pre">((7,4),23)</span></code>.</p>
+<p>Thus, linear combinations of these strides can be used to generate TMA coordinates.
+These coordinates, in turn, can be used to offset TMA coordinate iterators.</p>
+</section>
+</section>
+<section id="application-to-tma-tensors">
+<h2>Application to TMA Tensors<a class="headerlink" href="#application-to-tma-tensors" title="Link to this heading">#</a></h2>
+<p>Now we can build CuTe Tensors like the one seen in the introduction.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Tensor</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tensor</span><span class="p">(</span><span class="n">make_inttuple_iter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span>
+<span class="w">                       </span><span class="n">make_shape</span><span class="w"> </span><span class="p">(</span><span class="w">     </span><span class="mi">4</span><span class="p">,</span><span class="w">      </span><span class="mi">5</span><span class="p">),</span>
+<span class="w">                       </span><span class="n">make_stride</span><span class="p">(</span><span class="n">E</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">E</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{}));</span>
+<span class="n">print_tensor</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+
+<span class="n">Tensor</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_tensor</span><span class="p">(</span><span class="n">make_inttuple_iter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span>
+<span class="w">                       </span><span class="n">make_shape</span><span class="w"> </span><span class="p">(</span><span class="w">     </span><span class="mi">4</span><span class="p">,</span><span class="w">      </span><span class="mi">5</span><span class="p">),</span>
+<span class="w">                       </span><span class="n">make_stride</span><span class="p">(</span><span class="n">E</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{},</span><span class="w"> </span><span class="n">E</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">{}));</span>
+<span class="n">print_tensor</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>prints</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ArithTuple</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="n">o</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">):(</span><span class="n">_1</span><span class="o">@</span><span class="mi">0</span><span class="p">,</span><span class="n">_1</span><span class="o">@</span><span class="mi">1</span><span class="p">):</span>
+  <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>  <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>  <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>  <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+  <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>  <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>  <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>  <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+  <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>  <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>  <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>  <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+  <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>  <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>  <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>  <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">ArithTuple</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="n">o</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">):(</span><span class="n">_1</span><span class="o">@</span><span class="mi">1</span><span class="p">,</span><span class="n">_1</span><span class="o">@</span><span class="mi">0</span><span class="p">):</span>
+  <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>  <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>  <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>  <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>  <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>  <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>  <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>  <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>  <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+  <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>  <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>  <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>  <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>  <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="copyright">
+<h2>Copyright<a class="headerlink" href="#copyright" title="Link to this heading">#</a></h2>
+<p>Copyright (c) 2017 - 2025 NVIDIA CORPORATION &amp; AFFILIATES. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">Redistribution</span> <span class="ow">and</span> <span class="n">use</span> <span class="ow">in</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">binary</span> <span class="n">forms</span><span class="p">,</span> <span class="k">with</span> <span class="ow">or</span> <span class="n">without</span>
+  <span class="n">modification</span><span class="p">,</span> <span class="n">are</span> <span class="n">permitted</span> <span class="n">provided</span> <span class="n">that</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span> <span class="n">are</span> <span class="n">met</span><span class="p">:</span>
+
+  <span class="mf">1.</span> <span class="n">Redistributions</span> <span class="n">of</span> <span class="n">source</span> <span class="n">code</span> <span class="n">must</span> <span class="n">retain</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span> <span class="n">this</span>
+  <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span><span class="o">.</span>
+
+  <span class="mf">2.</span> <span class="n">Redistributions</span> <span class="ow">in</span> <span class="n">binary</span> <span class="n">form</span> <span class="n">must</span> <span class="n">reproduce</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span>
+  <span class="n">this</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">documentation</span>
+  <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">other</span> <span class="n">materials</span> <span class="n">provided</span> <span class="k">with</span> <span class="n">the</span> <span class="n">distribution</span><span class="o">.</span>
+
+  <span class="mf">3.</span> <span class="n">Neither</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">holder</span> <span class="n">nor</span> <span class="n">the</span> <span class="n">names</span> <span class="n">of</span> <span class="n">its</span>
+  <span class="n">contributors</span> <span class="n">may</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">endorse</span> <span class="ow">or</span> <span class="n">promote</span> <span class="n">products</span> <span class="n">derived</span> <span class="kn">from</span>
+<span class="w">  </span><span class="nn">this</span> <span class="n">software</span> <span class="n">without</span> <span class="n">specific</span> <span class="n">prior</span> <span class="n">written</span> <span class="n">permission</span><span class="o">.</span>
+
+  <span class="n">THIS</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">PROVIDED</span> <span class="n">BY</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span> <span class="n">AND</span> <span class="n">CONTRIBUTORS</span> <span class="s2">&quot;AS IS&quot;</span>
+  <span class="n">AND</span> <span class="n">ANY</span> <span class="n">EXPRESS</span> <span class="n">OR</span> <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span><span class="p">,</span> <span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">THE</span>
+  <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span> <span class="n">AND</span> <span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span> <span class="n">ARE</span>
+  <span class="n">DISCLAIMED</span><span class="o">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">SHALL</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDER</span> <span class="n">OR</span> <span class="n">CONTRIBUTORS</span> <span class="n">BE</span> <span class="n">LIABLE</span>
+  <span class="n">FOR</span> <span class="n">ANY</span> <span class="n">DIRECT</span><span class="p">,</span> <span class="n">INDIRECT</span><span class="p">,</span> <span class="n">INCIDENTAL</span><span class="p">,</span> <span class="n">SPECIAL</span><span class="p">,</span> <span class="n">EXEMPLARY</span><span class="p">,</span> <span class="n">OR</span> <span class="n">CONSEQUENTIAL</span>
+  <span class="n">DAMAGES</span> <span class="p">(</span><span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">PROCUREMENT</span> <span class="n">OF</span> <span class="n">SUBSTITUTE</span> <span class="n">GOODS</span> <span class="n">OR</span>
+  <span class="n">SERVICES</span><span class="p">;</span> <span class="n">LOSS</span> <span class="n">OF</span> <span class="n">USE</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">OR</span> <span class="n">PROFITS</span><span class="p">;</span> <span class="n">OR</span> <span class="n">BUSINESS</span> <span class="n">INTERRUPTION</span><span class="p">)</span> <span class="n">HOWEVER</span>
+  <span class="n">CAUSED</span> <span class="n">AND</span> <span class="n">ON</span> <span class="n">ANY</span> <span class="n">THEORY</span> <span class="n">OF</span> <span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">STRICT</span> <span class="n">LIABILITY</span><span class="p">,</span>
+  <span class="n">OR</span> <span class="n">TORT</span> <span class="p">(</span><span class="n">INCLUDING</span> <span class="n">NEGLIGENCE</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">)</span> <span class="n">ARISING</span> <span class="n">IN</span> <span class="n">ANY</span> <span class="n">WAY</span> <span class="n">OUT</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">USE</span>
+  <span class="n">OF</span> <span class="n">THIS</span> <span class="n">SOFTWARE</span><span class="p">,</span> <span class="n">EVEN</span> <span class="n">IF</span> <span class="n">ADVISED</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">POSSIBILITY</span> <span class="n">OF</span> <span class="n">SUCH</span> <span class="n">DAMAGE</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cute"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="0y_predication.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Predication: What to do when tiling isn’t perfect</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../dependent_kernel_launch.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Dependent kernel launches</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">CuTe TMA Tensors</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-tma-instructions">Introduction to TMA instructions</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-tma-tensor">Building a TMA Tensor</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implicit-cute-tensors">Implicit CuTe Tensors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arithtupleiterators-and-arithtuples">ArithTupleIterators and ArithTuples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strides-aren-t-just-integers">Strides aren’t just integers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aside-integer-module-strides">Aside: Integer-module strides</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basis-elements">Basis elements</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-combinations-of-strides">Linear combinations of strides</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#application-to-tma-tensors">Application to TMA Tensors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

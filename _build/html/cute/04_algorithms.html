@@ -1,0 +1,880 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CuTe Tensor algorithms &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cute/04_algorithms';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CuTe’s support for Matrix Multiply-Accumulate instructions" href="0t_mma_atom.html" />
+    <link rel="prev" title="CuTe Tensors" href="03_tensor.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../overview.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../overview.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../terminology.html">CUTLASS Terminology</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../ide_setup.html">IDE Setup for CUTLASS Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../functionality.html">Functionality</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../fundamental_types.html">Fundamental Types</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../layout.html">Layouts and Tensors</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../tile_iterator_concept.html">Tile Iterator Concepts</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../pipeline.html">Synchronization primitives</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../code_organization.html">CUTLASS Code Organization</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../programming_guidelines.html">Programming Guidelines</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">CUTLASS Utilities</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Key Operations &amp; APIs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../gemm_api.html">CUTLASS GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../gemm_api_3x.html">CUTLASS 3.0 GEMM API</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../efficient_gemm.html">Efficient GEMM in CUDA</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../implicit_gemm_convolution.html">CUTLASS Convolution</a></li>
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTLASS 3.x Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../cutlass_3x_design.html">CUTLASS 3.0 Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cutlass_3x_backwards_compatibility.html">CUTLASS 3.0 GEMM Backwards Compatibility</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">CUTE - Compositional Universal Tile Engine</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_quickstart.html">Getting Started With CuTe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_layout.html">CuTe Layouts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_layout_algebra.html">CuTe Layout Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_tensor.html">CuTe Tensors</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">CuTe Tensor algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0t_mma_atom.html">CuTe’s support for Matrix Multiply-Accumulate instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0x_gemm_tutorial.html">CuTe dense matrix-matrix multiply tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0y_predication.html">Predication: What to do when tiling isn’t perfect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0z_tma_tensors.html">CuTe TMA Tensors</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Features &amp; Platform Specifics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../dependent_kernel_launch.html">Dependent kernel launches</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../grouped_scheduler.html">CUTLASS Grouped Kernel Schedulers</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../blackwell_functionality.html">Blackwell SM100 GEMMs</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../blackwell_cluster_launch_control.html">Blackwell Cluster Launch Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../profiler.html">CUTLASS Profiler</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Building CUTLASS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../build/building_in_windows_with_visual_studio.html">Building on Windows with Visual Studio</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../build/building_with_clang_as_host_compiler.html">Building with Clang as host compiler</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fcute/04_algorithms.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/cute/04_algorithms.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>CuTe Tensor algorithms</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copy"><code class="docutils literal notranslate"><span class="pre">copy</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interface-and-specialization-opportunities">Interface and specialization opportunities</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parallelism-and-synchronization-depend-on-parameter-types">Parallelism and synchronization depend on parameter types</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-generic-copy-implementation">A generic copy implementation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-if"><code class="docutils literal notranslate"><span class="pre">copy_if</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gemm"><code class="docutils literal notranslate"><span class="pre">gemm</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-gemm-computes">What <code class="docutils literal notranslate"><span class="pre">gemm</span></code> computes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dispatch-to-optimized-implementations">Dispatch to optimized implementations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#axpby"><code class="docutils literal notranslate"><span class="pre">axpby</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fill"><code class="docutils literal notranslate"><span class="pre">fill</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clear"><code class="docutils literal notranslate"><span class="pre">clear</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-algorithms">Other algorithms</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="cute-tensor-algorithms">
+<h1>CuTe Tensor algorithms<a class="headerlink" href="#cute-tensor-algorithms" title="Link to this heading">#</a></h1>
+<p>This section summarizes the interfaces and implementations
+of common numerical algorithms performed on <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>s.</p>
+<p>The implementation of these algorithms may be found in the
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/algorithm/">include/cute/algorithm/</a>
+directory.</p>
+<section id="copy">
+<h2><code class="docutils literal notranslate"><span class="pre">copy</span></code><a class="headerlink" href="#copy" title="Link to this heading">#</a></h2>
+<p>CuTe’s <code class="docutils literal notranslate"><span class="pre">copy</span></code> algorithm copies the elements of a source <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>
+into the elements of a destination <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>.
+The various overloads of <code class="docutils literal notranslate"><span class="pre">copy</span></code> can be found in
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/algorithm/copy.hpp"><code class="docutils literal notranslate"><span class="pre">include/cute/algorithm/copy.hpp</span></code></a>.</p>
+<section id="interface-and-specialization-opportunities">
+<h3>Interface and specialization opportunities<a class="headerlink" href="#interface-and-specialization-opportunities" title="Link to this heading">#</a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> encapsulates the data type, data location,
+and possibly also the shape and stride of the tensor at compile time.
+As a result, <code class="docutils literal notranslate"><span class="pre">copy</span></code> can and does dispatch,
+based on the types of its arguments,
+to use any of various synchronous or asynchronous hardware copy instructions.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">copy</span></code> algorithm has two main overloads.
+The first just takes the source <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> and the destination <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">SrcEngine</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">SrcLayout</span><span class="p">,</span>
+<span class="w">          </span><span class="k">class</span><span class="w"> </span><span class="nc">DstEngine</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">DstLayout</span><span class="o">&gt;</span>
+<span class="n">CUTE_HOST_DEVICE</span>
+<span class="kt">void</span>
+<span class="n">copy</span><span class="p">(</span><span class="n">Tensor</span><span class="o">&lt;</span><span class="n">SrcEngine</span><span class="p">,</span><span class="w"> </span><span class="n">SrcLayout</span><span class="o">&gt;</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">src</span><span class="p">,</span>
+<span class="w">     </span><span class="n">Tensor</span><span class="o">&lt;</span><span class="n">DstEngine</span><span class="p">,</span><span class="w"> </span><span class="n">DstLayout</span><span class="o">&gt;</span><span class="w">      </span><span class="o">&amp;</span><span class="w"> </span><span class="n">dst</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The second takes those two parameters, plus a <code class="docutils literal notranslate"><span class="pre">Copy_Atom</span></code>.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="p">...</span><span class="w"> </span><span class="n">CopyArgs</span><span class="p">,</span>
+<span class="w">          </span><span class="k">class</span><span class="w"> </span><span class="nc">SrcEngine</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">SrcLayout</span><span class="p">,</span>
+<span class="w">          </span><span class="k">class</span><span class="w"> </span><span class="nc">DstEngine</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">DstLayout</span><span class="o">&gt;</span>
+<span class="n">CUTE_HOST_DEVICE</span>
+<span class="kt">void</span>
+<span class="n">copy</span><span class="p">(</span><span class="n">Copy_Atom</span><span class="o">&lt;</span><span class="n">CopyArgs</span><span class="p">...</span><span class="o">&gt;</span><span class="w">       </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">copy_atom</span><span class="p">,</span>
+<span class="w">     </span><span class="n">Tensor</span><span class="o">&lt;</span><span class="n">SrcEngine</span><span class="p">,</span><span class="w"> </span><span class="n">SrcLayout</span><span class="o">&gt;</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">src</span><span class="p">,</span>
+<span class="w">     </span><span class="n">Tensor</span><span class="o">&lt;</span><span class="n">DstEngine</span><span class="p">,</span><span class="w"> </span><span class="n">DstLayout</span><span class="o">&gt;</span><span class="w">      </span><span class="o">&amp;</span><span class="w"> </span><span class="n">dst</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The two-parameter <code class="docutils literal notranslate"><span class="pre">copy</span></code> overload picks a default implementation
+based only on the types of the two <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> parameters.
+The <code class="docutils literal notranslate"><span class="pre">Copy_Atom</span></code> overload lets callers override that default
+by specifying a nondefault <code class="docutils literal notranslate"><span class="pre">copy</span></code> implementation.</p>
+</section>
+<section id="parallelism-and-synchronization-depend-on-parameter-types">
+<h3>Parallelism and synchronization depend on parameter types<a class="headerlink" href="#parallelism-and-synchronization-depend-on-parameter-types" title="Link to this heading">#</a></h3>
+<p>Either the default implementation or
+the implementation selected by a <code class="docutils literal notranslate"><span class="pre">Copy_Atom</span></code> overload
+may use none or all available parallelism,
+and may have a variety of synchronization semantics.
+The behavior depends on <code class="docutils literal notranslate"><span class="pre">copy</span></code>’s parameter types.
+Users are expected to figure this out based on their knowledge
+of the architecture on which they are running.
+(Developers often write a custom optimized kernel
+for each GPU architecture.)</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">copy</span></code> algorithm may be sequential per thread,
+or it may be parallel across some collection of threads
+(e.g., a block or cluster).</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">copy</span></code> is parallel,
+then the collection of participating threads
+may need synchronization before any thread in the collection
+may assume that the copy operation has completed.
+For example, if the participating threads form a thread block,
+then users must invoke <code class="docutils literal notranslate"><span class="pre">__syncthreads()</span></code>
+or the Cooperative Groups equivalent
+before they may use the results of <code class="docutils literal notranslate"><span class="pre">copy</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">copy</span></code> algorithm may use asynchronous copy instructions,
+such as <code class="docutils literal notranslate"><span class="pre">cp.async</span></code>, or its C++ interface <code class="docutils literal notranslate"><span class="pre">memcpy_async</span></code>.
+In that case, users will need to perform
+the additional synchronization appropriate to that underlying implementation
+before they may use the results of the <code class="docutils literal notranslate"><span class="pre">copy</span></code> algorithm.
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/examples/cute/tutorial/">The CuTe GEMM tutorial example</a>
+shows one such synchronization method.
+More optimized GEMM implementations use pipelining techniques
+to overlap asynchronous <code class="docutils literal notranslate"><span class="pre">copy</span></code> operations with other useful work.</p>
+</section>
+<section id="a-generic-copy-implementation">
+<h3>A generic copy implementation<a class="headerlink" href="#a-generic-copy-implementation" title="Link to this heading">#</a></h3>
+<p>A simple example of a generic <code class="docutils literal notranslate"><span class="pre">copy</span></code> implementation
+for any two <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>s looks like this.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">TA</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ALayout</span><span class="p">,</span>
+<span class="w">          </span><span class="k">class</span><span class="w"> </span><span class="nc">TB</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">BLayout</span><span class="o">&gt;</span>
+<span class="n">CUTE_HOST_DEVICE</span>
+<span class="kt">void</span>
+<span class="n">copy</span><span class="p">(</span><span class="n">Tensor</span><span class="o">&lt;</span><span class="n">TA</span><span class="p">,</span><span class="w"> </span><span class="n">ALayout</span><span class="o">&gt;</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">src</span><span class="p">,</span><span class="w">  </span><span class="c1">// Any logical shape</span>
+<span class="w">     </span><span class="n">Tensor</span><span class="o">&lt;</span><span class="n">TB</span><span class="p">,</span><span class="w"> </span><span class="n">BLayout</span><span class="o">&gt;</span><span class="w">      </span><span class="o">&amp;</span><span class="w"> </span><span class="n">dst</span><span class="p">)</span><span class="w">  </span><span class="c1">// Any logical shape</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">dst</span><span class="p">);</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">dst</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">src</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This generic <code class="docutils literal notranslate"><span class="pre">copy</span></code> algorithm addresses both <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>s
+with 1-D logical coordinates, thus traversing both <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>s
+in a logical column-major order.
+Some reasonable architecture-independent optimizations
+would include the following.</p>
+<ol class="arabic simple">
+<li><p>If the two <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>s have known memory spaces with optimized
+access instructions (like <code class="docutils literal notranslate"><span class="pre">cp.async</span></code>), then dispatch to the
+custom instruction.</p></li>
+<li><p>The two <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>s have static layouts and it can be proven
+that element vectorization is valid – for example, four <code class="docutils literal notranslate"><span class="pre">ld.global.b32</span></code>s
+can be combined into a single <code class="docutils literal notranslate"><span class="pre">ld.global.b128</span></code> – then vectorize the source
+and destinations tensors.</p></li>
+<li><p>If possible, validate that the copy instruction to be used is
+appropriate for the source and destination tensors.</p></li>
+</ol>
+<p>CuTe’s optimized copy implementations can do all of these.</p>
+</section>
+</section>
+<section id="copy-if">
+<h2><code class="docutils literal notranslate"><span class="pre">copy_if</span></code><a class="headerlink" href="#copy-if" title="Link to this heading">#</a></h2>
+<p>CuTe’s <code class="docutils literal notranslate"><span class="pre">copy_if</span></code> algorithm lives in the same header as <code class="docutils literal notranslate"><span class="pre">copy</span></code>,
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/algorithm/copy.hpp"><code class="docutils literal notranslate"><span class="pre">include/cute/algorithm/copy.hpp</span></code></a>.
+The algorithm takes source and destination <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> parameters like <code class="docutils literal notranslate"><span class="pre">copy</span></code>,
+but it also takes a “predication <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>”
+with the same shape as the input and output.
+Elements of the source <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> are only copied
+if the corresponding predication <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> element is nonzero.</p>
+<p>For details on why and how to use <code class="docutils literal notranslate"><span class="pre">copy_if</span></code>,
+please refer to the
+<a class="reference internal" href="0y_predication.html"><span class="std std-doc">“predication” section of the tutorial</span></a>.</p>
+</section>
+<section id="gemm">
+<h2><code class="docutils literal notranslate"><span class="pre">gemm</span></code><a class="headerlink" href="#gemm" title="Link to this heading">#</a></h2>
+<section id="what-gemm-computes">
+<h3>What <code class="docutils literal notranslate"><span class="pre">gemm</span></code> computes<a class="headerlink" href="#what-gemm-computes" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">gemm</span></code> algorithm takes three <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>s, A, B, and C.
+What it does depends on the number of modes
+that its <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> parameters have.
+We express these modes using letters.</p>
+<ul class="simple">
+<li><p>V indicates a “vector,” a mode of independent elements.</p></li>
+<li><p>M and N indicate the number of rows resp. columns
+of the matrix result C of the BLAS’s GEMM routine.</p></li>
+<li><p>K indicates the “reduction mode” of GEMM,
+that is, the mode along which GEMM sums.
+Please see the <a class="reference internal" href="0x_gemm_tutorial.html"><span class="std std-doc">GEMM tutorial</span></a> for details.</p></li>
+</ul>
+<p>We list the modes of the input <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>s A and B,
+and the output <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> C,
+using a notation <code class="docutils literal notranslate"><span class="pre">(...)</span> <span class="pre">x</span> <span class="pre">(...)</span> <span class="pre">=&gt;</span> <span class="pre">(...)</span></code>.
+The two leftmost <code class="docutils literal notranslate"><span class="pre">(...)</span></code> describe A and B (in that order),
+and the <code class="docutils literal notranslate"><span class="pre">(...)</span></code> to the right of the <code class="docutils literal notranslate"><span class="pre">=&gt;</span></code> describes C.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">(V)</span> <span class="pre">x</span> <span class="pre">(V)</span> <span class="pre">=&gt;</span> <span class="pre">(V)</span></code>. The element-wise product of vectors: C<sub>v</sub> += A<sub>v</sub> B<sub>v</sub>. Dispatches to FMA or MMA.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(M)</span> <span class="pre">x</span> <span class="pre">(N)</span> <span class="pre">=&gt;</span> <span class="pre">(M,N)</span></code>. The outer product of vectors: C<sub>mn</sub> += A<sub>m</sub> B<sub>n</sub>. Dispatches to (4) with V=1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(M,K)</span> <span class="pre">x</span> <span class="pre">(N,K)</span> <span class="pre">=&gt;</span> <span class="pre">(M,N)</span></code>. The product of matrices: C<sub>mn</sub> += A<sub>mk</sub> B<sub>nk</sub>. Dispatches to (2) for each K.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(V,M)</span> <span class="pre">x</span> <span class="pre">(V,N)</span> <span class="pre">=&gt;</span> <span class="pre">(V,M,N)</span></code>. The batched outer product of vectors: C<sub>vmn</sub> += A<sub>vm</sub> B<sub>vn</sub>. Optimizes for register reuse and dispatches to (1) for each M, N.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(V,M,K)</span> <span class="pre">x</span> <span class="pre">(V,N,K)</span> <span class="pre">=&gt;</span> <span class="pre">(V,M,N)</span></code>. The batched product of matrices: C<sub>vmn</sub> += A<sub>vmk</sub> B<sub>vnk</sub>. Dispatches to (4) for each K.</p></li>
+</ol>
+<p>Please refer to the <a class="reference internal" href="0x_gemm_tutorial.html"><span class="std std-doc">GEMM tutorial</span></a>
+for an overview of CuTe’s convention for ordering the modes.
+For example, if K appears, it always appears rightmost (“outermost”).
+If V appears, it always appears leftmost (“innermost”).</p>
+</section>
+<section id="dispatch-to-optimized-implementations">
+<h3>Dispatch to optimized implementations<a class="headerlink" href="#dispatch-to-optimized-implementations" title="Link to this heading">#</a></h3>
+<p>Just like with <code class="docutils literal notranslate"><span class="pre">copy</span></code>, CuTe’s implementations of <code class="docutils literal notranslate"><span class="pre">gemm</span></code>
+uses its <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> arguments’ types to dispatch
+to an appropriately optimized implementation.
+Also like <code class="docutils literal notranslate"><span class="pre">copy</span></code>, <code class="docutils literal notranslate"><span class="pre">gemm</span></code> takes an optional <code class="docutils literal notranslate"><span class="pre">MMA_Atom</span></code> parameter
+that lets callers override the default <code class="docutils literal notranslate"><span class="pre">FMA</span></code> instruction
+that CuTe would select based on the <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> arguments’ types.</p>
+<p>For more information on <code class="docutils literal notranslate"><span class="pre">MMA_Atom</span></code> and on specialization of <code class="docutils literal notranslate"><span class="pre">gemm</span></code>
+for different architectures, please refer to the
+<a class="reference internal" href="0t_mma_atom.html"><span class="std std-doc">MMA section of the tutorial</span></a>.</p>
+</section>
+</section>
+<section id="axpby">
+<h2><code class="docutils literal notranslate"><span class="pre">axpby</span></code><a class="headerlink" href="#axpby" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">axpby</span></code> algorithm lives in the header file
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/algorithm/axpby.hpp"><code class="docutils literal notranslate"><span class="pre">include/cute/algorithm/axpby.hpp</span></code></a>.
+It assigns to <span class="math notranslate nohighlight">\(y\)</span> the result of <span class="math notranslate nohighlight">\(\alpha x + \beta y\)</span>,
+where <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> are scalars and <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> are <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>s.
+The name stands for “Alpha times X Plus Beta times Y,”
+and is a generalization of the original BLAS “AXPY” routine
+(“Alpha times X Plus Y”).</p>
+</section>
+<section id="fill">
+<h2><code class="docutils literal notranslate"><span class="pre">fill</span></code><a class="headerlink" href="#fill" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">fill</span></code> algorithm lives in the header file
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/algorithm/fill.hpp"><code class="docutils literal notranslate"><span class="pre">include/cute/algorithm/fill.hpp</span></code></a>.
+It overwrites the elements of its <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> output argument
+with a given scalar value.</p>
+</section>
+<section id="clear">
+<h2><code class="docutils literal notranslate"><span class="pre">clear</span></code><a class="headerlink" href="#clear" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">clear</span></code> algorithm lives in the header file
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/algorithm/clear.hpp"><code class="docutils literal notranslate"><span class="pre">include/cute/algorithm/clear.hpp</span></code></a>.
+It overwrites the elements of its <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> output argument with zeros.</p>
+</section>
+<section id="other-algorithms">
+<h2>Other algorithms<a class="headerlink" href="#other-algorithms" title="Link to this heading">#</a></h2>
+<p>CuTe provides other algorithms.
+Their header files can be found in the
+<a class="reference external" href="https://github.com/NVIDIA/cutlass/tree/main/include/cute/algorithm"><code class="docutils literal notranslate"><span class="pre">include/cute/algorithm</span></code></a>
+directory.</p>
+</section>
+<section id="copyright">
+<h2>Copyright<a class="headerlink" href="#copyright" title="Link to this heading">#</a></h2>
+<p>Copyright (c) 2017 - 2025 NVIDIA CORPORATION &amp; AFFILIATES. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">Redistribution</span> <span class="ow">and</span> <span class="n">use</span> <span class="ow">in</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">binary</span> <span class="n">forms</span><span class="p">,</span> <span class="k">with</span> <span class="ow">or</span> <span class="n">without</span>
+  <span class="n">modification</span><span class="p">,</span> <span class="n">are</span> <span class="n">permitted</span> <span class="n">provided</span> <span class="n">that</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span> <span class="n">are</span> <span class="n">met</span><span class="p">:</span>
+
+  <span class="mf">1.</span> <span class="n">Redistributions</span> <span class="n">of</span> <span class="n">source</span> <span class="n">code</span> <span class="n">must</span> <span class="n">retain</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span> <span class="n">this</span>
+  <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span><span class="o">.</span>
+
+  <span class="mf">2.</span> <span class="n">Redistributions</span> <span class="ow">in</span> <span class="n">binary</span> <span class="n">form</span> <span class="n">must</span> <span class="n">reproduce</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span><span class="p">,</span>
+  <span class="n">this</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">documentation</span>
+  <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">other</span> <span class="n">materials</span> <span class="n">provided</span> <span class="k">with</span> <span class="n">the</span> <span class="n">distribution</span><span class="o">.</span>
+
+  <span class="mf">3.</span> <span class="n">Neither</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">holder</span> <span class="n">nor</span> <span class="n">the</span> <span class="n">names</span> <span class="n">of</span> <span class="n">its</span>
+  <span class="n">contributors</span> <span class="n">may</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">endorse</span> <span class="ow">or</span> <span class="n">promote</span> <span class="n">products</span> <span class="n">derived</span> <span class="kn">from</span>
+<span class="w">  </span><span class="nn">this</span> <span class="n">software</span> <span class="n">without</span> <span class="n">specific</span> <span class="n">prior</span> <span class="n">written</span> <span class="n">permission</span><span class="o">.</span>
+
+  <span class="n">THIS</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">PROVIDED</span> <span class="n">BY</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span> <span class="n">AND</span> <span class="n">CONTRIBUTORS</span> <span class="s2">&quot;AS IS&quot;</span>
+  <span class="n">AND</span> <span class="n">ANY</span> <span class="n">EXPRESS</span> <span class="n">OR</span> <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span><span class="p">,</span> <span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">THE</span>
+  <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span> <span class="n">AND</span> <span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span> <span class="n">ARE</span>
+  <span class="n">DISCLAIMED</span><span class="o">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">SHALL</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDER</span> <span class="n">OR</span> <span class="n">CONTRIBUTORS</span> <span class="n">BE</span> <span class="n">LIABLE</span>
+  <span class="n">FOR</span> <span class="n">ANY</span> <span class="n">DIRECT</span><span class="p">,</span> <span class="n">INDIRECT</span><span class="p">,</span> <span class="n">INCIDENTAL</span><span class="p">,</span> <span class="n">SPECIAL</span><span class="p">,</span> <span class="n">EXEMPLARY</span><span class="p">,</span> <span class="n">OR</span> <span class="n">CONSEQUENTIAL</span>
+  <span class="n">DAMAGES</span> <span class="p">(</span><span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">PROCUREMENT</span> <span class="n">OF</span> <span class="n">SUBSTITUTE</span> <span class="n">GOODS</span> <span class="n">OR</span>
+  <span class="n">SERVICES</span><span class="p">;</span> <span class="n">LOSS</span> <span class="n">OF</span> <span class="n">USE</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">OR</span> <span class="n">PROFITS</span><span class="p">;</span> <span class="n">OR</span> <span class="n">BUSINESS</span> <span class="n">INTERRUPTION</span><span class="p">)</span> <span class="n">HOWEVER</span>
+  <span class="n">CAUSED</span> <span class="n">AND</span> <span class="n">ON</span> <span class="n">ANY</span> <span class="n">THEORY</span> <span class="n">OF</span> <span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">STRICT</span> <span class="n">LIABILITY</span><span class="p">,</span>
+  <span class="n">OR</span> <span class="n">TORT</span> <span class="p">(</span><span class="n">INCLUDING</span> <span class="n">NEGLIGENCE</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">)</span> <span class="n">ARISING</span> <span class="n">IN</span> <span class="n">ANY</span> <span class="n">WAY</span> <span class="n">OUT</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">USE</span>
+  <span class="n">OF</span> <span class="n">THIS</span> <span class="n">SOFTWARE</span><span class="p">,</span> <span class="n">EVEN</span> <span class="n">IF</span> <span class="n">ADVISED</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">POSSIBILITY</span> <span class="n">OF</span> <span class="n">SUCH</span> <span class="n">DAMAGE</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cute"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03_tensor.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">CuTe Tensors</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="0t_mma_atom.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">CuTe’s support for Matrix Multiply-Accumulate instructions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copy"><code class="docutils literal notranslate"><span class="pre">copy</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interface-and-specialization-opportunities">Interface and specialization opportunities</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parallelism-and-synchronization-depend-on-parameter-types">Parallelism and synchronization depend on parameter types</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-generic-copy-implementation">A generic copy implementation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-if"><code class="docutils literal notranslate"><span class="pre">copy_if</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gemm"><code class="docutils literal notranslate"><span class="pre">gemm</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-gemm-computes">What <code class="docutils literal notranslate"><span class="pre">gemm</span></code> computes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dispatch-to-optimized-implementations">Dispatch to optimized implementations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#axpby"><code class="docutils literal notranslate"><span class="pre">axpby</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fill"><code class="docutils literal notranslate"><span class="pre">fill</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clear"><code class="docutils literal notranslate"><span class="pre">clear</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-algorithms">Other algorithms</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copyright">Copyright</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
