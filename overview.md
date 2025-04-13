@@ -1,5 +1,7 @@
 ![ALT](../../images/gemm-hierarchy-with-epilogue-no-labels.png "Complete CUDA GEMM decomposition")
 
+Please note that these docs are not written by me and they are posted in Nvidia's cutlass github repo. I just hosted it because I couldn't find it hosted somewhere in LABS. 
+
 # Overview
 
 # CUTLASS 3.9.0
